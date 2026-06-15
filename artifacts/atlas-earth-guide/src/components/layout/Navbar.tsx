@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Menu, X, Map, HelpCircle, BookOpen, Share2, Info } from "lucide-react";
+import { Menu, X, Map, HelpCircle, BookOpen, Share2, Info, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -14,6 +14,7 @@ export function Navbar() {
     { href: "/", label: "Guide", icon: Map },
     { href: "/faq", label: "FAQ", icon: HelpCircle },
     { href: "/glossary", label: "Glossary", icon: BookOpen },
+    { href: "/resources", label: "Resources", icon: ExternalLink },
     { href: "/about", label: "About", icon: Info },
   ];
 

@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Map, HelpCircle, BookOpen, ExternalLink, Heart, Info, Mail, Shield } from "lucide-react";
+import { Map, HelpCircle, BookOpen, ExternalLink, Heart, Info, Mail, Shield, Layers } from "lucide-react";
 
 export function Footer() {
   return (
@@ -35,6 +35,11 @@ export function Footer() {
               <li>
                 <Link href="/glossary" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
                   <BookOpen className="w-4 h-4" /> Glossary
+                </Link>
+              </li>
+              <li>
+                <Link href="/resources" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
+                  <Layers className="w-4 h-4" /> Resources
                 </Link>
               </li>
               <li>

@@ -12,6 +12,7 @@ import Glossary from "@/pages/glossary";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
 import PrivacyPolicy from "@/pages/privacy-policy";
+import Resources from "@/pages/resources";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ function Router() {
           <Route path="/" component={Home} />
           <Route path="/faq" component={FAQ} />
           <Route path="/glossary" component={Glossary} />
+          <Route path="/resources" component={Resources} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
           <Route path="/privacy-policy" component={PrivacyPolicy} />
