@@ -1,14 +1,16 @@
 import { Link, useLocation } from "wouter";
-import { Menu, X, Map, HelpCircle, BookOpen, Share2, Info, ExternalLink, Timer, ShieldCheck } from "lucide-react";
+import { Menu, X, Map, HelpCircle, BookOpen, Share2, Info, ExternalLink, Timer, ShieldCheck, Sun, Moon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { useTheme } from "@/components/ThemeProvider";
 
 export function Navbar() {
   const [location] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
+  const { theme, toggleTheme } = useTheme();
 
   const links = [
     { href: "/", label: "Guide", icon: Map },
@@ -56,6 +58,15 @@ export function Navbar() {
             </Link>
           ))}
           <div className="w-px h-6 bg-border mx-2" />
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            aria-label="Toggle dark mode"
+            className="text-muted-foreground hover:text-foreground"
+          >
+            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </Button>
           <Button variant="outline" size="sm" onClick={handleShare} className="gap-2">
             <Share2 className="w-4 h-4" />
             Share FAQ
@@ -63,7 +74,10 @@ export function Navbar() {
         </nav>
 
         {/* Mobile Toggle */}
-        <div className="flex md:hidden items-center gap-4">
+        <div className="flex md:hidden items-center gap-2">
+          <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle dark mode">
+            {theme === "dark" ? <Sun className="w-5 h-5 text-muted-foreground" /> : <Moon className="w-5 h-5 text-muted-foreground" />}
+          </Button>
           <Button variant="ghost" size="icon" onClick={handleShare} aria-label="Share FAQ">
             <Share2 className="w-5 h-5 text-muted-foreground" />
           </Button>
