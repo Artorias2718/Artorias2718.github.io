@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Calculator, Map, MessageCircle, BarChart3, Layers, Globe2 } from "lucide-react";
+import { ExternalLink, Calculator, Map, MessageCircle, Layers, Globe2 } from "lucide-react";
 import { SiReddit, SiDiscord, SiFacebook, SiYoutube } from "react-icons/si";
 
 const resources = [
@@ -71,7 +71,7 @@ const resources = [
         iconColor: "text-blue-600",
         iconBg: "bg-blue-50",
         description:
-          "There are dozens of active Facebook Groups for Atlas Earth players, including regional groups, referral groups, and general strategy groups. Search for 'Atlas Earth' in Facebook Groups to find communities near you or focused on topics you care about.",
+          "There are dozens of active Facebook Groups for Atlas Earth players, including regional groups and general strategy groups. Search for 'Atlas Earth' in Facebook Groups to find communities near you or focused on topics you care about.",
         badge: null,
       },
     ],
@@ -116,16 +116,6 @@ const resources = [
     category: "In-App Features Worth Knowing",
     description: "Not external links, but built-in Atlas Earth features that new players often miss.",
     items: [
-      {
-        name: "The Referral Program",
-        url: "https://www.atlasearth.com",
-        icon: BarChart3,
-        iconColor: "text-violet-600",
-        iconBg: "bg-violet-50",
-        description:
-          "Atlas Earth has a referral system built directly into the app. When someone downloads the game using your referral code, you earn a percentage of their earnings in perpetuity. Building a solid referral network can significantly increase your passive income — some players earn more from referrals than from their own parcels.",
-        badge: "In-App",
-      },
       {
         name: "The Daily Wheel & Diamonds",
         url: "https://www.atlasearth.com",
