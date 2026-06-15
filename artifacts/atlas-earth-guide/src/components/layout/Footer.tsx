@@ -15,7 +15,7 @@ export function Footer() {
               A community-built resource to help new players navigate the virtual real estate world of Atlas Earth. Not affiliated with Atlas Reality.
             </p>
             <div className="flex items-center gap-1.5 text-sm text-muted-foreground bg-muted/50 w-fit px-3 py-1.5 rounded-full border border-border/50">
-              Made with <Heart className="w-3.5 h-3.5 text-destructive fill-destructive" /> by players
+              Made with <Heart className="w-3.5 h-3.5 text-destructive fill-destructive" /> by <span className="font-semibold text-foreground">Artorias2718</span>
             </div>
           </div>
           

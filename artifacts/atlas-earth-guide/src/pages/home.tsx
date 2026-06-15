@@ -15,7 +15,7 @@ export default function Home() {
           <div className="max-w-3xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8">
               <Globe2 className="w-4 h-4" />
-              <span>The unofficial community guide</span>
+              <span>The unofficial community guide by <strong>Artorias2718</strong></span>
             </div>
             
             <h1 className="text-5xl md:text-7xl font-serif font-bold text-foreground tracking-tight mb-6 leading-tight">

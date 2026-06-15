@@ -122,6 +122,54 @@ export default function About() {
         </div>
       </section>
 
+      {/* Author */}
+      <section className="py-20 bg-card border-y border-border/50">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">The person behind this</p>
+              <h2 className="text-3xl font-serif font-bold mb-5">Artorias2718</h2>
+              <div className="space-y-4 text-muted-foreground leading-relaxed">
+                <p>
+                  This guide was researched, written, and built by <strong className="text-foreground">Artorias2718</strong> — a veteran Atlas Earth whale and long-time community member with one of the largest parcel portfolios in the game.
+                </p>
+                <p>
+                  After years of watching the same beginner questions cycle through every Facebook Group and subreddit thread, the decision was made to build one definitive resource and end the repetition for good. If a new player's question is answered somewhere on this site, that's a small win for everyone.
+                </p>
+                <p>
+                  You'll find Artorias2718 active in the Atlas Earth Reddit communities and Facebook Groups — feel free to say hi.
+                </p>
+              </div>
+            </div>
+            <div className="bg-background rounded-3xl border border-border/50 p-8 shadow-sm">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center">
+                  <span className="text-2xl font-serif font-bold text-primary">A</span>
+                </div>
+                <div>
+                  <p className="font-bold text-lg leading-none">Artorias2718</p>
+                  <p className="text-sm text-muted-foreground mt-1">Veteran Whale · Community Guide Author</p>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between py-2 border-b border-border/50">
+                  <span className="text-sm text-muted-foreground">Status</span>
+                  <span className="text-sm font-semibold text-primary">Active Player</span>
+                </div>
+                <div className="flex items-center justify-between py-2 border-b border-border/50">
+                  <span className="text-sm text-muted-foreground">Player type</span>
+                  <span className="text-sm font-semibold">Veteran Whale</span>
+                </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-sm text-muted-foreground">Community</span>
+                  <span className="text-sm font-semibold">Reddit · Facebook Groups</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Disclaimer */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 max-w-3xl">
