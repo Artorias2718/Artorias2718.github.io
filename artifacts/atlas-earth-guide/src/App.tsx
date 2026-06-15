@@ -14,6 +14,7 @@ import Contact from "@/pages/contact";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import Resources from "@/pages/resources";
 import BoostTimer from "@/pages/boost-timer";
+import ProgressVault from "@/pages/progress-vault";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ function Router() {
           <Route path="/glossary" component={Glossary} />
           <Route path="/resources" component={Resources} />
           <Route path="/boost-timer" component={BoostTimer} />
+          <Route path="/progress-vault" component={ProgressVault} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
           <Route path="/privacy-policy" component={PrivacyPolicy} />
