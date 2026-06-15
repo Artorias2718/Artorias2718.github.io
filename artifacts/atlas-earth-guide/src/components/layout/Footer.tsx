@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Map, HelpCircle, BookOpen, ExternalLink, Heart } from "lucide-react";
+import { Map, HelpCircle, BookOpen, ExternalLink, Heart, Info, Mail, Shield } from "lucide-react";
 
 export function Footer() {
   return (
@@ -20,7 +20,7 @@ export function Footer() {
           </div>
           
           <div>
-            <h4 className="font-semibold text-foreground mb-4">Navigation</h4>
+            <h4 className="font-semibold text-foreground mb-4">Navigate</h4>
             <ul className="space-y-2.5">
               <li>
                 <Link href="/" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
@@ -35,6 +35,16 @@ export function Footer() {
               <li>
                 <Link href="/glossary" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
                   <BookOpen className="w-4 h-4" /> Glossary
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
+                  <Info className="w-4 h-4" /> About
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
+                  <Mail className="w-4 h-4" /> Contact
                 </Link>
               </li>
             </ul>
@@ -53,12 +63,24 @@ export function Footer() {
                   Official Support <ExternalLink className="w-3 h-3" />
                 </a>
               </li>
+              <li>
+                <a href="https://www.reddit.com/r/AtlasEarthOfficial/" target="_blank" rel="noreferrer" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
+                  Official Subreddit <ExternalLink className="w-3 h-3" />
+                </a>
+              </li>
             </ul>
           </div>
         </div>
         
         <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
           <p>This is a fan-made resource guide. All product names, logos, and brands are property of their respective owners.</p>
+          <div className="flex items-center gap-4">
+            <Link href="/privacy-policy" className="hover:text-primary transition-colors flex items-center gap-1">
+              <Shield className="w-3.5 h-3.5" /> Privacy Policy
+            </Link>
+            <Link href="/about" className="hover:text-primary transition-colors">About</Link>
+            <Link href="/contact" className="hover:text-primary transition-colors">Contact</Link>
+          </div>
         </div>
       </div>
     </footer>

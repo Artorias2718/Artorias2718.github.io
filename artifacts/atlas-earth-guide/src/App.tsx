@@ -9,6 +9,9 @@ import { Footer } from "@/components/layout/Footer";
 import Home from "@/pages/home";
 import FAQ from "@/pages/faq";
 import Glossary from "@/pages/glossary";
+import About from "@/pages/about";
+import Contact from "@/pages/contact";
+import PrivacyPolicy from "@/pages/privacy-policy";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +24,9 @@ function Router() {
           <Route path="/" component={Home} />
           <Route path="/faq" component={FAQ} />
           <Route path="/glossary" component={Glossary} />
+          <Route path="/about" component={About} />
+          <Route path="/contact" component={Contact} />
+          <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route component={NotFound} />
         </Switch>
       </main>
