@@ -13,6 +13,7 @@ import About from "@/pages/about";
 import Contact from "@/pages/contact";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import Resources from "@/pages/resources";
+import BoostTimer from "@/pages/boost-timer";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ function Router() {
           <Route path="/faq" component={FAQ} />
           <Route path="/glossary" component={Glossary} />
           <Route path="/resources" component={Resources} />
+          <Route path="/boost-timer" component={BoostTimer} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
           <Route path="/privacy-policy" component={PrivacyPolicy} />
