@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { Search, ChevronDown, Link as LinkIcon, HelpCircle } from "lucide-react";
+import { Search, Link as LinkIcon, HelpCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -114,7 +114,7 @@ export default function FAQ() {
             value={searchQuery ? filteredData.map(c => c.category) : undefined}
             className="space-y-8"
           >
-            {filteredData.map((category, idx) => (
+            {filteredData.map((category) => (
               <AccordionItem 
                 key={category.category} 
                 value={category.category}
