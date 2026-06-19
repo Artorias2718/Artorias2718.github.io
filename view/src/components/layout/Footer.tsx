@@ -21,7 +21,7 @@ export function Footer() {
           
           <div>
             <h4 className="font-semibold text-foreground mb-4">Navigate</h4>
-            <ul className="space-y-2.5">
+            <ul className="footer-navigation">
               <li>
                 <Link href="/" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
                   <Map className="w-4 h-4" /> Home Guide
@@ -67,7 +67,7 @@ export function Footer() {
 
           <div>
             <h4 className="font-semibold text-foreground mb-4">Official Links</h4>
-            <ul className="space-y-2.5">
+            <ul className="footer-navigation">
               <li>
                 <a href="https://www.atlasearth.com" target="_blank" rel="noreferrer" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
                   Atlas Earth Website <ExternalLink className="w-3 h-3" />
