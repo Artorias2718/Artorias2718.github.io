@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Globe2, Users, BookOpen, HelpCircle, ExternalLink, Heart } from "lucide-react";
+import Kaiba from '../assets/Kaiba.jpg';
 
 export default function About() {
   return (
@@ -144,11 +145,13 @@ export default function About() {
             <div className="bg-background rounded-3xl border border-border/50 p-8 shadow-sm">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center">
-                  <span className="text-2xl font-serif font-bold text-primary">A</span>
+                  <span className="text-2xl font-serif font-bold text-primary">
+                    <img src={Kaiba} alt='' />
+                  </span>
                 </div>
                 <div>
                   <p className="font-bold text-lg leading-none">Artorias2718</p>
-                  <p className="text-sm text-muted-foreground mt-1">Veteran Whale · Community Guide Author</p>
+                  <p className="text-sm text-muted-foreground mt-1">AE Whale · Community Guide Author</p>
                 </div>
               </div>
               <div className="space-y-3">
@@ -158,7 +161,7 @@ export default function About() {
                 </div>
                 <div className="flex items-center justify-between py-2 border-b border-border/50">
                   <span className="text-sm text-muted-foreground">Player type</span>
-                  <span className="text-sm font-semibold">Veteran Whale</span>
+                  <span className="text-sm font-semibold">AE Whale</span>
                 </div>
                 <div className="flex items-center justify-between py-2">
                   <span className="text-sm text-muted-foreground">Community</span>
