@@ -48,7 +48,7 @@ export default function Glossary() {
                 <CardTitle className="text-xl font-serif text-primary">{item.term}</CardTitle>
               </CardHeader>
               <CardContent className="pt-4 flex-1">
-                <p className="text-muted-foreground leading-relaxed">{item.definition}</p>
+                <p className="text-muted-foreground leading-relaxed" dangerouslySetInnerHTML={{ __html: item.definition }}></p>
               </CardContent>
             </Card>
           ))}
