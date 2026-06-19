@@ -146,7 +146,7 @@ export default function FAQ() {
                                 </Button>
                               </h4>
                               <p className="text-muted-foreground leading-relaxed">
-                                {q.a}
+                                <span dangerouslySetInnerHTML={{ __html: q.a }} />
                               </p>
                             </div>
                           </div>
