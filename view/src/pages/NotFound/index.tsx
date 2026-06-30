@@ -10,17 +10,17 @@ export default function NotFound() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        bgcolor: "grey.50",
+        bgColor: "grey.50",
         px: 2,
       }}
     >
       <Card sx={{ width: "100%", maxWidth: 448 }}>
         <CardContent sx={{ pt: 3 }}>
-          <Stack direction="row" alignItems="center" gap={1.5} mb={2}>
+          <Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: 1.5, mb: 2 }}>
             <Box sx={{ color: "error.main", display: "flex" }}>
               <AlertCircle size={32} />
             </Box>
-            <Typography variant="h5" fontWeight={700}>
+            <Typography variant="h5" sx={{ fontWeight: 700 }}>
               404 Page Not Found
             </Typography>
           </Stack>
