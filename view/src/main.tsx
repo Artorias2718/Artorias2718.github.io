@@ -1,6 +1,9 @@
+import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
+
+const theme = createTheme();
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -10,4 +13,9 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
+);

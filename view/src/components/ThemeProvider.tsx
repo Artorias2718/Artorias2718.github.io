@@ -1,4 +1,9 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import {
+  ThemeProvider as MuiThemeProvider,
+  createTheme,
+  CssBaseline,
+} from "@mui/material";
 
 type Theme = "light" | "dark";
 
@@ -28,12 +33,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
 
   useEffect(() => {
+    // Kept for any remaining CSS that still keys off this (e.g. scrollbar styling,
+    // third-party widgets). Harmless to leave in even though MUI doesn't use it.
     const root = document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
+    root.classList.toggle("dark", theme === "dark");
     try {
       localStorage.setItem("ae-guide-theme", theme);
     } catch {}
@@ -41,9 +44,56 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
 
+  // Rebuild the MUI theme whenever the mode changes. This is what actually
+  // drives every `background.default`, `text.secondary`, `divider`, etc.
+  // token used across the app's `sx` props.
+  const muiTheme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: theme,
+          primary: {
+            main: "#22c55e",
+            light: "#4ade80",
+            dark: "#16a34a",
+            contrastText: "#0a0f1e",
+          },
+          secondary: {
+            main: "#38bdf8",
+          },
+          ...(theme === "dark"
+            ? {
+                background: {
+                  default: "#0a0f1e",
+                  paper: "#0f1729",
+                },
+                text: {
+                  primary: "#f1f5f9",
+                  secondary: "#94a3b8",
+                },
+                divider: "rgba(148, 163, 184, 0.15)",
+              }
+            : {
+                background: {
+                  default: "#ffffff",
+                  paper: "#f8fafc",
+                },
+              }),
+          divider: theme === "dark" ? "rgba(148, 163, 184, 0.15)" : undefined,
+        },
+        typography: {
+          fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+        },
+      }),
+    [theme]
+  );
+
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
+      <MuiThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        {children}
+      </MuiThemeProvider>
     </ThemeContext.Provider>
   );
 }
