@@ -180,7 +180,7 @@ function ResourceCard({ item }: { item: (typeof resources)[0]["items"][0] }) {
       }}
     >
       <CardContent sx={{ p: 3 }}>
-        <Stack direction="row" gap={2.5} alignItems="flex-start">
+        <Stack sx={{ flexDirection: "row", gap: 2.5, alignItems: "flex-start" }}>
           {/* Icon */}
           <Box
             sx={{
@@ -199,8 +199,16 @@ function ResourceCard({ item }: { item: (typeof resources)[0]["items"][0] }) {
 
           {/* Content */}
           <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Stack direction="row" flexWrap="wrap" alignItems="center" gap={1.5} mb={1}>
-              <Typography fontWeight={700} fontSize="1.05rem" lineHeight={1.3}>
+            <Stack
+              sx={{
+                flexDirection: "row",
+                flexWrap: "wrap",
+                alignItems: "center",
+                gap: 1.5,
+                mb: 1,
+              }}
+            >
+              <Typography sx={{ fontWeight: 700, fontSize: "1.05rem", lineHeight: 1.3 }}>
                 {item.name}
               </Typography>
               {badge && bp && (
@@ -223,9 +231,7 @@ function ResourceCard({ item }: { item: (typeof resources)[0]["items"][0] }) {
 
             <Typography
               variant="body2"
-              color="text.secondary"
-              lineHeight={1.7}
-              mb={2}
+              sx={{ color: "text.secondary", lineHeight: 1.7, mb: 2 }}
             >
               {item.description}
             </Typography>
@@ -267,11 +273,11 @@ export default function Resources() {
       >
         <Container maxWidth="md" sx={{ textAlign: "center" }}>
           <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-            gap={1}
             sx={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1,
               display: "inline-flex",
               px: 2,
               py: 0.75,
@@ -282,27 +288,32 @@ export default function Resources() {
             }}
           >
             <ExternalLink size={16} />
-            <Typography variant="body2" fontWeight={500}>
+            <Typography variant="body2" sx={{ fontWeight: 500 }}>
               Handpicked community tools and links
             </Typography>
           </Stack>
 
           <Typography
             variant="h2"
-            fontWeight={800}
-            letterSpacing="-0.02em"
-            mb={3}
-            sx={{ fontSize: { xs: "2.25rem", md: "3rem" } }}
+            sx={{
+              fontWeight: 800,
+              letterSpacing: "-0.02em",
+              mb: 3,
+              fontSize: { xs: "2.25rem", md: "3rem" },
+            }}
           >
             Atlas Earth Resources
           </Typography>
 
           <Typography
             variant="body1"
-            color="text.secondary"
-            lineHeight={1.8}
-            fontSize="1.1rem"
-            sx={{ maxWidth: 580, mx: "auto" }}
+            sx={{
+              color: "text.secondary",
+              lineHeight: 1.8,
+              fontSize: "1.1rem",
+              maxWidth: 580,
+              mx: "auto",
+            }}
           >
             Everything the community has built around Atlas Earth in one place — calculators,
             trackers, discussion forums, and official channels.
@@ -313,24 +324,22 @@ export default function Resources() {
       {/* Resource sections */}
       <Box component="section" sx={{ py: 10, bgcolor: "background.default" }}>
         <Container maxWidth="lg" sx={{ maxWidth: 900 }}>
-          <Stack spacing={12}>
+          <Stack sx={{ gap: 12 }}>
             {resources.map((section) => (
               <Box key={section.category}>
-                <Box mb={4}>
+                <Box sx={{ mb: 4 }}>
                   <Typography
                     variant="h4"
-                    fontWeight={800}
-                    mb={1}
-                    sx={{ fontSize: { xs: "1.5rem", md: "1.75rem" } }}
+                    sx={{ fontWeight: 800, mb: 1, fontSize: { xs: "1.5rem", md: "1.75rem" } }}
                   >
                     {section.category}
                   </Typography>
-                  <Typography variant="body1" color="text.secondary" lineHeight={1.7}>
+                  <Typography variant="body1" sx={{ color: "text.secondary", lineHeight: 1.7 }}>
                     {section.description}
                   </Typography>
                 </Box>
 
-                <Stack spacing={2}>
+                <Stack sx={{ gap: 2 }}>
                   {section.items.map((item) => (
                     <ResourceCard key={item.name} item={item} />
                   ))}
@@ -353,15 +362,12 @@ export default function Resources() {
         }}
       >
         <Container maxWidth="md">
-          <Typography variant="h5" fontWeight={800} mb={1.5}>
+          <Typography variant="h5" sx={{ fontWeight: 800, mb: 1.5 }}>
             Know a resource we missed?
           </Typography>
           <Typography
             variant="body1"
-            color="text.secondary"
-            lineHeight={1.8}
-            mb={4}
-            sx={{ maxWidth: 520, mx: "auto" }}
+            sx={{ color: "text.secondary", lineHeight: 1.8, mb: 4, maxWidth: 520, mx: "auto" }}
           >
             The Atlas Earth community is always building new tools. If you know of a
             calculator, tracker, or community we should add here, drop a comment in the
