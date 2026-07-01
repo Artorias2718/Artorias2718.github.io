@@ -1,55 +1,46 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from 'react'; // 1. Import useEffect
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/components/ThemeProvider";
-
+import { Outlet, useMatches } from 'react-router-dom';
+import type { RouteHandle } from './main';
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import Home from "@/pages/Home";
-import FAQ from "@/pages/FAQ";
-import Glossary from "@/pages/Glossary";
-import About from "@/pages/About";
-import Contact from "@/pages/Contact";
-import PrivacyPolicy from "@/pages/PrivacyPolicy";
-import Resources from "@/pages/Resources";
-import BoostTimer from "@/pages/BoostTimer";
-import ProgressVault from "@/pages/ProgressVault";
-import NotFound from "@/pages/NotFound";
+
+interface UIMatchWithHandle {
+    id: string;
+    pathname: string;
+    params: Record<string, string | undefined>;
+    data: unknown;
+    handle: RouteHandle;
+}
 
 const queryClient = new QueryClient();
 
-function Router() {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <Navbar />
-      <main style={{ flex: 1 }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/glossary" element={<Glossary />} />
-          <Route path="/resources" element={<Resources />} />
-          <Route path="/boosttimer" element={<BoostTimer />} />
-          <Route path="/progressvault" element={<ProgressVault />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/privacypolicy" element={<PrivacyPolicy />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
-      <Footer />
-    </div>
-  );
-}
-
 function App() {
-  return (
-    <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
-        </BrowserRouter>
-      </QueryClientProvider>
-    </ThemeProvider>
-  );
+    const matches = useMatches();
+    const currentMatch = matches[matches.length - 1] as UIMatchWithHandle | undefined;
+    const pageName = currentMatch?.handle?.pageName || '';
+
+    // 2. Force the browser to refresh the title whenever the pageName changes
+    useEffect(() => {
+        document.title = pageName ? `Atlas Earth HQ | ${pageName}` : 'Atlas Earth HQ';
+    }, [pageName]);
+
+    return (
+        <ThemeProvider>
+            {/* Remove the static <title> JSX tag completely from here */}
+
+            <header>
+                <Navbar />
+            </header>
+
+            <QueryClientProvider client={queryClient}>
+                <Outlet />
+            </QueryClientProvider>
+
+            <Footer />
+        </ThemeProvider>
+    );
 }
 
 export default App;
