@@ -11,5 +11,17 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
       "@assets": path.resolve(__dirname, "..", "..", "attached_assets"),
     }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "react-vendor": ["react", "react-dom", "react-router-dom"],
+          "mui-core": ["@mui/material", "@emotion/react", "@emotion/styled"],
+          "mui-icons": ["@mui/icons-material"],
+          "query": ["@tanstack/react-query"]
+        }
+      }
+    }
   }
 })
