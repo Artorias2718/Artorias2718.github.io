@@ -16,6 +16,33 @@ import { Globe2, Users, BookOpen, HelpCircle, ExternalLink, Heart } from "lucide
 import Kaiba from "../../assets/Kaiba.jpg";
 
 export default function About() {
+    const communityLinks = [
+        {
+            href: 'https://www.youtube.com/@Artorias2718/',
+            icon: 'https://www.citypng.com/public/uploads/preview/hd-youtube-yt-triangle-symbol-logo-icon-sign-png-701751695118564ln4ifqdive.png?v=2026040801',
+            alt: 'Find me on YouTube'
+        },
+        {
+            href: 'https://discordapp.com/users/artorias2718',
+            icon: 'https://thumbnail.imgbin.com/2/21/7/discord-icon-blue-discord-logo-for-chatting-and-communication-RA6Qd2f8_t.jpg',
+            alt: 'Find me on Discord'
+        },
+        {
+            href: 'https://www.reddit.com/user/Artorias2718/',
+            icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrsKg4yMUfbTzBvZJtpNKF1nCeICuTq4oCX4_ctNLwzMqAbJZi1QlhE2c&s=10',
+            alt: 'Find me on Reddit'
+        },
+        {
+            href: 'https://www.facebook.com/Artorias2718',
+            icon: 'https://thumbs.dreamstime.com/b/social-media-icon-illustration-facebook-vector-232042829.jpg',
+            alt: 'Find me on Facebook'
+        },
+        {
+            href: 'https://x.com/artorias2718',
+            icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRniL3TITD85gTrlsOBoApCavs5nT3KaBgQJeGJpbtkKg&s=10',
+            alt: 'Find me on X'
+        }
+    ];
   return (
     <Box sx={{ width: "100%" }}>
       {/* Hero */}
@@ -323,7 +350,7 @@ export default function About() {
                   {[
                     { label: "Status", value: "Active Player", color: "primary.main" },
                     { label: "Player type", value: "AE Whale", color: "text.primary" },
-                    { label: "Community", value: "Reddit · Facebook Groups", color: "text.primary" },
+                      { label: "Community", value: communityLinks, color: "text.primary" },
                   ].map(({ label, value, color }) => (
                     <Stack
                       key={label}
@@ -338,7 +365,7 @@ export default function About() {
                         {label}
                       </Typography>
                       <Typography variant="body2" sx={{ fontWeight: 600, color }}>
-                        {value}
+                          {typeof(value) !== 'string' && value.map(({href, icon, alt}, index) => <Link key={index} to={href}><img src={icon} style={{ width: '4rem', height: '3.75rem' }} alt={alt} /></Link>)}
                       </Typography>
                     </Stack>
                   ))}
