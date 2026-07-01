@@ -23,12 +23,12 @@ import {
 // ─── data ─────────────────────────────────────────────────────────────────────
 
 const navLinks = [
-  { href: "/", label: "Home Guide", icon: Map },
-  { href: "/faq", label: "Player FAQ", icon: HelpCircle },
+  { href: "/", label: "Guide", icon: Map },
+  { href: "/faq", label: "FAQ", icon: HelpCircle },
   { href: "/glossary", label: "Glossary", icon: BookOpen },
   { href: "/resources", label: "Resources", icon: Layers },
-  { href: "/boost-timer", label: "Boost Timer", icon: Timer },
-  { href: "/progress-vault", label: "Progress Vault", icon: ShieldCheck },
+  { href: "/boosttimer", label: "Boost Timer", icon: Timer },
+  { href: "/progressvault", label: "Progress Vault", icon: ShieldCheck },
   { href: "/about", label: "About", icon: Info },
   { href: "/contact", label: "Contact", icon: Mail },
 ];
