@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Atlas Earth HQ</title>
+    <script>
+      // spa-github-pages redirect (https://github.com/rafgraph/spa-github-pages)
+      // GitHub Pages serves this file for any path that doesn't exist on the
+      // server. This script converts the requested path into a query string
+      // and redirects to index.html, where a decoder script restores the URL
+      // before React Router initializes. Users see only a brief blank flash.
+      //
+      // pathSegmentsToKeep = 0 → app deployed at the ROOT of the subdomain
+      //   (artorias2718.github.io). Change to 1 if this ever moves to a
+      //   project page under a subpath (artorias2718.github.io/atlas-earth-hq/).
+      var pathSegmentsToKeep = 0;
+
+      var l = window.location;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') +
+        '/?/' +
+        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    </script>
+  </head>
+  <body>
+    <!-- Intentionally empty: this page only redirects. No content, no ads. -->
+  </body>
+</html>
