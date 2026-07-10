@@ -34,53 +34,55 @@ const router = createBrowserRouter([{
     children: [{
         index: true,
         element: <Home/>,
-        handle: { pageName: 'Home' } satisfies RouteHandle,
+        handle: {pageName: 'Home'} satisfies RouteHandle,
     }, {
         path: '/faq',
-        element: <FAQ />,
-        handle: { pageName: 'FAQ' } satisfies RouteHandle
+        element: <FAQ/>,
+        handle: {pageName: 'FAQ'} satisfies RouteHandle
     }, {
         path: '/glossary',
-        element: <Glossary />,
-        handle: { pageName: 'Glossary' } satisfies RouteHandle,
+        element: <Glossary/>,
+        handle: {pageName: 'Glossary'} satisfies RouteHandle,
     }, {
         path: '/resources',
-        element: <Resources />,
-        handle: { pageName: 'Resources' } satisfies RouteHandle
+        element: <Resources/>,
+        handle: {pageName: 'Resources'} satisfies RouteHandle
     },
-        {
-            path: '/boosttimer',
-            element: <BoostTimer />,
-            handle: { pageName: 'Boost Timer' } satisfies RouteHandle,
-        }, {
-            path: '/progressvault',
-            element: <ProgressVault />,
-            handle: { pageName: 'Progress Vault' } satisfies RouteHandle
-        }, {
-            path: '/about',
-            element: <About />,
-            handle: { pageName: 'About' } satisfies RouteHandle,
-        }, {
-            path: '/contact',
-            element: <Contact />,
-            handle: { pageName: 'Contact' } satisfies RouteHandle
-        },
-        {
-            path: '/privacypolicy',
-            element: <PrivacyPolicy />,
-            handle: { pageName: 'Privacy Policy' } satisfies RouteHandle
-        },
-        {
-            path: '*',
-            element: <NotFound />,
-            handle: { pageName: '404 Not Found' } satisfies RouteHandle
-        },
-    ]
+    {
+        path: '/boosttimer',
+        element: <BoostTimer/>,
+        handle: {pageName: 'Boost Timer'} satisfies RouteHandle,
+    },
+    {
+        path: '/progressvault',
+        element: <ProgressVault/>,
+        handle: {pageName: 'Progress Vault'} satisfies RouteHandle
+    },
+    {
+        path: '/about',
+        element: <About/>,
+        handle: {pageName: 'About'} satisfies RouteHandle,
+    },
+    {
+        path: '/contact',
+        element: <Contact/>,
+        handle: {pageName: 'Contact'} satisfies RouteHandle
+    },
+    {
+        path: '/privacypolicy',
+        element: <PrivacyPolicy/>,
+        handle: {pageName: 'Privacy Policy'} satisfies RouteHandle
+    },
+    {
+        path: '*',
+        element: <NotFound/>,
+        handle: {pageName: '404 Not Found'} satisfies RouteHandle
+    }]
 }]);
 
 createRoot(document.getElementById("root")!).render(
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <RouterProvider router={router} />
+        <CssBaseline/>
+        <RouterProvider router={router}/>
     </ThemeProvider>
 );
