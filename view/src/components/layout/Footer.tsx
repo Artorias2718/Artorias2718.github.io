@@ -28,6 +28,7 @@ const navLinks = [
   { href: "/glossary", label: "Glossary", icon: BookOpen },
   { href: "/resources", label: "Resources", icon: Layers },
   { href: "/boosttimer", label: "Boost Timer", icon: Timer },
+  { href: "/boosttiers", label: "Boost Tiers", icon: Timer },
   { href: "/progressvault", label: "Progress Vault", icon: ShieldCheck },
   { href: "/about", label: "About", icon: Info },
   { href: "/contact", label: "Contact", icon: Mail },

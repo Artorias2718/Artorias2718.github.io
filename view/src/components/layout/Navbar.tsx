@@ -36,6 +36,7 @@ const links = [
   { href: "/glossary", label: "Glossary", icon: BookOpen },
   { href: "/resources", label: "Resources", icon: ExternalLink },
   { href: "/boosttimer", label: "Boost Timer", icon: Timer },
+  { href: "/boosttiers", label: "Boost Tiers", icon: Timer },
   { href: "/progressvault", label: "Vault", icon: ShieldCheck },
   { href: "/about", label: "About", icon: Info },
 ];
