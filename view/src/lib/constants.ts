@@ -122,7 +122,11 @@ export const faqData = [
       },
       {
         q: "What are Atlas Landmarks?",
-        a: "Landmarks are special, recognizable real-world locations (like the Statue of Liberty). Currently, they cannot be purchased, though a recent update added Bid Tokens to the game, replacing the Free Diamonds previously available on the Diamond Wheel and Monthly Challenges. These Bid Tokens currently cannot be purchased in the game, but will be required to bid for Landmarks"
+        a: "Landmarks are special, recognizable real-world locations (like the Statue of Liberty) made up of <strong>x</strong> amount of <strong>Common Parcels</strong>. They cannot be purchased like standard parcels. Instead, Landmark bids will run as Events, and every Landmark will start at <strong>100 ABs</strong>. Players must bid using <strong>Bid Tokens</strong>. Every bid will increase the price by 1AB, and in the end, the player who puts the final bid token wins the opportunity to buy the Landmark for the final bid price. Players must submit a minimum of 1 bid token within the first 24 hours of the event to be allowed to participate in Phase 2 of the bid. So far, there have been 2 Beta Landmark Events: Canada featured <strong>Peggy's Cove Lighthouse</strong> in <strong>Nova Scotia</strong>, and the US featured <strong>Jackson Square</strong> in <strong>New Orleans</strong>. Landmark owners will earn <strong>10 ABs</strong> from Landmark badge sales"
+      },
+      {
+        q: "Can I buy Bid Tokens?",
+        a: "At this time, Bid Tokens cannot be purchased. As you may know, the Diamond Wheel and Monthly Challenges had a recent update in May 2026 to replace Diamond rewards with Bid Tokens. Artorias2718 reached out to support and asked them if they would consider allowing players to purchase one Bid Token per day from the Game and/or Web App Shops. and even to the paid Explorers Club Daily Login on Bonus Days, where the current Bonus Day ABs would be totaled up on the left column, and the right column would display x amount of Bid Tokens. While Atlas Support told him these sound like great ideas, they did not confirm whether or not they would implement them."
       }
     ]
   },
@@ -181,8 +185,16 @@ export const faqData = [
         a: "The most active community is on Reddit at r/AtlasEarthOfficial. There are also several large Facebook groups dedicated to players sharing strategies."
       },
       {
-        q: "Is there an official Discord?",
-        a: "While there is no fully official Discord, there are several large, community-run Discord servers linked often in the subreddit."
+        q: "Are there any Discord channels?",
+        a: `<ul>
+                <li>
+                    <a href='https://discord.gg/H2qHxrf8m'>Join the Official Atlas Earth Server</a>
+                </li>
+                <li>
+                    <a href='https://discord.gg/GMNtj8aDr'>Join the Atlas Earth Community</a>
+                </li>
+            </ul>
+            `
       },
       {
         q: "How do I report a bug or contact support?",
