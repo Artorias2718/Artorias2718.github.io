@@ -7,6 +7,7 @@ import Home from "@/pages/Home";
 import FAQ from "@/pages/FAQ";
 import Glossary from "@/pages/Glossary";
 import Resources from "@/pages/Resources";
+import BoostTiers from "@/pages/BoostTiers";
 import BoostTimer from "@/pages/BoostTimer";
 import ProgressVault from "@/pages/ProgressVault";
 import About from "@/pages/About";
@@ -31,22 +32,31 @@ export interface RouteHandle {
 const router = createBrowserRouter([{
     path: '/',
     element: <App/>,
-    children: [{
+    children: [
+    {
         index: true,
         element: <Home/>,
         handle: {pageName: 'Home'} satisfies RouteHandle,
-    }, {
+    },
+    {
         path: '/faq',
         element: <FAQ/>,
         handle: {pageName: 'FAQ'} satisfies RouteHandle
-    }, {
+    },
+    {
         path: '/glossary',
         element: <Glossary/>,
         handle: {pageName: 'Glossary'} satisfies RouteHandle,
-    }, {
+    },
+    {
         path: '/resources',
         element: <Resources/>,
         handle: {pageName: 'Resources'} satisfies RouteHandle
+    },
+    {
+        path: '/boosttiers',
+        element: <BoostTiers />,
+        handle: {pageName: 'Boost Tiers'} satisfies RouteHandle
     },
     {
         path: '/boosttimer',

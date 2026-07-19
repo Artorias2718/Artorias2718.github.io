@@ -68,6 +68,16 @@ const resources = [
         badge: "Official",
       },
       {
+          name: "r/AtlasEarth_UnOfficial",
+          url: "https://www.reddit.com/r/AtlasEarth_UnOfficial/",
+          icon: SiReddit,
+          iconColor: "#f97316",
+          iconBg: "#fff7ed",
+          description:
+              "The official subreddit maintained in partnership with Atlas Reality. This is where you'll find developer announcements, patch notes, official event posts, and responses from the Atlas Earth team.",
+          badge: "Community",
+        },
+      {
         name: "Official Atlas Earth Server",
         url: "https://discord.gg/H2qHxrf8m",
         icon: SiDiscord,
