@@ -33,6 +33,13 @@ export interface BoostTierRow {
   srbYear?: number;
 }
 
+export interface RegionCountry {
+  /** ISO 3166-1 alpha-2 code, matching country-flag icons exports */
+  code: string;
+  /** Display name shown in the flag tooltip */
+  name: string;
+}
+
 export interface RegionTierTable {
   /** Stable key, e.g. "us". */
   key: string;
@@ -41,7 +48,7 @@ export interface RegionTierTable {
   /** Currency the chart is denominated in. */
   currency: string;
   /** Which countries this table applies to (shown as a caption). */
-  countries?: string;
+  countries?: RegionCountry[];
   rows: BoostTierRow[];
 }
 
@@ -102,30 +109,48 @@ export const REGION_TIER_TABLES: RegionTierTable[] = [
     key: 'us',
     label: 'United States',
     currency: 'USD',
-    countries: 'United States',
+    countries: [{ code: 'US', name: 'United States' }],
     rows: usRows,
   },
   {
     key: 'mexico',
     label: 'Mexico',
     currency: 'USD',
-    countries: 'Mexico',
+    countries: [{ code: 'MX', name: 'Mexico' }],
     rows: mexicoRows,
   },
   {
     key: 'international',
     label: 'International',
     currency: 'USD',
-    countries:
-      'Canada, Australia, United Kingdom, Ireland, New Zealand, South Africa, ' +
-      'Germany, France, Netherlands, Spain, Italy, South Korea, Japan, Brazil',
+    countries: [
+      { code: 'AU', name: 'Australia' },
+      { code: 'BR', name: 'Brazil' },
+      { code: 'CA', name: 'Canada' },
+      { code: 'FR', name: 'France' },
+      { code: 'DE', name: 'Germany' },
+      { code: 'IE', name: 'Ireland' },
+      { code: 'IT', name: 'Italy' },
+      { code: 'JP', name: 'Japan' },
+      { code: 'NL', name: 'Netherlands' },
+      { code: 'NZ', name: 'New Zealand' },
+      { code: 'ES', name: 'Spain' },
+      { code: 'ZA', name: 'South Africa' },
+      { code: 'KR', name: 'South Korea' },
+      { code: 'GB', name: 'United Kingdom' },
+    ],
     rows: internationalRows,
   },
   {
     key: 'nordic',
     label: 'Nordic',
     currency: 'USD',
-    countries: 'Sweden, Finland, Norway, Denmark',
+    countries: [
+      { code: 'SE', name: 'Sweden' },
+      { code: 'FI', name: 'Finland' },
+      { code: 'NO', name: 'Norway' },
+      { code: 'DK', name: 'Denmark' },
+    ],
     rows: nordicRows,
   },
 ];

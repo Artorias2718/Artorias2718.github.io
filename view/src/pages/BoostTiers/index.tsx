@@ -5,9 +5,15 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
+import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import * as Flags from 'country-flag-icons/react/3x2';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
-import { REGION_TIER_TABLES, type BoostTierRow } from './Constants';
+import {
+  REGION_TIER_TABLES,
+  type BoostTierRow,
+  type RegionCountry,
+} from './Constants';
 
 const currencyFmt = (currency: string) =>
   new Intl.NumberFormat('en-US', {
@@ -16,6 +22,45 @@ const currencyFmt = (currency: string) =>
     minimumFractionDigits: 2,
     maximumFractionDigits: 4,
   });
+
+type FlagComponent = (typeof Flags)['US'];
+
+function CountryFlagList({ countries }: { countries: RegionCountry[] }) {
+  return (
+    <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: 'wrap', alignItems: 'center' }}>
+      {countries.map(({ code, name }) => {
+        const Flag = (Flags as Record<string, FlagComponent | undefined>)[code];
+        return (
+          <Tooltip key={code} title={name} arrow>
+            {Flag ? (
+              <Box
+                component="span"
+                tabIndex={0}
+                aria-label={name}
+                sx={{
+                  display: 'inline-flex',
+                  width: 30,
+                  lineHeight: 0,
+                  borderRadius: 0.5,
+                  overflow: 'hidden',
+                  boxShadow: 1,
+                  '&:focus-visible': {
+                    outline: (theme) => `2px solid ${theme.palette.primary.main}`,
+                    outlineOffset: 2,
+                  },
+                }}
+              >
+                <Flag title={name} />
+              </Box>
+            ) : (
+              <Chip label={code} size="small" tabIndex={0} aria-label={name} />
+            )}
+          </Tooltip>
+        );
+      })}
+    </Stack>
+  );
+}
 
 export default function BoostTiers() {
   const [regionKey, setRegionKey] = useState(REGION_TIER_TABLES[0].key);
@@ -100,11 +145,12 @@ export default function BoostTiers() {
         ))}
       </Tabs>
 
-      {region.countries && (
+      <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
         <Typography variant="body2" color="text.secondary">
-          Applies to: {region.countries}
+          Applies to:
         </Typography>
-      )}
+        <CountryFlagList countries={region.countries} />
+      </Stack>
 
       <Paper variant="outlined">
         <DataGrid
