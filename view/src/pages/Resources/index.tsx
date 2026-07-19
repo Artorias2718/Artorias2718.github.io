@@ -68,14 +68,24 @@ const resources = [
         badge: "Official",
       },
       {
-        name: "Atlas Earth Discord",
-        url: "https://discord.gg/atlasearth",
+        name: "Official Atlas Earth Server",
+        url: "https://discord.gg/H2qHxrf8m",
         icon: SiDiscord,
         iconColor: "#6366f1",
         iconBg: "#eef2ff",
         description:
           "The official Atlas Earth Discord server. Join real-time chats, ask questions in dedicated help channels, participate in giveaways, and stay up to date on announcements. The Discord is one of the fastest places to get an answer from another player.",
         badge: "Official",
+      },
+      {
+          name: "Atlas Earth Community",
+          url: "https://discord.gg/GMNtj8aDr",
+          icon: SiDiscord,
+          iconColor: "#6366f1",
+          iconBg: "#eef2ff",
+          description:
+              "An alternative community-run Atlas Earth Discord server",
+          badge: "Community",
       },
       {
         name: "Atlas Earth Facebook Groups",
@@ -147,9 +157,10 @@ const resources = [
 
 // ─── badge config ─────────────────────────────────────────────────────────────
 
-type BadgeName = "Most Used" | "Most Active" | "Official" | "Portfolio Tracker" | "In-App";
+type BadgeName = "Most Used" | "Most Active" | "Official" | "Community" | "Portfolio Tracker" | "In-App";
 
 const badgeProps: Record<BadgeName, { bg: string; color: string }> = {
+  "Community":        { bg: "secondary", color: "primary" },
   "Most Used":        { bg: "#d1fae5", color: "#065f46" },
   "Most Active":      { bg: "#ffedd5", color: "#9a3412" },
   "Official":         { bg: "primary", color: "primary" },
