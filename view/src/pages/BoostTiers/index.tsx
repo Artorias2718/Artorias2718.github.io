@@ -1,19 +1,25 @@
 import { useMemo, useState } from 'react';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
+import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
+import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 import * as Flags from 'country-flag-icons/react/3x2';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 import {
+  PARCEL_RARITY_RATES,
   REGION_TIER_TABLES,
   type BoostTierRow,
+  type ParcelRarityRate,
   type RegionCountry,
-} from './Constants';
+} from './RentBoostTiers';
 
 const currencyFmt = (currency: string) =>
   new Intl.NumberFormat('en-US', {
@@ -22,6 +28,33 @@ const currencyFmt = (currency: string) =>
     minimumFractionDigits: 2,
     maximumFractionDigits: 4,
   });
+
+const SUPERSCRIPTS: Record<string, string> = {
+  '-': '\u207B', '0': '\u2070', '1': '\u00B9', '2': '\u00B2', '3': '\u00B3',
+  '4': '\u2074', '5': '\u2075', '6': '\u2076', '7': '\u2077', '8': '\u2078',
+  '9': '\u2079',
+};
+
+/** Formats sub-dollar values as e.g. "$2.506 × 10⁻¹" (up to 4 sig figs). */
+function sciDollars(value: number): string {
+  const [mantissaRaw, exponent] = value.toExponential(3).split('e');
+  const mantissa = parseFloat(mantissaRaw); // strips trailing zeros
+  const sup = exponent
+    .replace('+', '')
+    .split('')
+    .map((ch) => SUPERSCRIPTS[ch] ?? ch)
+    .join('');
+  return `$${mantissa} \u00D7 10${sup}`;
+}
+
+type MoneyField = 'noAdsMonth' | 'withAdsMonth' | 'withAdsYear' | 'srbYear';
+
+const MONEY_FIELDS: { field: MoneyField; header: string; shortHeader: string }[] = [
+  { field: 'noAdsMonth',   header: 'No Ads/mo.',                  shortHeader: 'No Ads/mo.' },
+  { field: 'withAdsMonth', header: 'With Ads/mo.',                shortHeader: 'With Ads/mo.' },
+  { field: 'withAdsYear',  header: 'With Ads/yr.',                shortHeader: 'With Ads/yr.' },
+  { field: 'srbYear',      header: '+ Super Rent Boosts/yr.',     shortHeader: '+SRB/yr.' },
+];
 
 type FlagComponent = (typeof Flags)['US'];
 
@@ -62,16 +95,96 @@ function CountryFlagList({ countries }: { countries: RegionCountry[] }) {
   );
 }
 
+const RARITY_CHIP_COLOR: Record<
+  ParcelRarityRate['rarity'],
+  'default' | 'info' | 'secondary' | 'warning'
+> = {
+  Common: 'default',
+  Rare: 'info',
+  Epic: 'secondary',
+  Legendary: 'warning',
+};
+
+function ParcelRarityRatesGrid({ isMobile }: { isMobile: boolean }) {
+  const columns = useMemo<GridColDef<ParcelRarityRate>[]>(
+    () => [
+      {
+        field: 'rarity',
+        headerName: 'Rarity',
+        flex: 1,
+        minWidth: isMobile ? 100 : 110,
+        renderCell: ({ value }) => (
+          <Chip
+            label={value}
+            size="small"
+            color={RARITY_CHIP_COLOR[value as ParcelRarityRate['rarity']]}
+            variant="outlined"
+          />
+        ),
+      },
+      {
+        field: 'odds',
+        headerName: 'Odds',
+        type: 'number',
+        flex: 0.6,
+        minWidth: isMobile ? 60 : 80,
+        valueFormatter: (value: number) => `${Math.round(value * 100)}%`,
+      },
+      {
+        field: 'perSecond',
+        headerName: 'Rent/sec.',
+        type: 'number',
+        flex: 1,
+        minWidth: isMobile ? 120 : 140,
+        valueFormatter: (value: number) => sciDollars(value),
+      },
+      {
+        field: 'perDay',
+        headerName: 'Rent/day',
+        type: 'number',
+        flex: 1,
+        minWidth: 140,
+        valueGetter: (_value, row) => row.perSecond * 86400,
+        valueFormatter: (value: number) => sciDollars(value),
+      },
+    ],
+    [isMobile],
+  );
+
+  return (
+    <Stack spacing={1}>
+      <Typography variant="subtitle2" component="h3">
+        Base Rent by Parcel Rarity
+      </Typography>
+      <Paper variant="outlined">
+        <DataGrid
+          rows={PARCEL_RARITY_RATES}
+          columns={columns}
+          columnVisibilityModel={{ perDay: !isMobile }}
+          density="compact"
+          disableRowSelectionOnClick
+          disableColumnMenu
+          hideFooter
+          sx={{ border: 0 }}
+        />
+      </Paper>
+    </Stack>
+  );
+}
+
 export default function BoostTiers() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const [regionKey, setRegionKey] = useState(REGION_TIER_TABLES[0].key);
+  const [mobileMetric, setMobileMetric] = useState<MoneyField>('withAdsMonth');
 
   const region = useMemo(
     () => REGION_TIER_TABLES.find((r) => r.key === regionKey) ?? REGION_TIER_TABLES[0],
     [regionKey],
   );
 
-  // Official rent-outcome dollar figures are only published for some regions
-  // (currently the US). Hide the money columns when a region has none.
+  // Hide the money columns entirely for any region lacking dollar data.
   const hasRentOutcomes = useMemo(
     () => region.rows.some((row) => row.noAdsMonth != null),
     [region],
@@ -79,25 +192,28 @@ export default function BoostTiers() {
 
   const columns = useMemo<GridColDef<BoostTierRow>[]>(() => {
     const money = currencyFmt(region.currency);
-    const moneyCol = (
-      field: keyof BoostTierRow,
-      headerName: string,
-    ): GridColDef<BoostTierRow> => ({
+    const moneyCol = ({
       field,
-      headerName,
+      header,
+      shortHeader,
+    }: (typeof MONEY_FIELDS)[number]): GridColDef<BoostTierRow> => ({
+      field,
+      headerName: isMobile ? shortHeader : header,
       type: 'number',
       flex: 1,
-      minWidth: 150,
-      valueFormatter: (value: number | undefined) =>
-        value != null ? money.format(value) : '—',
+      minWidth: isMobile ? 120 : 150,
+      valueFormatter: (value: number | undefined) => {
+        if (value == null) return '—';
+        return value > 0 && value < 1 ? sciDollars(value) : money.format(value);
+      },
     });
 
     const base: GridColDef<BoostTierRow>[] = [
       {
         field: 'parcelsLabel',
-        headerName: 'Parcels Owned',
+        headerName: isMobile ? 'Parcels' : 'Parcels Owned',
         flex: 1,
-        minWidth: 130,
+        minWidth: isMobile ? 95 : 130,
         // Sort by the numeric lower bound, not the label string.
         sortComparator: (_a, _b, p1, p2) =>
           (p1.api.getRow(p1.id) as BoostTierRow).minParcels -
@@ -105,10 +221,10 @@ export default function BoostTiers() {
       },
       {
         field: 'boost',
-        headerName: 'Boost Available',
+        headerName: 'Boost',
         type: 'number',
         flex: 0.8,
-        minWidth: 120,
+        minWidth: isMobile ? 75 : 120,
         renderCell: ({ value }) => (
           <Chip
             label={`${value}x`}
@@ -122,17 +238,19 @@ export default function BoostTiers() {
 
     if (!hasRentOutcomes) return base;
 
-    return [
-      ...base,
-      moneyCol('noAdsMonth', 'Rent Accrued (No Ads)/mo.'),
-      moneyCol('withAdsMonth', 'Rent Accrued (With Ads)/mo.'),
-      moneyCol('withAdsYear', 'Rent Accrued (With Ads)/yr.'),
-      moneyCol('srbYear', 'Rent Accrued (With Event Bonus SRB)/yr.'),
-    ];
-  }, [region.currency, hasRentOutcomes]);
+    // Mobile: Parcels + Boost + one user-selected money metric.
+    // Desktop: all four money columns.
+    const moneyFields = isMobile
+      ? MONEY_FIELDS.filter((f) => f.field === mobileMetric)
+      : MONEY_FIELDS;
+
+    return [...base, ...moneyFields.map(moneyCol)];
+  }, [region.currency, hasRentOutcomes, isMobile, mobileMetric]);
 
   return (
     <Stack spacing={2}>
+      <ParcelRarityRatesGrid isMobile={isMobile} />
+
       <Tabs
         value={regionKey}
         onChange={(_e, v: string) => setRegionKey(v)}
@@ -145,11 +263,35 @@ export default function BoostTiers() {
         ))}
       </Tabs>
 
-      <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
-        <Typography variant="body2" color="text.secondary">
-          Applies to:
-        </Typography>
-        <CountryFlagList countries={region.countries} />
+      <Stack
+        direction="row"
+        spacing={1.5}
+        useFlexGap
+        sx={{ alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}
+      >
+        <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
+          <Typography variant="body2" color="text.secondary">
+            Applies to:
+          </Typography>
+          <CountryFlagList countries={region.countries} />
+        </Stack>
+
+        {isMobile && hasRentOutcomes && (
+          <TextField
+            select
+            size="small"
+            label="Column"
+            value={mobileMetric}
+            onChange={(e) => setMobileMetric(e.target.value as MoneyField)}
+            sx={{ minWidth: 170 }}
+          >
+            {MONEY_FIELDS.map((f) => (
+              <MenuItem key={f.field} value={f.field}>
+                {f.shortHeader}
+              </MenuItem>
+            ))}
+          </TextField>
+        )}
       </Stack>
 
       <Paper variant="outlined">
@@ -169,14 +311,9 @@ export default function BoostTiers() {
 
       <Box>
         <Typography variant="caption" color="text.secondary" component="p">
-          {hasRentOutcomes
-            ? 'Values reflect the official Rent Boost Outcomes chart and assume a ' +
-              'weighted-average rarity distribution, ~20 boosted hours/day for the ' +
-              '"With Ads" columns, and two 32-hour 50x Super Rent Boost events per ' +
-              'month (64 SRB hrs/mo.) for the Event Bonus column.'
-            : 'Parcel ranges and boost multipliers for this region are community-verified. ' +
-              'Official rent-outcome dollar figures are not published in text form for ' +
-              'this chart.'}
+          {'Values are transcribed verbatim from the official Atlas Reality boost ' +
+            'rate charts, which assume weighted-average rarity distribution odds, ' +
+            'max parcels per bracket, and 20 boosts a day.'}
         </Typography>
       </Box>
     </Stack>
