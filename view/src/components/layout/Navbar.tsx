@@ -88,6 +88,8 @@ export function Navbar() {
               color: "primary.main",
               fontWeight: 800,
               fontSize: "1.25rem",
+              flexShrink: 0,
+              whiteSpace: "nowrap",
               "&:hover": { opacity: 0.9 },
             }}
           >
@@ -105,13 +107,13 @@ export function Navbar() {
             </Box>
             <Typography
               component="span"
-              sx={{ fontWeight: 800, letterSpacing: '-0.01rem', display: { xs: "none", sm: "inline-block" } }}
+              sx={{ fontWeight: 800, letterSpacing: '-0.01rem', display: { xs: "none", sm: "inline-block" }, whiteSpace: "nowrap" }}
             >
               Atlas Earth HQ
             </Typography>
             <Typography
               component="span"
-              sx={{ fontWeight: 800, letterSpacing: '-0.01rem', display: { xs: "inline-block", sm: "none" } }}
+              sx={{ fontWeight: 800, letterSpacing: '-0.01rem', display: { xs: "inline-block", sm: "none" }, whiteSpace: "nowrap" }}
             >
               AE HQ
             </Typography>
@@ -124,8 +126,9 @@ export function Navbar() {
             sx={{
               flexDirection: "row",
               alignItems: "center",
-              gap: 3,
+              gap: { md: 2, lg: 2.5 },
               display: { xs: "none", md: "flex" },
+              flexShrink: 0,
             }}
           >
             {links.map((link) => {
@@ -138,28 +141,29 @@ export function Navbar() {
                   sx={{
                     display: "flex",
                     alignItems: "center",
-                    gap: 0.75,
+                    gap: 0.5,
                     fontSize: "0.875rem",
                     fontWeight: 500,
                     textDecoration: "none",
+                    whiteSpace: "nowrap",
                     color: active ? "primary.main" : "text.secondary",
                     transition: "color 0.2s",
                     "&:hover": { color: "primary.main" },
                   }}
                 >
-                  <link.icon size={16} />
+                  <link.icon size={16} style={{ flexShrink: 0 }} />
                   {link.label}
                 </Box>
               );
             })}
 
-            <Divider orientation="vertical" flexItem sx={{ mx: 1, height: 24, alignSelf: "center" }} />
+            <Divider orientation="vertical" flexItem sx={{ mx: 0.5, height: 24, alignSelf: "center" }} />
 
             <IconButton
               size="small"
               onClick={toggleTheme}
               aria-label="Toggle dark mode"
-              sx={{ color: "text.secondary", "&:hover": { color: "text.primary" } }}
+              sx={{ color: "text.secondary", "&:hover": { color: "text.primary" }, flexShrink: 0 }}
             >
               {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
             </IconButton>
@@ -169,6 +173,7 @@ export function Navbar() {
               size="small"
               onClick={handleShare}
               startIcon={<Share2 size={16} />}
+              sx={{ whiteSpace: "nowrap", flexShrink: 0 }}
             >
               Share FAQ
             </Button>
@@ -223,12 +228,13 @@ export function Navbar() {
                   sx={{
                     display: "flex",
                     alignItems: "center",
-                    gap: 1.5,
+                    gap: 0.75,
                     px: 2,
                     py: 1.5,
                     borderRadius: 2,
-                    fontSize: "1rem",
+                    fontSize: "0.875rem",
                     fontWeight: 500,
+                    whiteSpace: "nowrap",
                     textDecoration: "none",
                     color: active ? "primary.main" : "text.primary",
                     bgcolor: active ? (t) => alpha(t.palette.primary.main, 0.1) : "transparent",
