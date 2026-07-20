@@ -13,7 +13,7 @@ import {
   REGION_TIER_TABLES,
   type BoostTierRow,
   type RegionCountry,
-} from './Constants';
+} from './RentBoostTiers';
 
 const currencyFmt = (currency: string) =>
   new Intl.NumberFormat('en-US', {
@@ -22,6 +22,24 @@ const currencyFmt = (currency: string) =>
     minimumFractionDigits: 2,
     maximumFractionDigits: 4,
   });
+
+const SUPERSCRIPTS: Record<string, string> = {
+  '-': '\u207B', '0': '\u2070', '1': '\u00B9', '2': '\u00B2', '3': '\u00B3',
+  '4': '\u2074', '5': '\u2075', '6': '\u2076', '7': '\u2077', '8': '\u2078',
+  '9': '\u2079',
+};
+
+/** Formats sub-dollar values as e.g. "$2.506 × 10⁻¹" (up to 4 sig figs). */
+function sciDollars(value: number): string {
+  const [mantissaRaw, exponent] = value.toExponential(3).split('e');
+  const mantissa = parseFloat(mantissaRaw); // strips trailing zeros
+  const sup = exponent
+    .replace('+', '')
+    .split('')
+    .map((ch) => SUPERSCRIPTS[ch] ?? ch)
+    .join('');
+  return `$${mantissa} \u00D7 10${sup}`;
+}
 
 type FlagComponent = (typeof Flags)['US'];
 
@@ -88,8 +106,10 @@ export default function BoostTiers() {
       type: 'number',
       flex: 1,
       minWidth: 150,
-      valueFormatter: (value: number | undefined) =>
-        value != null ? money.format(value) : '—',
+      valueFormatter: (value: number | undefined) => {
+        if (value == null) return '—';
+        return value > 0 && value < 1 ? sciDollars(value) : money.format(value);
+      },
     });
 
     const base: GridColDef<BoostTierRow>[] = [
@@ -169,14 +189,9 @@ export default function BoostTiers() {
 
       <Box>
         <Typography variant="caption" color="text.secondary" component="p">
-          {hasRentOutcomes
-            ? 'Values reflect the official Rent Boost Outcomes chart and assume a ' +
-              'weighted-average rarity distribution, ~20 boosted hours/day for the ' +
-              '"With Ads" columns, and two 32-hour 50x Super Rent Boost events per ' +
-              'month (64 SRB hrs/mo.) for the Event Bonus column.'
-            : 'Parcel ranges and boost multipliers for this region are community-verified. ' +
-              'Official rent-outcome dollar figures are not published in text form for ' +
-              'this chart.'}
+          {'Values are transcribed verbatim from the official Atlas Reality boost ' +
+            'rate charts, which assume weighted-average rarity distribution odds, ' +
+            'max parcels per bracket, and 20 boosts a day.'}
         </Typography>
       </Box>
     </Stack>
