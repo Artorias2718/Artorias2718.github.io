@@ -23,6 +23,32 @@
  *   12x their monthly columns.
  */
 
+export interface ParcelRarityRate {
+  id: number;
+  rarity: 'Common' | 'Rare' | 'Epic' | 'Legendary';
+  /**
+   * Community-estimated drop odds (fraction). Consistent with the official
+   * weighted-average rate of ~$1.58e-9/sec used by the boost charts:
+   * 0.50*1.1 + 0.30*1.6 + 0.15*2.2 + 0.05*4.4 = 1.58 (nanodollars/sec).
+   */
+  odds: number;
+  /** Base virtual rent per second, USD (official help-center rates). */
+  perSecond: number;
+}
+
+/**
+ * Base rent-per-second by parcel rarity, per the official Atlas Reality
+ * help center ("What is parcel rarity and what does it mean?"). The official
+ * boost charts for every region derive from the same weighted-average rate,
+ * so these base rates apply to all regions.
+ */
+export const PARCEL_RARITY_RATES: ParcelRarityRate[] = [
+  { id: 1, rarity: 'Common',    odds: 0.50, perSecond: 0.0000000011 },
+  { id: 2, rarity: 'Rare',      odds: 0.30, perSecond: 0.0000000016 },
+  { id: 3, rarity: 'Epic',      odds: 0.15, perSecond: 0.0000000022 },
+  { id: 4, rarity: 'Legendary', odds: 0.05, perSecond: 0.0000000044 },
+];
+
 export interface BoostTierRow {
   id: number;
   /** Lower bound of the parcel range — used for sorting. */
