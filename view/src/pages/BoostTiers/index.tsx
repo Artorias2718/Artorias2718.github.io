@@ -248,74 +248,76 @@ export default function BoostTiers() {
   }, [region.currency, hasRentOutcomes, isMobile, mobileMetric]);
 
   return (
-    <Stack spacing={2}>
-      <ParcelRarityRatesGrid isMobile={isMobile} />
+    <Box sx={{ maxWidth: 1200, mx: 'auto', px: { xs: 2, sm: 3 }, py: 3 }}>
+      <Stack spacing={2}>
+        <ParcelRarityRatesGrid isMobile={isMobile} />
 
-      <Tabs
-        value={regionKey}
-        onChange={(_e, v: string) => setRegionKey(v)}
-        variant="scrollable"
-        allowScrollButtonsMobile
-        aria-label="Boost tier tables by region"
-      >
-        {REGION_TIER_TABLES.map((r) => (
-          <Tab key={r.key} value={r.key} label={r.label} />
-        ))}
-      </Tabs>
+        <Tabs
+          value={regionKey}
+          onChange={(_e, v: string) => setRegionKey(v)}
+          variant="scrollable"
+          allowScrollButtonsMobile
+          aria-label="Boost tier tables by region"
+        >
+          {REGION_TIER_TABLES.map((r) => (
+            <Tab key={r.key} value={r.key} label={r.label} />
+          ))}
+        </Tabs>
 
-      <Stack
-        direction="row"
-        spacing={1.5}
-        useFlexGap
-        sx={{ alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}
-      >
-        <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
-          <Typography variant="body2" color="text.secondary">
-            Applies to:
-          </Typography>
-          <CountryFlagList countries={region.countries} />
+        <Stack
+          direction="row"
+          spacing={1.5}
+          useFlexGap
+          sx={{ alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}
+        >
+          <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
+            <Typography variant="body2" color="text.secondary">
+              Applies to:
+            </Typography>
+            <CountryFlagList countries={region.countries} />
+          </Stack>
+
+          {isMobile && hasRentOutcomes && (
+            <TextField
+              select
+              size="small"
+              label="Column"
+              value={mobileMetric}
+              onChange={(e) => setMobileMetric(e.target.value as MoneyField)}
+              sx={{ minWidth: 170 }}
+            >
+              {MONEY_FIELDS.map((f) => (
+                <MenuItem key={f.field} value={f.field}>
+                  {f.shortHeader}
+                </MenuItem>
+              ))}
+            </TextField>
+          )}
         </Stack>
 
-        {isMobile && hasRentOutcomes && (
-          <TextField
-            select
-            size="small"
-            label="Column"
-            value={mobileMetric}
-            onChange={(e) => setMobileMetric(e.target.value as MoneyField)}
-            sx={{ minWidth: 170 }}
-          >
-            {MONEY_FIELDS.map((f) => (
-              <MenuItem key={f.field} value={f.field}>
-                {f.shortHeader}
-              </MenuItem>
-            ))}
-          </TextField>
-        )}
+        <Paper variant="outlined">
+          <DataGrid
+            rows={region.rows}
+            columns={columns}
+            density="compact"
+            disableRowSelectionOnClick
+            disableColumnMenu
+            hideFooter={region.rows.length <= 25}
+            initialState={{
+              sorting: { sortModel: [{ field: 'parcelsLabel', sort: 'asc' }] },
+            }}
+            sx={{ border: 0 }}
+          />
+        </Paper>
+
+        <Box>
+          <Typography variant="caption" color="text.secondary" component="p">
+            {'Values are transcribed verbatim from the official Atlas Reality boost ' +
+              'rate charts, which assume weighted-average rarity distribution odds, ' +
+              'max parcels per bracket, and 20 boosts a day.'}
+          </Typography>
+        </Box>
       </Stack>
-
-      <Paper variant="outlined">
-        <DataGrid
-          rows={region.rows}
-          columns={columns}
-          density="compact"
-          disableRowSelectionOnClick
-          disableColumnMenu
-          hideFooter={region.rows.length <= 25}
-          initialState={{
-            sorting: { sortModel: [{ field: 'parcelsLabel', sort: 'asc' }] },
-          }}
-          sx={{ border: 0 }}
-        />
-      </Paper>
-
-      <Box>
-        <Typography variant="caption" color="text.secondary" component="p">
-          {'Values are transcribed verbatim from the official Atlas Reality boost ' +
-            'rate charts, which assume weighted-average rarity distribution odds, ' +
-            'max parcels per bracket, and 20 boosts a day.'}
-        </Typography>
-      </Box>
-    </Stack>
+    </Box>
   );
 }
