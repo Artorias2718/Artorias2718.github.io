@@ -10,8 +10,10 @@ import Typography from '@mui/material/Typography';
 import * as Flags from 'country-flag-icons/react/3x2';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 import {
+  PARCEL_RARITY_RATES,
   REGION_TIER_TABLES,
   type BoostTierRow,
+  type ParcelRarityRate,
   type RegionCountry,
 } from './RentBoostTiers';
 
@@ -76,6 +78,79 @@ function CountryFlagList({ countries }: { countries: RegionCountry[] }) {
           </Tooltip>
         );
       })}
+    </Stack>
+  );
+}
+
+const RARITY_CHIP_COLOR: Record<
+  ParcelRarityRate['rarity'],
+  'default' | 'info' | 'secondary' | 'warning'
+> = {
+  Common: 'default',
+  Rare: 'info',
+  Epic: 'secondary',
+  Legendary: 'warning',
+};
+
+const RARITY_COLUMNS: GridColDef<ParcelRarityRate>[] = [
+  {
+    field: 'rarity',
+    headerName: 'Rarity',
+    flex: 1,
+    minWidth: 110,
+    renderCell: ({ value }) => (
+      <Chip
+        label={value}
+        size="small"
+        color={RARITY_CHIP_COLOR[value as ParcelRarityRate['rarity']]}
+        variant="outlined"
+      />
+    ),
+  },
+  {
+    field: 'odds',
+    headerName: 'Odds',
+    type: 'number',
+    flex: 0.6,
+    minWidth: 80,
+    valueFormatter: (value: number) => `${Math.round(value * 100)}%`,
+  },
+  {
+    field: 'perSecond',
+    headerName: 'Rent/sec.',
+    type: 'number',
+    flex: 1,
+    minWidth: 140,
+    valueFormatter: (value: number) => sciDollars(value),
+  },
+  {
+    field: 'perDay',
+    headerName: 'Rent/day',
+    type: 'number',
+    flex: 1,
+    minWidth: 140,
+    valueGetter: (_value, row) => row.perSecond * 86400,
+    valueFormatter: (value: number) => sciDollars(value),
+  },
+];
+
+function ParcelRarityRatesGrid() {
+  return (
+    <Stack spacing={1}>
+      <Typography variant="subtitle2" component="h3">
+        Base Rent by Parcel Rarity
+      </Typography>
+      <Paper variant="outlined">
+        <DataGrid
+          rows={PARCEL_RARITY_RATES}
+          columns={RARITY_COLUMNS}
+          density="compact"
+          disableRowSelectionOnClick
+          disableColumnMenu
+          hideFooter
+          sx={{ border: 0 }}
+        />
+      </Paper>
     </Stack>
   );
 }
@@ -153,6 +228,8 @@ export default function BoostTiers() {
 
   return (
     <Stack spacing={2}>
+      <ParcelRarityRatesGrid />
+
       <Tabs
         value={regionKey}
         onChange={(_e, v: string) => setRegionKey(v)}
