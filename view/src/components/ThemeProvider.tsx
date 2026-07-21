@@ -79,7 +79,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
                   paper: "#f8fafc",
                 },
               }),
-          divider: theme === "dark" ? "rgba(148, 163, 184, 0.15)" : undefined,
         },
         typography: {
           fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
