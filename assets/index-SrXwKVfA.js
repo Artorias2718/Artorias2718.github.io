@@ -11892,8 +11892,7 @@ function ThemeProvider({ children }) {
             default: "#ffffff",
             paper: "#f8fafc"
           }
-        },
-        divider: theme2 === "dark" ? "rgba(148, 163, 184, 0.15)" : void 0
+        }
       },
       typography: {
         fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif'
@@ -48216,4 +48215,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(RouterProvider2, { router })
   ] })
 );
-//# sourceMappingURL=index-BarfSlTb.js.map
+//# sourceMappingURL=index-SrXwKVfA.js.map
