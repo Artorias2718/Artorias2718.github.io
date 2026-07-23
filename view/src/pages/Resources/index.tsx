@@ -86,7 +86,7 @@ const resources = [
                 iconColor: "#f97316",
                 iconBg: "#fff7ed",
                 description:
-                    "The official subreddit maintained in partnership with Atlas Reality. This is where you'll find developer announcements, patch notes, official event posts, and responses from the Atlas Earth team.",
+                    "An unofficial community for Atlas Earth players to chat, share tips, strategize, and discuss the game freely. Not affiliated with Atlas Reality.",
                 badge: "Community",
             },
             {
