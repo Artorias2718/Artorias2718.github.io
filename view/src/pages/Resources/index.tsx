@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { ExternalLink, Calculator, Map, MessageCircle, Layers, Globe2 } from "lucide-react";
 import { SiReddit, SiDiscord, SiFacebook, SiYoutube } from "react-icons/si";
+import { ShowChart, TravelExplore } from '@mui/icons-material';
 
 // ─── data ─────────────────────────────────────────────────────────────────────
 
@@ -40,6 +41,15 @@ const resources = [
           "A companion app and web tool for Atlas Earth that helps you track your parcel portfolio, monitor your earnings over time, and visualize your land holdings on a map. Great for players with a large number of parcels who want better visibility into their empire.",
         badge: "Portfolio Tracker",
       },
+      {
+          name: "Atlas Gains Forecast",
+          url: "https://atlasgains.com/forecast",
+          icon: ShowChart,
+          iconColor: "#2563eb",
+          iconBg: "#eff6ff",
+          description:
+              "This site appears to be similar to the Atlas Earth Calculator, but it also appears to have a nifty graph to help users visualize a few useful metrics."
+      }
     ],
   },
   {
@@ -96,6 +106,15 @@ const resources = [
           description:
               "An alternative community-run Atlas Earth Discord server",
           badge: "Community",
+      },
+      {
+          name: "Atlas Earth Guides",
+          url: "https://atlasearthguides.com/",
+          icon: TravelExplore,
+          iconColor: "#2563eb",
+          iconBg: "#eff6ff",
+          description:
+              "This site has some pretty useful information about Atlas Earth, but one of my favorite things about it is the Minigame Guides. Sadly, thRacer and Fishing Guides are sort of dated now since he hasn't released a guide for the Modern versions of Racer and Fishing, only for Vintage, but they're still useful since, as the remaining Minigames are modernized, the Vintage minigames will be exclusive to Super Minigame Saturdays."
       },
       {
         name: "Atlas Earth Facebook Groups",
