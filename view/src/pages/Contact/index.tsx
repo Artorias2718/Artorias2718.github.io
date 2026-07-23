@@ -198,8 +198,8 @@ export default function Contact() {
                 iconBg={() => alpha("#2563eb", 0.1)}
                 iconColor="#2563eb"
                 title="Atlas Earth Facebook Groups"
-                description='Multiple active Facebook groups host tens of thousands of players. Search "Atlas Earth" in Facebook Groups to find the most active communities near you or for your region.'
-                buttonLabel="Search Facebook Groups"
+                description='Multiple active Facebook groups host tens of thousands of players. ResourceSearch "Atlas Earth" in Facebook Groups to find the most active communities near you or for your region.'
+                buttonLabel="ResourceSearch Facebook Groups"
                 href="https://www.facebook.com/groups/search/results/?q=atlas+earth"
               />
             </Grid>
@@ -211,7 +211,7 @@ export default function Contact() {
                 iconColor="primary.main"
                 title="Official FAQ on This Site"
                 description="Before posting a question in any community, check our FAQ first. Over 30 of the most commonly asked questions are answered and searchable."
-                buttonLabel="Search the FAQ"
+                buttonLabel="ResourceSearch the FAQ"
                 href="/faq"
                 external={false}
                 buttonVariant="contained"

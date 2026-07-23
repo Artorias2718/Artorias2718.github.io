@@ -1,4 +1,6 @@
+import { useMemo, useState } from "react";
 import {
+  alpha,
   Box,
   Button,
   Card,
@@ -6,12 +8,12 @@ import {
   Chip,
   Container,
   Stack,
-  Typography,
-  alpha,
+  Typography
 } from "@mui/material";
 import { ExternalLink, Calculator, Map, MessageCircle, Layers, Globe2 } from "lucide-react";
 import { SiReddit, SiDiscord, SiFacebook, SiYoutube } from "react-icons/si";
 import { ShowChart, TravelExplore } from '@mui/icons-material';
+import ResourceSearch from './ResourceSearch';
 
 // ─── data ─────────────────────────────────────────────────────────────────────
 
@@ -197,6 +199,29 @@ const badgeProps: Record<BadgeName, { bg: string; color: string }> = {
   "In-App":           { bg: "#ede9fe", color: "#5b21b6" },
 };
 
+type Section = (typeof resources)[number];
+
+const norm = (s: string) => s.toLowerCase();
+
+function filterResources(query: string): Section[] {
+    const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    if (terms.length === 0) return resources;
+
+    return resources
+        .map((section) => {
+            // If the section heading itself matches, keep the whole section.
+            const sectionHay = norm(`${section.category} ${section.description}`);
+            if (terms.every((t) => sectionHay.includes(t))) return section;
+
+            const items = section.items.filter((item) => {
+                const hay = norm(`${item.name} ${item.description} ${item.badge ?? ""}`);
+                return terms.every((t) => hay.includes(t));
+            });
+            return { ...section, items };
+        })
+        .filter((section) => section.items.length > 0);
+}
+
 // ─── ResourceCard ─────────────────────────────────────────────────────────────
 
 function ResourceCard({ item }: { item: (typeof resources)[0]["items"][0] }) {
@@ -298,13 +323,22 @@ function ResourceCard({ item }: { item: (typeof resources)[0]["items"][0] }) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Resources() {
+
+  const [query, setQuery] = useState("");
+  const visible = useMemo(() => filterResources(query), [query]);
+  const resultCount = useMemo(() =>
+      visible.reduce(
+          (n, s) => n + s.items.length, 0),
+      [visible]
+  );
+
   return (
     <Box sx={{ width: "100%" }}>
       {/* Hero */}
       <Box
         component="section"
         sx={{
-          bgcolor: "background.default",
+          bgColor: "background.default",
           pt: 10,
           pb: 12,
           borderBottom: "1px solid",
@@ -322,7 +356,7 @@ export default function Resources() {
               px: 2,
               py: 0.75,
               borderRadius: 99,
-              bgcolor: (t) => alpha(t.palette.primary.main, 0.1),
+              bgColor: (t) => alpha(t.palette.primary.main, 0.1),
               color: "primary.main",
               mb: 4,
             }}
@@ -361,11 +395,15 @@ export default function Resources() {
         </Container>
       </Box>
 
+        <Container>
+            <ResourceSearch value={query} onChange={setQuery} resultCount={resultCount} />
+        </Container>
+
       {/* Resource sections */}
-      <Box component="section" sx={{ py: 10, bgcolor: "background.default" }}>
+      <Box component="section" sx={{ py: 10, bgColor: "background.default" }}>
         <Container maxWidth="lg" sx={{ maxWidth: 900 }}>
           <Stack sx={{ gap: 12 }}>
-            {resources.map((section) => (
+            {visible.map((section) => (
               <Box key={section.category}>
                 <Box sx={{ mb: 4 }}>
                   <Typography
@@ -395,7 +433,7 @@ export default function Resources() {
         component="section"
         sx={{
           py: 10,
-          bgcolor: "background.paper",
+          bgColor: "background.paper",
           borderTop: "1px solid",
           borderColor: "divider",
           textAlign: "center",
