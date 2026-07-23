@@ -33,12 +33,12 @@ import { useTheme as useAppTheme } from "@/components/ThemeProvider";
 const links = [
   { href: "/", label: "Guide", icon: Map },
   { href: "/faq", label: "FAQ", icon: HelpCircle },
+  { href: "/about", label: "About", icon: Info },
   { href: "/glossary", label: "Glossary", icon: BookOpen },
-  { href: "/resources", label: "Resources", icon: ExternalLink },
   { href: "/boosttimer", label: "Boost Timer", icon: Timer },
   { href: "/boosttiers", label: "Boost Tiers", icon: Timer },
   { href: "/progressvault", label: "Vault", icon: ShieldCheck },
-  { href: "/about", label: "About", icon: Info },
+  { href: "/resources", label: "Resources", icon: ExternalLink },
 ];
 
 export function Navbar() {
