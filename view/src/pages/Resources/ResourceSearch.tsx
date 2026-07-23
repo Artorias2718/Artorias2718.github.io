@@ -21,8 +21,8 @@ function ResourceSearch({
                 fullWidth
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                placeholder="ResourceSearch calculators, communities, guides…"
-                aria-label="ResourceSearch resources"
+                placeholder="Search calculators, communities, guides…"
+                aria-label="Search resources"
                 data-testid="input-resource-search"
                 slotProps={{
                     input: {
