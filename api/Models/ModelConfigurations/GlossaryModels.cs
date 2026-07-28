@@ -2,33 +2,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace api.Models.ModelConfigurations;
 
-public class FAQGroupConfiguration : IEntityTypeConfiguration<FAQGroup>
+public class GlossaryConfiguration: IEntityTypeConfiguration<Glossary>
 {
-    public void Configure(EntityTypeBuilder<FAQGroup> builder)
+    public void Configure(EntityTypeBuilder<Glossary> builder)
     {
-        builder.ToTable("FAQGroup");
+        builder.ToTable("Glossary");
         builder.HasKey(e => e.Id);
-        // builder.Property(e => e.Questions)
-        //        .IsRequired();
-        builder.Ignore(e => e.Questions);
-    }
-}
 
-public class FAQConfiguration: IEntityTypeConfiguration<FAQ>
-{
-    public void Configure(EntityTypeBuilder<FAQ> builder)
-    {
-        builder.ToTable("FAQ");
-        builder.HasKey(e => e.Id);
-        builder.HasOne(e => e.FaqGroup)
-            .WithMany(e => e.Questions)
-            .HasForeignKey(e => e.FaqGroupId);
-
-        builder.Property(e => e.Question)
+        builder.Property(e => e.Term)
                .HasColumnType("nvarchar(max)")
                .IsRequired();
 
-        builder.Property(e => e.Answer)
+        builder.Property(e => e.Definition)
                .HasColumnType("nvarchar(max)")
                .IsRequired();
     }
