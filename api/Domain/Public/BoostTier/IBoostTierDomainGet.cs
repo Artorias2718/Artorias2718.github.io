@@ -3,7 +3,7 @@ using api.Models;
 
 namespace api.Domain.Public.FAQ;
 
-public interface IParcelDomainGet
+public interface IBoostTierDomainGet
 {
     public Task<ICollection<ParcelReadDto>> GetParcels();
 }

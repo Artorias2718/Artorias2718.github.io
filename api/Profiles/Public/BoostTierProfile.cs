@@ -5,9 +5,9 @@ using System.Net;
 
 namespace api.Profiles.Public;
 
-public class ParcelProfile : Profile
+public class BoostTierProfile : Profile
 {
-    public ParcelProfile()
+    public BoostTierProfile()
     {
         CreateMap<Parcel, ParcelReadDto>();
     }
