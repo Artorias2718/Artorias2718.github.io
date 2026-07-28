@@ -32,7 +32,7 @@ function useCountdownTimer(storageKey: string, duration: number) {
       setRemaining(stored.remaining);
       setState(stored.state);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-api/exhaustive-deps
   }, []);
 
   const onExpire = useRef<(() => void) | null>(null);

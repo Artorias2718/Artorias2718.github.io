@@ -13,6 +13,10 @@ public class FAQDomainGet(SqlServerContext context, IMapper mapper) : IFAQDomain
         var oFAQGroupResult = await context.FAQGroups.ToListAsync();
         var oFAQResult = await context.FAQs.ToListAsync();
 
+        // oFAQResult.AsParallel().ForAll(x =>
+        // {
+        //     x.FaqGroup
+        // });
         oFAQGroupResult.AsParallel().ForAll(x =>
         {
             x.Questions = oFAQResult.Where(y => x.Id == y.FaqGroupId).ToList();
