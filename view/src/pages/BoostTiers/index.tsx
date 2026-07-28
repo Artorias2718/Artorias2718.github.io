@@ -14,12 +14,15 @@ import { useTheme } from '@mui/material/styles';
 import * as Flags from 'country-flag-icons/react/3x2';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 import {
-  PARCEL_RARITY_RATES,
+  //PARCEL_RARITY_RATES,
   REGION_TIER_TABLES,
   type BoostTierRow,
-  type ParcelRarityRate,
+  //type ParcelRarityRate,
   type RegionCountry,
 } from './RentBoostTiers';
+
+import { type IParcelRead } from '@/Types';
+import useGetParcels from "@/api/queryHooks/Parcel/useGetParcels.ts";
 
 const currencyFmt = (currency: string) =>
   new Intl.NumberFormat('en-US', {
@@ -37,7 +40,9 @@ const SUPERSCRIPTS: Record<string, string> = {
 
 /** Formats sub-dollar values as e.g. "$2.506 × 10⁻¹" (up to 4 sig figs). */
 function sciDollars(value: number): string {
-  const [mantissaRaw, exponent] = value.toExponential(3).split('e');
+  const [mantissaRaw, exponent] = value > 0
+      ? value.toExponential(3).split('e')
+      : ['-1', '-1'];
   const mantissa = parseFloat(mantissaRaw); // strips trailing zeros
   const sup = exponent
     .replace('+', '')
@@ -96,7 +101,7 @@ function CountryFlagList({ countries }: { countries: RegionCountry[] }) {
 }
 
 const RARITY_CHIP_COLOR: Record<
-  ParcelRarityRate['rarity'],
+  IParcelRead['rarity'],
   'default' | 'info' | 'secondary' | 'warning'
 > = {
   Common: 'default',
@@ -106,7 +111,9 @@ const RARITY_CHIP_COLOR: Record<
 };
 
 function ParcelRarityRatesGrid({ isMobile }: { isMobile: boolean }) {
-  const columns = useMemo<GridColDef<ParcelRarityRate>[]>(
+  const { data: parcels } = useGetParcels();
+
+  const columns = useMemo<GridColDef<IParcelRead>[]>(
     () => [
       {
         field: 'rarity',
@@ -117,7 +124,7 @@ function ParcelRarityRatesGrid({ isMobile }: { isMobile: boolean }) {
           <Chip
             label={value}
             size="small"
-            color={RARITY_CHIP_COLOR[value as ParcelRarityRate['rarity']]}
+            color={RARITY_CHIP_COLOR[value as IParcelRead['rarity']]}
             variant="outlined"
           />
         ),
@@ -131,7 +138,7 @@ function ParcelRarityRatesGrid({ isMobile }: { isMobile: boolean }) {
         valueFormatter: (value: number) => `${Math.round(value * 100)}%`,
       },
       {
-        field: 'perSecond',
+        field: 'rate',
         headerName: 'Rent/sec.',
         type: 'number',
         flex: 1,
@@ -144,7 +151,7 @@ function ParcelRarityRatesGrid({ isMobile }: { isMobile: boolean }) {
         type: 'number',
         flex: 1,
         minWidth: 140,
-        valueGetter: (_value, row) => row.perSecond * 86400,
+        valueGetter: (_value, row) => row.rate * 86400,
         valueFormatter: (value: number) => sciDollars(value),
       },
     ],
@@ -158,7 +165,7 @@ function ParcelRarityRatesGrid({ isMobile }: { isMobile: boolean }) {
       </Typography>
       <Paper variant="outlined">
         <DataGrid
-          rows={PARCEL_RARITY_RATES}
+          rows={parcels || []}
           columns={columns}
           columnVisibilityModel={{ perDay: !isMobile }}
           density="compact"
