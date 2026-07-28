@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.Domain.Public.FAQ;
 
-public class ParcelDomainGet(SqlServerContext context, IMapper mapper) : IParcelDomainGet
+public class BoostTierDomainGet(SqlServerContext context, IMapper mapper) : IBoostTierDomainGet
 {
     public async Task<ICollection<ParcelReadDto>> GetParcels()
     {

@@ -6,7 +6,7 @@ namespace api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ParcelController(IParcelDomainGet domainGet) : ControllerBase
+public class BoostTierController(IBoostTierDomainGet domainGet) : ControllerBase
 {
     [HttpGet("[action]")]
     public async Task<ICollection<ParcelReadDto>> GetParcels()
