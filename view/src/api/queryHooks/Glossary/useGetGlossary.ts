@@ -1,22 +1,21 @@
 import useAxiosJwt from '../../axiosInstanceHooks/useAxiosJwt';
 import { useQuery } from '@tanstack/react-query';
-import type { IFAQGroupRead } from '@/Types';
-const useGetFAQsKey = () => {
-    const key = ['FAQs'];
+import type { IGlossaryRead } from '@/Types';
+const useGetGlossaryKey = () => {
+    const key = ['Glossary'];
     return key;
 }
 
-const useGetFAQs = () => {
+const useGetGlossary = () => {
     const api = useAxiosJwt();
-    const key = useGetFAQsKey();
+    const key = useGetGlossaryKey();
 
     const fetchFn = async() => {
-        const result = await api.get<IFAQGroupRead[]>('faq/GetFAQs');
-        //console.log(result.data);
+        const result = await api.get<IGlossaryRead[]>('glossary/GetGlossary');
         return result.data;
     };
 
     return useQuery({ queryKey: key, queryFn: fetchFn });
 }
 
-export default useGetFAQs;
+export default useGetGlossary;
