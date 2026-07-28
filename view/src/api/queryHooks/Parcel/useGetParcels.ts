@@ -11,7 +11,7 @@ const useGetParcels = () => {
     const key = useGetParcelsKey();
 
     const fetchFn = async() => {
-        const result = await api.get<IParcelRead[]>('parcel/GetParcels');
+        const result = await api.get<IParcelRead[]>('boosttier/GetParcels');
         return result.data;
     };
 
