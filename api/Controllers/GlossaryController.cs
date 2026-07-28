@@ -6,11 +6,11 @@ namespace api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class FAQController(IFAQDomainGet domainGet) : ControllerBase
+public class GlossaryController(IGlossaryDomainGet domainGet) : ControllerBase
 {
     [HttpGet("[action]")]
-    public async Task<ICollection<FAQGroupReadDto>> GetFAQs()
+    public async Task<ICollection<GlossaryReadDto>> GetGlossary()
     {
-        return await domainGet.GetFAQs();
+        return await domainGet.GetGlossary();
     }
 }

@@ -6,22 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.Domain.Public.FAQ;
 
-public class FAQDomainGet(SqlServerContext context, IMapper mapper) : IFAQDomainGet
+public class GlossaryDomainGet(SqlServerContext context, IMapper mapper) : IGlossaryDomainGet
 {
-    public async Task<ICollection<FAQGroupReadDto>> GetFAQs()
+    public async Task<ICollection<GlossaryReadDto>> GetGlossary()
     {
-        var oFAQGroupResult = await context.FAQGroups.ToListAsync();
-        var oFAQResult = await context.FAQs.ToListAsync();
-
-        // oFAQResult.AsParallel().ForAll(x =>
-        // {
-        //     x.FaqGroup
-        // });
-        oFAQGroupResult.AsParallel().ForAll(x =>
-        {
-            x.Questions = oFAQResult.Where(y => x.Id == y.FaqGroupId).ToList();
-        });
-
-        return mapper.Map<ICollection<FAQGroupReadDto>>(oFAQGroupResult);
+        var oGlossaryResult = await context.Glossaries.ToListAsync();
+        return mapper.Map<ICollection<GlossaryReadDto>>(oGlossaryResult);
     }
 }

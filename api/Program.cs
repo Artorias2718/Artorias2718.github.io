@@ -45,6 +45,7 @@ builder.Services.AddCors((options) =>
 });
 
 builder.Services.AddScoped<IFAQDomainGet, FAQDomainGet>();
+builder.Services.AddScoped<IGlossaryDomainGet, GlossaryDomainGet>();
 
 builder.Services.AddDbContext<SqlServerContext>(options =>
 {

@@ -1,33 +1,24 @@
 using api.Models;
 using api.Dtos.Public;
 using AutoMapper;
+using System.Net;
 
 namespace api.Profiles.Public;
 
-public class FAQProfile : Profile
+public class GlossaryProfile : Profile
 {
-    public FAQProfile()
+    public GlossaryProfile()
     {
-        CreateMap<FAQGroup, FAQGroupReadDto>()
+        CreateMap<Glossary, GlossaryReadDto>()
             .ForMember(
-                dest => dest.Category,
+                dest => dest.Term,
                 opt =>
                     opt.MapFrom(src =>
-                        System.Net.WebUtility.HtmlDecode(src.Category)
-                    ));
-
-        CreateMap<FAQ, FAQReadDto>()
-            .ForMember(
-                dest => dest.Question,
-                opt =>
-                    opt.MapFrom(src =>
-                        System.Net.WebUtility.HtmlDecode(src.Question)
+                        WebUtility.HtmlDecode(src.Term)
                     ))
-            .ForMember(
-                dest => dest.Answer,
+            .ForMember(dest => dest.Definition,
                 opt =>
                     opt.MapFrom(src =>
-                        System.Net.WebUtility.HtmlDecode(src.Answer)
-                    ));
+                        WebUtility.HtmlDecode(src.Definition)));
     }
 }
