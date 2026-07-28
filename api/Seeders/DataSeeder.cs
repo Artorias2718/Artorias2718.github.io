@@ -12,6 +12,7 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             var context = scope.ServiceProvider.GetService<SqlServerContext>();
             SeedFAQs(context);
             SeedGlossary(context);
+            SeedParcels(context);
         }
     }
 
@@ -448,6 +449,43 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
         if (!context.Glossaries.Any())
         {
             context.Glossaries.AddRange(oGlossary);
+            context.SaveChanges();
+        }
+    }
+
+    private void SeedParcels(SqlServerContext context)
+    {
+        var oParcels = new List<Parcel>
+        {
+            new()
+            {
+                Rarity = "Common",
+                Odds =  0.5M,
+                Rate =  0.0000000011M
+            },
+            new()
+            {
+                Rarity = "Rare",
+                Odds =  0.3M,
+                Rate =  0.0000000016M
+            },
+            new()
+            {
+                Rarity = "Epic",
+                Odds =  0.15M,
+                Rate =  0.0000000022M
+            },
+            new()
+            {
+                Rarity = "Legendary",
+                Odds =  0.05M,
+                Rate =  0.0000000044M
+            }
+        };
+
+        if (!context.Parcels.Any())
+        {
+            context.Parcels.AddRange(oParcels);
             context.SaveChanges();
         }
     }

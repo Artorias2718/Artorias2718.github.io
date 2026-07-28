@@ -8,6 +8,7 @@ public class SqlServerContext(DbContextOptions<SqlServerContext> options) : DbCo
     public DbSet<FAQGroup> FAQGroups { get; set; }
     public DbSet<FAQ> FAQs { get; set; }
     public DbSet<Glossary> Glossaries { get; set; }
+    public DbSet<Parcel> Parcels { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
