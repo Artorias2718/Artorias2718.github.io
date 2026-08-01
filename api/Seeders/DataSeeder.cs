@@ -13,6 +13,7 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             SeedFAQs(context);
             SeedGlossary(context);
             SeedParcels(context);
+            SeedRegionTiers(context);
         }
     }
 
@@ -379,12 +380,12 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 Definition =
                     "A consumable item used to participate in Landmark Auction Events. Currently cannot be purchased; it has replaced the Diamond Rewards on the Diamond Wheel and Challenges"
             },
-             new()
-             {
-                 Term = "CP (Challenges Pass)",
-                 Definition =
-                     "A monthly subscription service ($10 USD/mo. $100 USD/yr.), similar to EC. Used to unlock the premium rewards ladder. The monthly subscription is $10 USD/mo; however, if purchased in the middle of the current month, players may pay a one-time $15 fee if they wish to collect all of the current month's Premium Rewards up to their current Free Reward Slot"
-             },
+            new()
+            {
+                Term = "CP (Challenges Pass)",
+                Definition =
+                    "A monthly subscription service ($10 USD/mo. $100 USD/yr.), similar to EC. Used to unlock the premium rewards ladder. The monthly subscription is $10 USD/mo; however, if purchased in the middle of the current month, players may pay a one-time $15 fee if they wish to collect all of the current month's Premium Rewards up to their current Free Reward Slot"
+            },
             new()
             {
                 Term = "Diamonds",
@@ -460,32 +461,1406 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             new()
             {
                 Rarity = "Common",
-                Odds =  0.5M,
-                Rate =  0.0000000011M
+                Odds = 0.5M,
+                Rate = 0.0000000011M
             },
             new()
             {
                 Rarity = "Rare",
-                Odds =  0.3M,
-                Rate =  0.0000000016M
+                Odds = 0.3M,
+                Rate = 0.0000000016M
             },
             new()
             {
                 Rarity = "Epic",
-                Odds =  0.15M,
-                Rate =  0.0000000022M
+                Odds = 0.15M,
+                Rate = 0.0000000022M
             },
             new()
             {
                 Rarity = "Legendary",
-                Odds =  0.05M,
-                Rate =  0.0000000044M
+                Odds = 0.05M,
+                Rate = 0.0000000044M
             }
         };
 
         if (!context.Parcels.Any())
         {
             context.Parcels.AddRange(oParcels);
+            context.SaveChanges();
+        }
+    }
+
+    private void SeedRegionTiers(SqlServerContext context)
+    {
+        var oRegionCountries = new Dictionary<string, List<RegionCountry>>();
+        var oBoostTiers = new Dictionary<string, List<BoostTier>>();
+
+        // -------------- COUNTRIES ------------------------
+        oRegionCountries.Add("USA",
+            new List<RegionCountry>
+            {
+                new()
+                {
+                    Code = "USA",
+                    Name = "United States"
+                }
+            });
+
+        oRegionCountries.Add("CMW",
+            new List<RegionCountry>
+            {
+                new()
+                {
+                    Code = "AUS",
+                    Name = "Australia"
+                },
+                new()
+                {
+                    Code = "CAN",
+                    Name = "Canada"
+                },
+                new()
+                {
+                    Code = "ZAF",
+                    Name = "South Africa"
+                },
+                new()
+                {
+                    Code = "IRL",
+                    Name = "Ireland"
+                },
+                new()
+                {
+                    Code = "NZL",
+                    Name = "New Zealand"
+                },
+                new()
+                {
+                    Code = "GRB",
+                    Name = "United Kingdom"
+                }
+            });
+
+        oRegionCountries.Add("MEX",
+            new List<RegionCountry>
+            {
+                new()
+                {
+                    Code = "MX",
+                    Name = "Mexico"
+                }
+            });
+
+        oRegionCountries.Add("EUR",
+            new List<RegionCountry>
+            {
+                new()
+                {
+                    Code = "DEU",
+                    Name = "Germany"
+                },
+                new()
+                {
+                    Code = "FRA",
+                    Name = "France"
+                },
+                new()
+                {
+                    Code = "NLD",
+                    Name = "Netherlands"
+                },
+                new()
+                {
+                    Code = "ESP",
+                    Name = "Spain"
+                },
+                new()
+                {
+                    Code = "ITA",
+                    Name = "Italy"
+                },
+                new()
+                {
+                    Code = "PRT",
+                    Name = "Portugal"
+                }
+            });
+
+        oRegionCountries.Add("AME",
+            new List<RegionCountry>
+            {
+                new()
+                {
+                    Code = "KOR",
+                    Name = "South Korea"
+                },
+                new()
+                {
+                    Code = "JPN",
+                    Name = "Japan"
+                },
+                new()
+                {
+                    Code = "SGP",
+                    Name = "Singapore"
+                },
+                new()
+                {
+                    Code = "AEE",
+                    Name = "United Arab Emirates"
+                },
+                new()
+                {
+                    Code = "CHE",
+                    Name = "Switzerland"
+                },
+            });
+
+        oRegionCountries.Add("BRZ",
+            new List<RegionCountry>
+            {
+                new()
+                {
+                    Code = "BR",
+                    Name = "Brazil"
+                },
+            }
+        );
+
+        oRegionCountries.Add("NOR",
+            new List<RegionCountry>
+            {
+                new()
+                {
+                    Code = "SWE",
+                    Name = "Sweden"
+                },
+                new()
+                {
+                    Code = "FIN",
+                    Name = "Finland"
+                },
+                new()
+                {
+                    Code = "AUT",
+                    Name = "Austria"
+                },
+                new()
+                {
+                    Code = "TWN",
+                    Name = "Taiwan"
+                },
+                new()
+                {
+                    Code = "NOR",
+                    Name = "Norway"
+                },
+                new()
+                {
+                    Code = "DNK",
+                    Name = "Denmark"
+                },
+                new()
+                {
+                    Code = "BEL",
+                    Name = "Belgium"
+                },
+            });
+
+        oRegionCountries.Add("THSKPLPH",
+            new List<RegionCountry>
+            {
+                new()
+                {
+                    Code = "TH",
+                    Name = "Thailand"
+                },
+                new()
+                {
+                    Code = "SK",
+                    Name = "Slovakia"
+                },
+                new()
+                {
+                    Code = "PL",
+                    Name = "Poland"
+                },
+                new()
+                {
+                    Code = "PH",
+                    Name = "Philippines"
+                },
+            });
+
+        // -------------- BOOST TIERS ------------------------
+        oBoostTiers.Add(
+            "USA",
+            new List<BoostTier>
+            {
+                new()
+                {
+                    MinParcels = 1,
+                    ParcelsLabel = "1-150",
+                    Boost = 30,
+                    NoAdsMonth = 0.6266M,
+                    WithAdsMonth = 15.77M,
+                    WithAdsYear = 189.23M,
+                    SrbYear = 221.99M
+                },
+                new()
+                {
+                    MinParcels = 151,
+                    ParcelsLabel = "151-220",
+                    Boost = 20,
+                    NoAdsMonth = 0.9190M,
+                    WithAdsMonth = 15.47M,
+                    WithAdsYear = 185.64M,
+                    SrbYear = 233.69M
+                },
+                new()
+                {
+                    MinParcels = 221,
+                    ParcelsLabel = "221-290",
+                    Boost = 15,
+                    NoAdsMonth = 1.2114M,
+                    WithAdsMonth = 15.34M,
+                    WithAdsYear = 184.13M,
+                    SrbYear = 247.48M
+                },
+                new()
+                {
+                    MinParcels = 291,
+                    ParcelsLabel = "291-365",
+                    Boost = 12,
+                    NoAdsMonth = 1.5247M,
+                    WithAdsMonth = 15.50M,
+                    WithAdsYear = 186.01M,
+                    SrbYear = 265.74M
+                },
+                new()
+                {
+                    MinParcels = 366,
+                    ParcelsLabel = "366-435",
+                    Boost = 10,
+                    NoAdsMonth = 1.8171M,
+                    WithAdsMonth = 15.45M,
+                    WithAdsYear = 185.35M,
+                    SrbYear = 280.36M
+                },
+                new()
+                {
+                    MinParcels = 436,
+                    ParcelsLabel = "436-545",
+                    Boost = 8,
+                    NoAdsMonth = 2.2766M,
+                    WithAdsMonth = 15.56M,
+                    WithAdsYear = 186.68M,
+                    SrbYear = 305.72M
+                },
+                new()
+                {
+                    MinParcels = 546,
+                    ParcelsLabel = "546-625",
+                    Boost = 7,
+                    NoAdsMonth = 2.6108M,
+                    WithAdsMonth = 15.66M,
+                    WithAdsYear = 187.98M,
+                    SrbYear = 324.49M
+                },
+                new()
+                {
+                    MinParcels = 626,
+                    ParcelsLabel = "626-730",
+                    Boost = 6,
+                    NoAdsMonth = 3.0494M,
+                    WithAdsMonth = 15.76M,
+                    WithAdsYear = 189.06M,
+                    SrbYear = 348.51M
+                },
+                new()
+                {
+                    MinParcels = 731,
+                    ParcelsLabel = "731-875",
+                    Boost = 5,
+                    NoAdsMonth = 3.6551M,
+                    WithAdsMonth = 15.84M,
+                    WithAdsYear = 190.07M,
+                    SrbYear = 381.18M
+                },
+                new()
+                {
+                    MinParcels = 876,
+                    ParcelsLabel = "876-1100",
+                    Boost = 4,
+                    NoAdsMonth = 4.595M,
+                    WithAdsMonth = 16.08M,
+                    WithAdsYear = 192.99M,
+                    SrbYear = 433.25M
+                },
+                new()
+                {
+                    MinParcels = 1101,
+                    ParcelsLabel = "1101-1500",
+                    Boost = 3,
+                    NoAdsMonth = 6.266M,
+                    WithAdsMonth = 16.65M,
+                    WithAdsYear = 199.84M,
+                    SrbYear = 527.47M
+                },
+                new()
+                {
+                    MinParcels = 1501,
+                    ParcelsLabel = "1501-3000",
+                    Boost = 2,
+                    NoAdsMonth = 12.53M,
+                    WithAdsMonth = 22.97M,
+                    WithAdsYear = 275.70M,
+                    SrbYear = 930.96M
+                },
+                new()
+                {
+                    MinParcels = 6000,
+                    ParcelsLabel = "6000",
+                    Boost = 2,
+                    NoAdsMonth = 25.06M,
+                    WithAdsMonth = 45.95M,
+                    WithAdsYear = 551.40M,
+                    SrbYear = 1861.91M
+                },
+                new()
+                {
+                    MinParcels = 10000,
+                    ParcelsLabel = "10,000",
+                    Boost = 2,
+                    NoAdsMonth = 41.77M,
+                    WithAdsMonth = 76.58M,
+                    WithAdsYear = 919.00M,
+                    SrbYear = 3103.19M
+                },
+            });
+
+        oBoostTiers.Add(
+            "CMW",
+            new List<BoostTier>
+            {
+                new()
+                {
+                    MinParcels = 1,
+                    ParcelsLabel = "1-60",
+                    Boost = 20,
+                    NoAdsMonth = 0.2506M,
+                    WithAdsMonth = 4.22M,
+                    WithAdsYear = 50.63M,
+                    SrbYear = 63.73M
+                },
+                new()
+                {
+                    MinParcels = 61,
+                    ParcelsLabel = "61-100",
+                    Boost = 15,
+                    NoAdsMonth = 0.4177M,
+                    WithAdsMonth = 5.29M,
+                    WithAdsYear = 63.49M,
+                    SrbYear = 85.34M
+                },
+                new()
+                {
+                    MinParcels = 101,
+                    ParcelsLabel = "101-150",
+                    Boost = 10,
+                    NoAdsMonth = 0.6266M,
+                    WithAdsMonth = 5.33M,
+                    WithAdsYear = 63.91M,
+                    SrbYear = 96.68M
+                },
+                new()
+                {
+                    MinParcels = 151,
+                    ParcelsLabel = "151-180",
+                    Boost = 8,
+                    NoAdsMonth = 0.752M,
+                    WithAdsMonth = 5.14M,
+                    WithAdsYear = 61.66M,
+                    SrbYear = 100.97M
+                },
+                new()
+                {
+                    MinParcels = 181,
+                    ParcelsLabel = "181-220",
+                    Boost = 7,
+                    NoAdsMonth = 0.919M,
+                    WithAdsMonth = 5.51M,
+                    WithAdsYear = 66.17M,
+                    SrbYear = 114.22M
+                },
+                new()
+                {
+                    MinParcels = 221,
+                    ParcelsLabel = "221-250",
+                    Boost = 6,
+                    NoAdsMonth = 1.044M,
+                    WithAdsMonth = 5.40M,
+                    WithAdsYear = 64.75M,
+                    SrbYear = 119.35M
+                },
+                new()
+                {
+                    MinParcels = 251,
+                    ParcelsLabel = "251-300",
+                    Boost = 5,
+                    NoAdsMonth = 1.25M,
+                    WithAdsMonth = 5.43M,
+                    WithAdsYear = 65.17M,
+                    SrbYear = 130.69M
+                },
+                new()
+                {
+                    MinParcels = 301,
+                    ParcelsLabel = "301-350",
+                    Boost = 4,
+                    NoAdsMonth = 1.46M,
+                    WithAdsMonth = 5.12M,
+                    WithAdsYear = 61.41M,
+                    SrbYear = 137.85M
+                },
+                new()
+                {
+                    MinParcels = 351,
+                    ParcelsLabel = "351-450",
+                    Boost = 3,
+                    NoAdsMonth = 1.88M,
+                    WithAdsMonth = 5.013M,
+                    WithAdsYear = 60.15M,
+                    SrbYear = 158.44M
+                },
+                new()
+                {
+                    MinParcels = 451,
+                    ParcelsLabel = "451-3000",
+                    Boost = 2,
+                    NoAdsMonth = 12.53M,
+                    WithAdsMonth = 22.97M,
+                    WithAdsYear = 275.70M,
+                    SrbYear = 930.96M
+                },
+                new()
+                {
+                    MinParcels = 6000,
+                    ParcelsLabel = "6000",
+                    Boost = 2,
+                    NoAdsMonth = 25.06M,
+                    WithAdsMonth = 45.95M,
+                    WithAdsYear = 551.40M,
+                    SrbYear = 1861.91M
+                },
+                new()
+                {
+                    MinParcels = 10000,
+                    ParcelsLabel = "10000",
+                    Boost = 2,
+                    NoAdsMonth = 41.77M,
+                    WithAdsMonth = 76.58M,
+                    WithAdsYear = 919.00M,
+                    SrbYear = 3103.19M
+                },
+            }
+        );
+
+        oBoostTiers.Add("MEX",
+            new List<BoostTier>
+            {
+                new()
+                {
+                    MinParcels = 1,
+                    ParcelsLabel = "1-50",
+                    Boost = 20,
+                    NoAdsMonth = 0.2089M,
+                    WithAdsMonth = 3.52M,
+                    WithAdsYear = 42.19M,
+                    SrbYear = 53.11M
+                },
+                new()
+                {
+                    MinParcels = 51,
+                    ParcelsLabel = "51-85",
+                    Boost = 15,
+                    NoAdsMonth = 0.3551M,
+                    WithAdsMonth = 4.50M,
+                    WithAdsYear = 53.97M,
+                    SrbYear = 72.54M
+                },
+                new()
+                {
+                    MinParcels = 86,
+                    ParcelsLabel = "86-100",
+                    Boost = 12,
+                    NoAdsMonth = 0.4177M,
+                    WithAdsMonth = 4.25M,
+                    WithAdsYear = 50.96M,
+                    SrbYear = 72.80M
+                },
+                new()
+                {
+                    MinParcels = 101,
+                    ParcelsLabel = "101-140",
+                    Boost = 8,
+                    NoAdsMonth = 0.585M,
+                    WithAdsMonth = 4.00M,
+                    WithAdsYear = 47.96M,
+                    SrbYear = 78.53M
+                },
+                new()
+                {
+                    MinParcels = 141,
+                    ParcelsLabel = "141-175",
+                    Boost = 7,
+                    NoAdsMonth = 0.731M,
+                    WithAdsMonth = 4.39M,
+                    WithAdsYear = 52.63M,
+                    SrbYear = 89.76M
+                },
+                new()
+                {
+                    MinParcels = 176,
+                    ParcelsLabel = "176-225",
+                    Boost = 5,
+                    NoAdsMonth = 0.940M,
+                    WithAdsMonth = 4.07M,
+                    WithAdsYear = 48.87M,
+                    SrbYear = 98.02M
+                },
+                new()
+                {
+                    MinParcels = 226,
+                    ParcelsLabel = "226-300",
+                    Boost = 4,
+                    NoAdsMonth = 1.25M,
+                    WithAdsMonth = 4.39M,
+                    WithAdsYear = 52.63M,
+                    SrbYear = 118.16M
+                },
+                new()
+                {
+                    MinParcels = 301,
+                    ParcelsLabel = "301-400",
+                    Boost = 3,
+                    NoAdsMonth = 1.67M,
+                    WithAdsMonth = 4.46M,
+                    WithAdsYear = 53.47M,
+                    SrbYear = 140.84M
+                },
+                new()
+                {
+                    MinParcels = 401,
+                    ParcelsLabel = "401-1000",
+                    Boost = 2,
+                    NoAdsMonth = 4.18M,
+                    WithAdsMonth = 7.66M,
+                    WithAdsYear = 91.90M,
+                    SrbYear = 310.32M
+                },
+                new()
+                {
+                    MinParcels = 3000,
+                    ParcelsLabel = "3,000",
+                    Boost = 2,
+                    NoAdsMonth = 12.53M,
+                    WithAdsMonth = 22.97M,
+                    WithAdsYear = 275.70M,
+                    SrbYear = 930.96M
+                },
+                new()
+                {
+                    MinParcels = 6000,
+                    ParcelsLabel = "6000",
+                    Boost = 2,
+                    NoAdsMonth = 25.06M,
+                    WithAdsMonth = 45.95M,
+                    WithAdsYear = 551.40M,
+                    SrbYear = 1861.91M
+                },
+                new()
+                {
+                    MinParcels = 10000,
+                    ParcelsLabel = "10000",
+                    Boost = 2,
+                    NoAdsMonth = 41.77M,
+                    WithAdsMonth = 76.58M,
+                    WithAdsYear = 919.00M,
+                    SrbYear = 3103.19M
+                },
+            });
+
+        oBoostTiers.Add("EUR",
+            new List<BoostTier>
+            {
+                new()
+                {
+                    MinParcels = 1,
+                    ParcelsLabel = "1-70",
+                    Boost = 20,
+                    NoAdsMonth = 0.2924M,
+                    WithAdsMonth = 4.92M,
+                    WithAdsYear = 59.07M,
+                    SrbYear = 74.36M
+                },
+                new()
+                {
+                    MinParcels = 71,
+                    ParcelsLabel = "71-100",
+                    Boost = 15,
+                    NoAdsMonth = 0.4177M,
+                    WithAdsMonth = 5.29M,
+                    WithAdsYear = 63.49M,
+                    SrbYear = 85.34M
+                },
+                new()
+                {
+                    MinParcels = 101,
+                    ParcelsLabel = "101-135",
+                    Boost = 10,
+                    NoAdsMonth = 0.5639M,
+                    WithAdsMonth = 4.79M,
+                    WithAdsYear = 57.52M,
+                    SrbYear = 87.01M
+                },
+                new()
+                {
+                    MinParcels = 136,
+                    ParcelsLabel = "136-170",
+                    Boost = 8,
+                    NoAdsMonth = 0.7101M,
+                    WithAdsMonth = 4.85M,
+                    WithAdsYear = 58.23M,
+                    SrbYear = 95.36M
+                },
+                new()
+                {
+                    MinParcels = 171,
+                    ParcelsLabel = "171-200",
+                    Boost = 7,
+                    NoAdsMonth = 0.8355M,
+                    WithAdsMonth = 5.01M,
+                    WithAdsYear = 60.15M,
+                    SrbYear = 103.84M
+                },
+                new()
+                {
+                    MinParcels = 201,
+                    ParcelsLabel = "201-250",
+                    Boost = 6,
+                    NoAdsMonth = 1.04M,
+                    WithAdsMonth = 5.40M,
+                    WithAdsYear = 64.75M,
+                    SrbYear = 119.35M
+                },
+                new()
+                {
+                    MinParcels = 251,
+                    ParcelsLabel = "251-300",
+                    Boost = 5,
+                    NoAdsMonth = 1.25M,
+                    WithAdsMonth = 5.43M,
+                    WithAdsYear = 65.17M,
+                    SrbYear = 130.69M
+                },
+                new()
+                {
+                    MinParcels = 301,
+                    ParcelsLabel = "301-350",
+                    Boost = 4,
+                    NoAdsMonth = 1.46M,
+                    WithAdsMonth = 5.12M,
+                    WithAdsYear = 61.41M,
+                    SrbYear = 137.85M
+                },
+                new()
+                {
+                    MinParcels = 351,
+                    ParcelsLabel = "351-400",
+                    Boost = 3,
+                    NoAdsMonth = 1.67M,
+                    WithAdsMonth = 4.46M,
+                    WithAdsYear = 53.47M,
+                    SrbYear = 140.84M
+                },
+                new()
+                {
+                    MinParcels = 401,
+                    ParcelsLabel = "401-1000",
+                    Boost = 2,
+                    NoAdsMonth = 4.18M,
+                    WithAdsMonth = 7.66M,
+                    WithAdsYear = 91.90M,
+                    SrbYear = 310.32M
+                },
+                new()
+                {
+                    MinParcels = 3000,
+                    ParcelsLabel = "3000",
+                    Boost = 2,
+                    NoAdsMonth = 12.53M,
+                    WithAdsMonth = 22.97M,
+                    WithAdsYear = 275.70M,
+                    SrbYear = 930.96M
+                },
+                new()
+                {
+                    MinParcels = 6000,
+                    ParcelsLabel = "6000",
+                    Boost = 2,
+                    NoAdsMonth = 25.06M,
+                    WithAdsMonth = 45.95M,
+                    WithAdsYear = 551.40M,
+                    SrbYear = 1861.91M
+                },
+                new()
+                {
+                    MinParcels = 10000,
+                    ParcelsLabel = "10000",
+                    Boost = 2,
+                    NoAdsMonth = 41.77M,
+                    WithAdsMonth = 76.58M,
+                    WithAdsYear = 919.00M,
+                    SrbYear = 3103.19M
+                },
+            });
+
+        oBoostTiers.Add("AME",
+            new List<BoostTier>
+            {
+                new()
+                {
+                    MinParcels = 1,
+                    ParcelsLabel = "1-50",
+                    Boost = 20,
+                    NoAdsMonth = 0.2089M,
+                    WithAdsMonth = 3.52M,
+                    WithAdsYear = 42.19M,
+                    SrbYear = 53.11M
+                },
+                new()
+                {
+                    MinParcels = 51,
+                    ParcelsLabel = "51-70",
+                    Boost = 15,
+                    NoAdsMonth = 0.2924M,
+                    WithAdsMonth = 3.70M,
+                    WithAdsYear = 44.43M,
+                    SrbYear = 59.74M
+                },
+                new()
+                {
+                    MinParcels = 71,
+                    ParcelsLabel = "71-105",
+                    Boost = 12,
+                    NoAdsMonth = 0.4386M,
+                    WithAdsMonth = 3.73M,
+                    WithAdsYear = 44.74M,
+                    SrbYear = 67.67M
+                },
+                new()
+                {
+                    MinParcels = 106,
+                    ParcelsLabel = "106-130",
+                    Boost = 8,
+                    NoAdsMonth = 0.5430M,
+                    WithAdsMonth = 3.71M,
+                    WithAdsYear = 44.53M,
+                    SrbYear = 72.92M
+                },
+                new()
+                {
+                    MinParcels = 131,
+                    ParcelsLabel = "131-150",
+                    Boost = 7,
+                    NoAdsMonth = 0.6266M,
+                    WithAdsMonth = 3.76M,
+                    WithAdsYear = 45.11M,
+                    SrbYear = 77.88M
+                },
+                new()
+                {
+                    MinParcels = 151,
+                    ParcelsLabel = "151-175",
+                    Boost = 6,
+                    NoAdsMonth = 0.7310M,
+                    WithAdsMonth = 3.78M,
+                    WithAdsYear = 45.32M,
+                    SrbYear = 83.55M
+                },
+                new()
+                {
+                    MinParcels = 176,
+                    ParcelsLabel = "176-200",
+                    Boost = 5,
+                    NoAdsMonth = 0.8355M,
+                    WithAdsMonth = 3.62M,
+                    WithAdsYear = 43.44M,
+                    SrbYear = 87.13M
+                },
+                new()
+                {
+                    MinParcels = 201,
+                    ParcelsLabel = "201-225",
+                    Boost = 4,
+                    NoAdsMonth = 0.9399M,
+                    WithAdsMonth = 3.29M,
+                    WithAdsYear = 39.48M,
+                    SrbYear = 88.62M
+                },
+                new()
+                {
+                    MinParcels = 226,
+                    ParcelsLabel = "226-300",
+                    Boost = 3,
+                    NoAdsMonth = 1.25M,
+                    WithAdsMonth = 3.34M,
+                    WithAdsYear = 40.10M,
+                    SrbYear = 105.63M
+                },
+                new()
+                {
+                    MinParcels = 301,
+                    ParcelsLabel = "301-1000",
+                    Boost = 2,
+                    NoAdsMonth = 4.18M,
+                    WithAdsMonth = 7.66M,
+                    WithAdsYear = 91.90M,
+                    SrbYear = 310.32M
+                },
+                new()
+                {
+                    MinParcels = 3000,
+                    ParcelsLabel = "3,000",
+                    Boost = 2,
+                    NoAdsMonth = 12.53M,
+                    WithAdsMonth = 22.97M,
+                    WithAdsYear = 275.70M,
+                    SrbYear = 930.96M
+                },
+                new()
+                {
+                    MinParcels = 6000,
+                    ParcelsLabel = "6,000",
+                    Boost = 2,
+                    NoAdsMonth = 25.06M,
+                    WithAdsMonth = 45.95M,
+                    WithAdsYear = 551.40M,
+                    SrbYear = 1861.91M
+                },
+                new()
+                {
+                    MinParcels = 10000,
+                    ParcelsLabel = "10000",
+                    Boost = 2,
+                    NoAdsMonth = 41.77M,
+                    WithAdsMonth = 76.58M,
+                    WithAdsYear = 919.00M,
+                    SrbYear = 3103.19M
+                },
+            });
+
+        oBoostTiers.Add("BRZ",
+            new List<BoostTier>
+            {
+                new()
+                {
+                    MinParcels = 1,
+                    ParcelsLabel = "1-60",
+                    Boost = 20,
+                    NoAdsMonth = 0.2506M,
+                    WithAdsMonth = 4.22M,
+                    WithAdsYear = 50.63M,
+                    SrbYear = 63.73M
+                },
+                new()
+                {
+                    MinParcels = 61,
+                    ParcelsLabel = "61-75",
+                    Boost = 15,
+                    NoAdsMonth = 0.3133M,
+                    WithAdsMonth = 3.97M,
+                    WithAdsYear = 47.62M,
+                    SrbYear = 62.91M
+                },
+                new()
+                {
+                    MinParcels = 76,
+                    ParcelsLabel = "76-100",
+                    Boost = 12,
+                    NoAdsMonth = 0.4177M,
+                    WithAdsMonth = 4.25M,
+                    WithAdsYear = 50.96M,
+                    SrbYear = 72.80M
+                },
+                new()
+                {
+                    MinParcels = 101,
+                    ParcelsLabel = "101-120",
+                    Boost = 10,
+                    NoAdsMonth = 0.5013M,
+                    WithAdsMonth = 4.26M,
+                    WithAdsYear = 51.13M,
+                    SrbYear = 77.34M
+                },
+                new()
+                {
+                    MinParcels = 121,
+                    ParcelsLabel = "121-150",
+                    Boost = 8,
+                    NoAdsMonth = 0.6266M,
+                    WithAdsMonth = 4.28M,
+                    WithAdsYear = 51.38M,
+                    SrbYear = 84.14M
+                },
+                new()
+                {
+                    MinParcels = 151,
+                    ParcelsLabel = "151-200",
+                    Boost = 6,
+                    NoAdsMonth = 0.8355M,
+                    WithAdsMonth = 4.32M,
+                    WithAdsYear = 51.80M,
+                    SrbYear = 95.48M
+                },
+                new()
+                {
+                    MinParcels = 201,
+                    ParcelsLabel = "201-250",
+                    Boost = 5,
+                    NoAdsMonth = 1.0443M,
+                    WithAdsMonth = 4.53M,
+                    WithAdsYear = 54.30M,
+                    SrbYear = 108.91M
+                },
+                new()
+                {
+                    MinParcels = 251,
+                    ParcelsLabel = "251-300",
+                    Boost = 4,
+                    NoAdsMonth = 1.25M,
+                    WithAdsMonth = 4.39M,
+                    WithAdsYear = 52.63M,
+                    SrbYear = 118.16M
+                },
+                new()
+                {
+                    MinParcels = 301,
+                    ParcelsLabel = "301-400",
+                    Boost = 3,
+                    NoAdsMonth = 1.67M,
+                    WithAdsMonth = 4.46M,
+                    WithAdsYear = 53.47M,
+                    SrbYear = 140.84M
+                },
+                new()
+                {
+                    MinParcels = 401,
+                    ParcelsLabel = "401-1000",
+                    Boost = 2,
+                    NoAdsMonth = 4.18M,
+                    WithAdsMonth = 7.66M,
+                    WithAdsYear = 91.90M,
+                    SrbYear = 310.32M
+                },
+                new()
+                {
+                    MinParcels = 3000,
+                    ParcelsLabel = "3000",
+                    Boost = 2,
+                    NoAdsMonth = 12.53M,
+                    WithAdsMonth = 22.97M,
+                    WithAdsYear = 275.70M,
+                    SrbYear = 930.96M
+                },
+                new()
+                {
+                    MinParcels = 6000,
+                    ParcelsLabel = "6000",
+                    Boost = 2,
+                    NoAdsMonth = 25.06M,
+                    WithAdsMonth = 45.95M,
+                    WithAdsYear = 551.40M,
+                    SrbYear = 1861.91M
+                },
+                new()
+                {
+                    MinParcels = 10000,
+                    ParcelsLabel = "10000",
+                    Boost = 2,
+                    NoAdsMonth = 41.77M,
+                    WithAdsMonth = 76.58M,
+                    WithAdsYear = 919.00M,
+                    SrbYear = 3103.19M
+                },
+            });
+
+        oBoostTiers.Add("NOR",
+            new List<BoostTier>
+            {
+                new()
+                {
+                    MinParcels = 1,
+                    ParcelsLabel = "1-30",
+                    Boost = 15,
+                    NoAdsMonth = 0.2506M,
+                    WithAdsMonth = 1.59M,
+                    WithAdsYear = 19.05M,
+                    SrbYear = 25.60M
+                },
+                new()
+                {
+                    MinParcels = 31,
+                    ParcelsLabel = "31-50",
+                    Boost = 12,
+                    NoAdsMonth = 0.3133M,
+                    WithAdsMonth = 2.12M,
+                    WithAdsYear = 25.48M,
+                    SrbYear = 36.40M
+                },
+                new()
+                {
+                    MinParcels = 51,
+                    ParcelsLabel = "51-70",
+                    Boost = 8,
+                    NoAdsMonth = 0.4177M,
+                    WithAdsMonth = 2.00M,
+                    WithAdsYear = 23.98M,
+                    SrbYear = 39.27M
+                },
+                new()
+                {
+                    MinParcels = 71,
+                    ParcelsLabel = "71-105",
+                    Boost = 5,
+                    NoAdsMonth = 0.5013M,
+                    WithAdsMonth = 1.90M,
+                    WithAdsYear = 22.81M,
+                    SrbYear = 45.74M
+                },
+                new()
+                {
+                    MinParcels = 106,
+                    ParcelsLabel = "106-130",
+                    Boost = 4,
+                    NoAdsMonth = 0.6266M,
+                    WithAdsMonth = 1.90M,
+                    WithAdsYear = 22.81M,
+                    SrbYear = 51.20M
+                },
+                new()
+                {
+                    MinParcels = 131,
+                    ParcelsLabel = "131-150",
+                    Boost = 3,
+                    NoAdsMonth = 0.8355M,
+                    WithAdsMonth = 1.15M,
+                    WithAdsYear = 13.78M,
+                    SrbYear = 46.55M
+                },
+                new()
+                {
+                    MinParcels = 151,
+                    ParcelsLabel = "151-250",
+                    Boost = 2,
+                    NoAdsMonth = 1.0443M,
+                    WithAdsMonth = 1.91M,
+                    WithAdsYear = 22.97M,
+                    SrbYear = 77.58M
+                },
+                new()
+                {
+                    MinParcels = 251,
+                    ParcelsLabel = "251-300",
+                    Boost = 2,
+                    NoAdsMonth = 1.25M,
+                    WithAdsMonth = 2.30M,
+                    WithAdsYear = 27.57M,
+                    SrbYear = 93.10M
+                },
+                new()
+                {
+                    MinParcels = 301,
+                    ParcelsLabel = "301-400",
+                    Boost = 2,
+                    NoAdsMonth = 1.67M,
+                    WithAdsMonth = 3.06M,
+                    WithAdsYear = 36.76M,
+                    SrbYear = 124.13M
+                },
+                new()
+                {
+                    MinParcels = 401,
+                    ParcelsLabel = "401-1000",
+                    Boost = 2,
+                    NoAdsMonth = 4.18M,
+                    WithAdsMonth = 7.66M,
+                    WithAdsYear = 91.90M,
+                    SrbYear = 310.32M
+                },
+                new()
+                {
+                    MinParcels = 3000,
+                    ParcelsLabel = "3000",
+                    Boost = 2,
+                    NoAdsMonth = 12.53M,
+                    WithAdsMonth = 22.97M,
+                    WithAdsYear = 275.70M,
+                    SrbYear = 930.96M
+                },
+                new()
+                {
+                    MinParcels = 6000,
+                    ParcelsLabel = "6000",
+                    Boost = 2,
+                    NoAdsMonth = 25.06M,
+                    WithAdsMonth = 45.95M,
+                    WithAdsYear = 551.40M,
+                    SrbYear = 1861.91M
+                },
+                new()
+                {
+                    MinParcels = 10000,
+                    ParcelsLabel = "10000",
+                    Boost = 2,
+                    NoAdsMonth = 41.77M,
+                    WithAdsMonth = 76.58M,
+                    WithAdsYear = 919.00M,
+                    SrbYear = 3103.19M
+                },
+            });
+
+        oBoostTiers.Add("THSKPLPH",
+            new List<BoostTier>
+            {
+                new()
+                {
+                    MinParcels = 1,
+                    ParcelsLabel = "1-30",
+                    Boost = 8,
+                    NoAdsMonth = 0.2506M,
+                    WithAdsMonth = 1.00M,
+                    WithAdsYear = 11.95M,
+                    SrbYear = 18.50M
+                },
+                new()
+                {
+                    MinParcels = 31,
+                    ParcelsLabel = "31-50",
+                    Boost = 6,
+                    NoAdsMonth = 0.3133M,
+                    WithAdsMonth = 1.15M,
+                    WithAdsYear = 13.78M,
+                    SrbYear = 24.71M
+                },
+                new()
+                {
+                    MinParcels = 51,
+                    ParcelsLabel = "51-70",
+                    Boost = 4,
+                    NoAdsMonth = 0.4177M,
+                    WithAdsMonth = 1.30M,
+                    WithAdsYear = 15.62M,
+                    SrbYear = 30.91M
+                },
+                new()
+                {
+                    MinParcels = 71,
+                    ParcelsLabel = "71-105",
+                    Boost = 3,
+                    NoAdsMonth = 0.5013M,
+                    WithAdsMonth = 1.57M,
+                    WithAdsYear = 18.84M,
+                    SrbYear = 41.77M
+                },
+                new()
+                {
+                    MinParcels = 106,
+                    ParcelsLabel = "106-130",
+                    Boost = 2,
+                    NoAdsMonth = 0.6266M,
+                    WithAdsMonth = 1.76M,
+                    WithAdsYear = 21.14M,
+                    SrbYear = 49.53M
+                },
+                new()
+                {
+                    MinParcels = 131,
+                    ParcelsLabel = "131-150",
+                    Boost = 2,
+                    NoAdsMonth = 0.8355M,
+                    WithAdsMonth = 1.91M,
+                    WithAdsYear = 22.97M,
+                    SrbYear = 55.74M
+                },
+                new()
+                {
+                    MinParcels = 151,
+                    ParcelsLabel = "151-250",
+                    Boost = 2,
+                    NoAdsMonth = 1.0443M,
+                    WithAdsMonth = 2.68M,
+                    WithAdsYear = 32.16M,
+                    SrbYear = 86.77M
+                },
+                new()
+                {
+                    MinParcels = 251,
+                    ParcelsLabel = "251-300",
+                    Boost = 2,
+                    NoAdsMonth = 1.25M,
+                    WithAdsMonth = 3.06M,
+                    WithAdsYear = 36.76M,
+                    SrbYear = 102.29M
+                },
+                new()
+                {
+                    MinParcels = 301,
+                    ParcelsLabel = "301-400",
+                    Boost = 2,
+                    NoAdsMonth = 1.67M,
+                    WithAdsMonth = 3.83M,
+                    WithAdsYear = 45.95M,
+                    SrbYear = 133.32M
+                },
+                new()
+                {
+                    MinParcels = 401,
+                    ParcelsLabel = "401-1000",
+                    Boost = 2,
+                    NoAdsMonth = 4.18M,
+                    WithAdsMonth = 8.42M,
+                    WithAdsYear = 101.09M,
+                    SrbYear = 319.51M
+                },
+                new()
+                {
+                    MinParcels = 3000,
+                    ParcelsLabel = "3000",
+                    Boost = 2,
+                    NoAdsMonth = 12.53M,
+                    WithAdsMonth = 23.74M,
+                    WithAdsYear = 181.71M,
+                    SrbYear = 836.97M
+                },
+                new()
+                {
+                    MinParcels = 6000,
+                    ParcelsLabel = "6000",
+                    Boost = 2,
+                    NoAdsMonth = 25.06M,
+                    WithAdsMonth = 45.95M,
+                    WithAdsYear = 363.42M,
+                    SrbYear = 1673.94M
+                },
+                new()
+                {
+                    MinParcels = 10000,
+                    ParcelsLabel = "10000",
+                    Boost = 2,
+                    NoAdsMonth = 41.77M,
+                    WithAdsMonth = 76.58M,
+                    WithAdsYear = 605.70M,
+                    SrbYear = 2789.90M
+                },
+            });
+
+        // -------------- REGION TIERS ------------------------
+        var oRegionTiers = new List<RegionTier>
+        {
+            new()
+            {
+                Key = "USA",
+                Label = "United States",
+                Currency = "USD",
+                Countries = oRegionCountries["USA"],
+                Tiers = oBoostTiers["USA"]
+            },
+            new()
+            {
+                Key = "CMW",
+                Label = "UK/CA/AU+",
+                Currency = "USD",
+                Countries = oRegionCountries["CMW"],
+                Tiers = oBoostTiers["CMW"]
+            },
+            new()
+            {
+                Key = "MEX",
+                Label = "Mexico",
+                Currency = "USD",
+                Countries = oRegionCountries["MEX"],
+                Tiers = oBoostTiers["MEX"]
+            },
+            new()
+            {
+                Key = "EUR",
+                Label = "Western Europe",
+                Currency = "USD",
+                Countries = oRegionCountries["EUR"],
+                Tiers = oBoostTiers["EUR"],
+            },
+            new()
+            {
+                Key = "AME",
+                Label = "Asia &amp; Middle East",
+                Currency = "USD",
+                Countries = oRegionCountries["AME"],
+                Tiers = oBoostTiers["AME"],
+            },
+            new()
+            {
+                Key = "BRZ",
+                Label = "Brazil",
+                Currency = "USD",
+                Countries = oRegionCountries["BRZ"],
+                Tiers = oBoostTiers["BRZ"],
+            },
+            new()
+            {
+                Key = "NOR",
+                Label = "Nordics +",
+                Currency = "USD",
+                Countries = oRegionCountries["NOR"],
+                Tiers = oBoostTiers["NOR"],
+            },
+            new()
+            {
+                Key = "THSKPLPH",
+                Label = "TH / SK / PL / PH",
+                Currency = "USD",
+                Countries = oRegionCountries["THSKPLPH"],
+                Tiers = oBoostTiers["THSKPLPH"],
+            },
+        };
+
+        if (!context.RegionTiers.Any())
+        {
+            context.RegionTiers.AddRange(oRegionTiers);
+            context.SaveChanges();
+        }
+
+        if (!context.RegionCountries.Any() && !context.BoostTiers.Any())
+        {
+            var oRegionKeys = oRegionCountries.Keys;
+            var oRegionCountryValues = oRegionCountries.Values.SelectMany(x => x);
+            var oBoostTierValues = oBoostTiers.Values.SelectMany(x => x);
+
+            foreach (var oRegionKey in oRegionKeys)
+            {
+                var nRegionTierId = oRegionKeys.ToList().IndexOf(oRegionKey) + 1;
+
+                var oParallelCountries = oRegionCountryValues.AsParallel();
+                oParallelCountries.ForAll(x => x.RegionTierId = nRegionTierId);
+
+                var oParallelBoostTiers = oBoostTierValues.AsParallel();
+                oParallelBoostTiers.ForAll(x => x.RegionTierId = nRegionTierId);
+            }
+
+            context.RegionCountries.AddRange(oRegionCountryValues);
+            context.BoostTiers.AddRange(oBoostTierValues);
             context.SaveChanges();
         }
     }

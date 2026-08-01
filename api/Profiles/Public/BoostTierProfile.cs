@@ -10,5 +10,8 @@ public class BoostTierProfile : Profile
     public BoostTierProfile()
     {
         CreateMap<Parcel, ParcelReadDto>();
+        CreateMap<RegionTier, RegionTierReadDto>();
+        CreateMap<BoostTier, BoostTierReadDto>();
+        CreateMap<RegionCountry, RegionCountryReadDto>();
     }
 }
