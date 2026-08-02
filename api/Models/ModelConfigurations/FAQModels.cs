@@ -8,7 +8,6 @@ public class FAQGroupConfiguration : IEntityTypeConfiguration<FAQGroup>
     {
         builder.ToTable("FAQGroup");
         builder.HasKey(e => e.Id);
-        builder.Ignore(e => e.Questions);
     }
 }
 
