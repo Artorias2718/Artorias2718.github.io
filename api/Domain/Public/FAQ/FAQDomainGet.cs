@@ -10,13 +10,11 @@ public class FAQDomainGet(SqlServerContext context, IMapper mapper) : IFAQDomain
 {
     public async Task<ICollection<FAQGroupReadDto>> GetFAQs()
     {
-        var oFAQGroupResult = await context.FAQGroups.ToListAsync();
-        var oFAQResult = await context.FAQs.ToListAsync();
-
-        oFAQGroupResult.AsParallel().ForAll(x =>
-        {
-            x.Questions = oFAQResult.Where(y => x.Id == y.FaqGroupId).ToList();
-        });
+        var oFAQGroupResult = await context
+            .FAQGroups
+            .Include(x => x.Questions)
+            .AsSplitQuery()
+            .ToListAsync();
 
         return mapper.Map<ICollection<FAQGroupReadDto>>(oFAQGroupResult);
     }

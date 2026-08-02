@@ -14,5 +14,5 @@ public class FAQ
     public string Question { get; set; } = "";
     public string Answer { get; set; } = "";
 
-    public FAQGroup FaqGroup;
+    public FAQGroup FaqGroup { get; set; } = null!;
 }
