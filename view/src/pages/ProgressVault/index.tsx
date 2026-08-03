@@ -99,13 +99,13 @@ interface SnackbarState {
 // ─── constants ────────────────────────────────────────────────────────────────
 
 const SUGGESTED_TAGS = [
-  "Parcel Count",
+  "BoostTiers Count",
   "Passport",
   "Leaderboard Rank",
   "Total Earnings",
   "Badge Collection",
   "Atlas Bucks Balance",
-  "Parcel Map",
+  "BoostTiers Map",
 ];
 
 function formatDate(ts: number): string {

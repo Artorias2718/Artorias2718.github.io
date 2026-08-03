@@ -14,15 +14,13 @@ import { useTheme } from '@mui/material/styles';
 import * as Flags from 'country-flag-icons/react/3x2';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 import {
-  //PARCEL_RARITY_RATES,
-  REGION_TIER_TABLES,
-  type BoostTierRow,
-  //type ParcelRarityRate,
-  type RegionCountry,
-} from './RentBoostTiers';
+  type IBoostTierRowRead,
+  type IRegionCountryRead
+} from '@/Types';
 
 import { type IParcelRead } from '@/Types';
-import useGetParcels from "@/api/queryHooks/Parcel/useGetParcels.ts";
+import useGetParcels from "@/api/queryHooks/BoostTiers/useGetParcels.ts";
+import useGetRegionTiers from "@/api/queryHooks/BoostTiers/useGetRegionTiers.ts";
 
 const currencyFmt = (currency: string) =>
   new Intl.NumberFormat('en-US', {
@@ -63,7 +61,7 @@ const MONEY_FIELDS: { field: MoneyField; header: string; shortHeader: string }[]
 
 type FlagComponent = (typeof Flags)['US'];
 
-function CountryFlagList({ countries }: { countries: RegionCountry[] }) {
+function CountryFlagList({ countries }: { countries: IRegionCountryRead[] }) {
   return (
     <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: 'wrap', alignItems: 'center' }}>
       {countries.map(({ code, name }) => {
@@ -183,27 +181,34 @@ export default function BoostTiers() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const [regionKey, setRegionKey] = useState(REGION_TIER_TABLES[0].key);
+  const { data: regionTierTables, status: regionTierTablesStatus } = useGetRegionTiers();
+
+  const [regionKey, setRegionKey] = useState('USA');
   const [mobileMetric, setMobileMetric] = useState<MoneyField>('withAdsMonth');
 
   const region = useMemo(
-    () => REGION_TIER_TABLES.find((r) => r.key === regionKey) ?? REGION_TIER_TABLES[0],
-    [regionKey],
+    () => regionTierTablesStatus === 'success'
+      ? regionTierTables.find((r) => r.key === regionKey)
+      : [],
+    [regionKey, regionTierTables, regionTierTablesStatus],
   );
 
   // Hide the money columns entirely for any region lacking dollar data.
   const hasRentOutcomes = useMemo(
-    () => region.rows.some((row) => row.noAdsMonth != null),
+    () =>
+        region && region.rows && region.rows.some && region.rows.some
+        ? region.rows.some((row) => row.noAdsMonth != null)
+      : [],
     [region],
   );
 
-  const columns = useMemo<GridColDef<BoostTierRow>[]>(() => {
-    const money = currencyFmt(region.currency);
+  const columns = useMemo<GridColDef<IBoostTierRowRead>[]>(() => {
+    const money = currencyFmt(region.currency ?? 'USD');
     const moneyCol = ({
       field,
       header,
       shortHeader,
-    }: (typeof MONEY_FIELDS)[number]): GridColDef<BoostTierRow> => ({
+    }: (typeof MONEY_FIELDS)[number]): GridColDef<IBoostTierRowRead> => ({
       field,
       headerName: isMobile ? shortHeader : header,
       type: 'number',
@@ -215,16 +220,14 @@ export default function BoostTiers() {
       },
     });
 
-    const base: GridColDef<BoostTierRow>[] = [
+    const base: GridColDef<IBoostTierRowRead>[] = [
       {
         field: 'parcelsLabel',
         headerName: isMobile ? 'Parcels' : 'Parcels Owned',
         flex: 1,
         minWidth: isMobile ? 95 : 130,
         // Sort by the numeric lower bound, not the label string.
-        sortComparator: (_a, _b, p1, p2) =>
-          (p1.api.getRow(p1.id) as BoostTierRow).minParcels -
-          (p2.api.getRow(p2.id) as BoostTierRow).minParcels,
+        sortComparator: (_a, _b, p1, p2) => (p1.value.id > p2.value.id ? p2.value.id : p1.value.id)
       },
       {
         field: 'boost',
@@ -254,6 +257,9 @@ export default function BoostTiers() {
     return [...base, ...moneyFields.map(moneyCol)];
   }, [region.currency, hasRentOutcomes, isMobile, mobileMetric]);
 
+  console.log('Region: ', region);
+  console.log('Region Tier Tables: ', regionTierTables);
+
   return (
     <Box sx={{ maxWidth: 1200, mx: 'auto', px: { xs: 2, sm: 3 }, py: 3 }}>
       <Stack spacing={2}>
@@ -266,7 +272,7 @@ export default function BoostTiers() {
           allowScrollButtonsMobile
           aria-label="Boost tier tables by region"
         >
-          {REGION_TIER_TABLES.map((r) => (
+          {regionTierTablesStatus === 'success' && regionTierTables.map((r) => (
             <Tab key={r.key} value={r.key} label={r.label} />
           ))}
         </Tabs>
@@ -281,7 +287,7 @@ export default function BoostTiers() {
             <Typography variant="body2" color="text.secondary">
               Applies to:
             </Typography>
-            <CountryFlagList countries={region.countries} />
+            <CountryFlagList countries={region.countries || []} />
           </Stack>
 
           {isMobile && hasRentOutcomes && (
@@ -304,12 +310,12 @@ export default function BoostTiers() {
 
         <Paper variant="outlined">
           <DataGrid
-            rows={region.rows}
+            rows={region.tiers || []}
             columns={columns}
             density="compact"
             disableRowSelectionOnClick
             disableColumnMenu
-            hideFooter={region.rows.length <= 25}
+            hideFooter={region && region.rows && region.rows.length <= 25}
             initialState={{
               sorting: { sortModel: [{ field: 'parcelsLabel', sort: 'asc' }] },
             }}

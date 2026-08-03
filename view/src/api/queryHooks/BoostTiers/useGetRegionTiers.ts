@@ -1,21 +1,21 @@
 import useAxiosJwt from '../../axiosInstanceHooks/useAxiosJwt';
 import { useQuery } from '@tanstack/react-query';
 import type { IParcelRead } from '@/Types';
-const useGetParcelsKey = () => {
-    const key = ['Parcels'];
+const useGetRegionTiersKey = () => {
+    const key = ['RegionTiers'];
     return key;
 }
 
-const useGetParcels = () => {
+const useGetRegionTiers = () => {
     const api = useAxiosJwt();
-    const key = useGetParcelsKey();
+    const key = useGetRegionTiersKey();
 
     const fetchFn = async() => {
-        const result = await api.get<IParcelRead[]>('boosttier/GetParcels');
+        const result = await api.get<IParcelRead[]>('boosttier/GetRegionTiers');
         return result.data;
     };
 
     return useQuery({ queryKey: key, queryFn: fetchFn });
 }
 
-export default useGetParcels;
+export default useGetRegionTiers;
