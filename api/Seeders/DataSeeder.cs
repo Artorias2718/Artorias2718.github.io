@@ -502,7 +502,7 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    Code = "USA",
+                    Code = "US",
                     Name = "United States"
                 }
             });
@@ -512,32 +512,32 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    Code = "AUS",
+                    Code = "AU",
                     Name = "Australia"
                 },
                 new()
                 {
-                    Code = "CAN",
+                    Code = "CA",
                     Name = "Canada"
                 },
                 new()
                 {
-                    Code = "ZAF",
+                    Code = "ZA",
                     Name = "South Africa"
                 },
                 new()
                 {
-                    Code = "IRL",
+                    Code = "IE",
                     Name = "Ireland"
                 },
                 new()
                 {
-                    Code = "NZL",
+                    Code = "NZ",
                     Name = "New Zealand"
                 },
                 new()
                 {
-                    Code = "GRB",
+                    Code = "GB",
                     Name = "United Kingdom"
                 }
             });
@@ -557,32 +557,32 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    Code = "DEU",
+                    Code = "DE",
                     Name = "Germany"
                 },
                 new()
                 {
-                    Code = "FRA",
+                    Code = "FR",
                     Name = "France"
                 },
                 new()
                 {
-                    Code = "NLD",
+                    Code = "NL",
                     Name = "Netherlands"
                 },
                 new()
                 {
-                    Code = "ESP",
+                    Code = "ES",
                     Name = "Spain"
                 },
                 new()
                 {
-                    Code = "ITA",
+                    Code = "IT",
                     Name = "Italy"
                 },
                 new()
                 {
-                    Code = "PRT",
+                    Code = "PT",
                     Name = "Portugal"
                 }
             });
@@ -592,27 +592,27 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    Code = "KOR",
+                    Code = "KR",
                     Name = "South Korea"
                 },
                 new()
                 {
-                    Code = "JPN",
+                    Code = "JP",
                     Name = "Japan"
                 },
                 new()
                 {
-                    Code = "SGP",
+                    Code = "SG",
                     Name = "Singapore"
                 },
                 new()
                 {
-                    Code = "AEE",
+                    Code = "AE",
                     Name = "United Arab Emirates"
                 },
                 new()
                 {
-                    Code = "CHE",
+                    Code = "CH",
                     Name = "Switzerland"
                 },
             });
@@ -633,37 +633,37 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    Code = "SWE",
+                    Code = "SE",
                     Name = "Sweden"
                 },
                 new()
                 {
-                    Code = "FIN",
+                    Code = "FI",
                     Name = "Finland"
                 },
                 new()
                 {
-                    Code = "AUT",
+                    Code = "AT",
                     Name = "Austria"
                 },
                 new()
                 {
-                    Code = "TWN",
+                    Code = "TW",
                     Name = "Taiwan"
                 },
                 new()
                 {
-                    Code = "NOR",
+                    Code = "NO",
                     Name = "Norway"
                 },
                 new()
                 {
-                    Code = "DNK",
+                    Code = "DK",
                     Name = "Denmark"
                 },
                 new()
                 {
-                    Code = "BEL",
+                    Code = "BE",
                     Name = "Belgium"
                 },
             });
@@ -700,7 +700,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    MinParcels = 1,
                     ParcelsLabel = "1-150",
                     Boost = 30,
                     NoAdsMonth = 0.6266M,
@@ -710,7 +709,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 151,
                     ParcelsLabel = "151-220",
                     Boost = 20,
                     NoAdsMonth = 0.9190M,
@@ -720,7 +718,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 221,
                     ParcelsLabel = "221-290",
                     Boost = 15,
                     NoAdsMonth = 1.2114M,
@@ -730,7 +727,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 291,
                     ParcelsLabel = "291-365",
                     Boost = 12,
                     NoAdsMonth = 1.5247M,
@@ -740,7 +736,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 366,
                     ParcelsLabel = "366-435",
                     Boost = 10,
                     NoAdsMonth = 1.8171M,
@@ -750,7 +745,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 436,
                     ParcelsLabel = "436-545",
                     Boost = 8,
                     NoAdsMonth = 2.2766M,
@@ -760,7 +754,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 546,
                     ParcelsLabel = "546-625",
                     Boost = 7,
                     NoAdsMonth = 2.6108M,
@@ -770,7 +763,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 626,
                     ParcelsLabel = "626-730",
                     Boost = 6,
                     NoAdsMonth = 3.0494M,
@@ -780,7 +772,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 731,
                     ParcelsLabel = "731-875",
                     Boost = 5,
                     NoAdsMonth = 3.6551M,
@@ -790,7 +781,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 876,
                     ParcelsLabel = "876-1100",
                     Boost = 4,
                     NoAdsMonth = 4.595M,
@@ -800,7 +790,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 1101,
                     ParcelsLabel = "1101-1500",
                     Boost = 3,
                     NoAdsMonth = 6.266M,
@@ -810,7 +799,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 1501,
                     ParcelsLabel = "1501-3000",
                     Boost = 2,
                     NoAdsMonth = 12.53M,
@@ -820,7 +808,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 6000,
                     ParcelsLabel = "6000",
                     Boost = 2,
                     NoAdsMonth = 25.06M,
@@ -830,7 +817,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 10000,
                     ParcelsLabel = "10,000",
                     Boost = 2,
                     NoAdsMonth = 41.77M,
@@ -846,7 +832,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    MinParcels = 1,
                     ParcelsLabel = "1-60",
                     Boost = 20,
                     NoAdsMonth = 0.2506M,
@@ -856,7 +841,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 61,
                     ParcelsLabel = "61-100",
                     Boost = 15,
                     NoAdsMonth = 0.4177M,
@@ -866,7 +850,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 101,
                     ParcelsLabel = "101-150",
                     Boost = 10,
                     NoAdsMonth = 0.6266M,
@@ -876,7 +859,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 151,
                     ParcelsLabel = "151-180",
                     Boost = 8,
                     NoAdsMonth = 0.752M,
@@ -886,7 +868,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 181,
                     ParcelsLabel = "181-220",
                     Boost = 7,
                     NoAdsMonth = 0.919M,
@@ -896,7 +877,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 221,
                     ParcelsLabel = "221-250",
                     Boost = 6,
                     NoAdsMonth = 1.044M,
@@ -906,7 +886,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 251,
                     ParcelsLabel = "251-300",
                     Boost = 5,
                     NoAdsMonth = 1.25M,
@@ -916,7 +895,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 301,
                     ParcelsLabel = "301-350",
                     Boost = 4,
                     NoAdsMonth = 1.46M,
@@ -926,7 +904,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 351,
                     ParcelsLabel = "351-450",
                     Boost = 3,
                     NoAdsMonth = 1.88M,
@@ -936,7 +913,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 451,
                     ParcelsLabel = "451-3000",
                     Boost = 2,
                     NoAdsMonth = 12.53M,
@@ -946,7 +922,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 6000,
                     ParcelsLabel = "6000",
                     Boost = 2,
                     NoAdsMonth = 25.06M,
@@ -956,7 +931,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 10000,
                     ParcelsLabel = "10000",
                     Boost = 2,
                     NoAdsMonth = 41.77M,
@@ -972,7 +946,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    MinParcels = 1,
                     ParcelsLabel = "1-50",
                     Boost = 20,
                     NoAdsMonth = 0.2089M,
@@ -982,7 +955,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 51,
                     ParcelsLabel = "51-85",
                     Boost = 15,
                     NoAdsMonth = 0.3551M,
@@ -992,7 +964,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 86,
                     ParcelsLabel = "86-100",
                     Boost = 12,
                     NoAdsMonth = 0.4177M,
@@ -1002,7 +973,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 101,
                     ParcelsLabel = "101-140",
                     Boost = 8,
                     NoAdsMonth = 0.585M,
@@ -1012,7 +982,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 141,
                     ParcelsLabel = "141-175",
                     Boost = 7,
                     NoAdsMonth = 0.731M,
@@ -1022,7 +991,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 176,
                     ParcelsLabel = "176-225",
                     Boost = 5,
                     NoAdsMonth = 0.940M,
@@ -1032,7 +1000,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 226,
                     ParcelsLabel = "226-300",
                     Boost = 4,
                     NoAdsMonth = 1.25M,
@@ -1042,7 +1009,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 301,
                     ParcelsLabel = "301-400",
                     Boost = 3,
                     NoAdsMonth = 1.67M,
@@ -1052,7 +1018,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 401,
                     ParcelsLabel = "401-1000",
                     Boost = 2,
                     NoAdsMonth = 4.18M,
@@ -1062,7 +1027,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 3000,
                     ParcelsLabel = "3,000",
                     Boost = 2,
                     NoAdsMonth = 12.53M,
@@ -1072,7 +1036,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 6000,
                     ParcelsLabel = "6000",
                     Boost = 2,
                     NoAdsMonth = 25.06M,
@@ -1082,7 +1045,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 10000,
                     ParcelsLabel = "10000",
                     Boost = 2,
                     NoAdsMonth = 41.77M,
@@ -1097,7 +1059,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    MinParcels = 1,
                     ParcelsLabel = "1-70",
                     Boost = 20,
                     NoAdsMonth = 0.2924M,
@@ -1107,7 +1068,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 71,
                     ParcelsLabel = "71-100",
                     Boost = 15,
                     NoAdsMonth = 0.4177M,
@@ -1117,7 +1077,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 101,
                     ParcelsLabel = "101-135",
                     Boost = 10,
                     NoAdsMonth = 0.5639M,
@@ -1127,7 +1086,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 136,
                     ParcelsLabel = "136-170",
                     Boost = 8,
                     NoAdsMonth = 0.7101M,
@@ -1137,7 +1095,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 171,
                     ParcelsLabel = "171-200",
                     Boost = 7,
                     NoAdsMonth = 0.8355M,
@@ -1147,7 +1104,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 201,
                     ParcelsLabel = "201-250",
                     Boost = 6,
                     NoAdsMonth = 1.04M,
@@ -1157,7 +1113,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 251,
                     ParcelsLabel = "251-300",
                     Boost = 5,
                     NoAdsMonth = 1.25M,
@@ -1167,7 +1122,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 301,
                     ParcelsLabel = "301-350",
                     Boost = 4,
                     NoAdsMonth = 1.46M,
@@ -1177,7 +1131,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 351,
                     ParcelsLabel = "351-400",
                     Boost = 3,
                     NoAdsMonth = 1.67M,
@@ -1187,7 +1140,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 401,
                     ParcelsLabel = "401-1000",
                     Boost = 2,
                     NoAdsMonth = 4.18M,
@@ -1197,7 +1149,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 3000,
                     ParcelsLabel = "3000",
                     Boost = 2,
                     NoAdsMonth = 12.53M,
@@ -1207,7 +1158,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 6000,
                     ParcelsLabel = "6000",
                     Boost = 2,
                     NoAdsMonth = 25.06M,
@@ -1217,7 +1167,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 10000,
                     ParcelsLabel = "10000",
                     Boost = 2,
                     NoAdsMonth = 41.77M,
@@ -1232,7 +1181,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    MinParcels = 1,
                     ParcelsLabel = "1-50",
                     Boost = 20,
                     NoAdsMonth = 0.2089M,
@@ -1242,7 +1190,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 51,
                     ParcelsLabel = "51-70",
                     Boost = 15,
                     NoAdsMonth = 0.2924M,
@@ -1252,7 +1199,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 71,
                     ParcelsLabel = "71-105",
                     Boost = 12,
                     NoAdsMonth = 0.4386M,
@@ -1262,7 +1208,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 106,
                     ParcelsLabel = "106-130",
                     Boost = 8,
                     NoAdsMonth = 0.5430M,
@@ -1272,7 +1217,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 131,
                     ParcelsLabel = "131-150",
                     Boost = 7,
                     NoAdsMonth = 0.6266M,
@@ -1282,7 +1226,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 151,
                     ParcelsLabel = "151-175",
                     Boost = 6,
                     NoAdsMonth = 0.7310M,
@@ -1292,7 +1235,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 176,
                     ParcelsLabel = "176-200",
                     Boost = 5,
                     NoAdsMonth = 0.8355M,
@@ -1302,7 +1244,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 201,
                     ParcelsLabel = "201-225",
                     Boost = 4,
                     NoAdsMonth = 0.9399M,
@@ -1312,7 +1253,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 226,
                     ParcelsLabel = "226-300",
                     Boost = 3,
                     NoAdsMonth = 1.25M,
@@ -1322,7 +1262,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 301,
                     ParcelsLabel = "301-1000",
                     Boost = 2,
                     NoAdsMonth = 4.18M,
@@ -1332,7 +1271,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 3000,
                     ParcelsLabel = "3,000",
                     Boost = 2,
                     NoAdsMonth = 12.53M,
@@ -1342,7 +1280,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 6000,
                     ParcelsLabel = "6,000",
                     Boost = 2,
                     NoAdsMonth = 25.06M,
@@ -1352,7 +1289,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 10000,
                     ParcelsLabel = "10000",
                     Boost = 2,
                     NoAdsMonth = 41.77M,
@@ -1367,7 +1303,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    MinParcels = 1,
                     ParcelsLabel = "1-60",
                     Boost = 20,
                     NoAdsMonth = 0.2506M,
@@ -1377,7 +1312,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 61,
                     ParcelsLabel = "61-75",
                     Boost = 15,
                     NoAdsMonth = 0.3133M,
@@ -1387,7 +1321,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 76,
                     ParcelsLabel = "76-100",
                     Boost = 12,
                     NoAdsMonth = 0.4177M,
@@ -1397,7 +1330,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 101,
                     ParcelsLabel = "101-120",
                     Boost = 10,
                     NoAdsMonth = 0.5013M,
@@ -1407,7 +1339,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 121,
                     ParcelsLabel = "121-150",
                     Boost = 8,
                     NoAdsMonth = 0.6266M,
@@ -1417,7 +1348,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 151,
                     ParcelsLabel = "151-200",
                     Boost = 6,
                     NoAdsMonth = 0.8355M,
@@ -1427,7 +1357,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 201,
                     ParcelsLabel = "201-250",
                     Boost = 5,
                     NoAdsMonth = 1.0443M,
@@ -1437,7 +1366,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 251,
                     ParcelsLabel = "251-300",
                     Boost = 4,
                     NoAdsMonth = 1.25M,
@@ -1447,7 +1375,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 301,
                     ParcelsLabel = "301-400",
                     Boost = 3,
                     NoAdsMonth = 1.67M,
@@ -1457,7 +1384,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 401,
                     ParcelsLabel = "401-1000",
                     Boost = 2,
                     NoAdsMonth = 4.18M,
@@ -1467,7 +1393,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 3000,
                     ParcelsLabel = "3000",
                     Boost = 2,
                     NoAdsMonth = 12.53M,
@@ -1477,7 +1402,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 6000,
                     ParcelsLabel = "6000",
                     Boost = 2,
                     NoAdsMonth = 25.06M,
@@ -1487,7 +1411,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 10000,
                     ParcelsLabel = "10000",
                     Boost = 2,
                     NoAdsMonth = 41.77M,
@@ -1502,7 +1425,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    MinParcels = 1,
                     ParcelsLabel = "1-30",
                     Boost = 15,
                     NoAdsMonth = 0.2506M,
@@ -1512,7 +1434,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 31,
                     ParcelsLabel = "31-50",
                     Boost = 12,
                     NoAdsMonth = 0.3133M,
@@ -1522,7 +1443,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 51,
                     ParcelsLabel = "51-70",
                     Boost = 8,
                     NoAdsMonth = 0.4177M,
@@ -1532,7 +1452,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 71,
                     ParcelsLabel = "71-105",
                     Boost = 5,
                     NoAdsMonth = 0.5013M,
@@ -1542,7 +1461,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 106,
                     ParcelsLabel = "106-130",
                     Boost = 4,
                     NoAdsMonth = 0.6266M,
@@ -1552,7 +1470,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 131,
                     ParcelsLabel = "131-150",
                     Boost = 3,
                     NoAdsMonth = 0.8355M,
@@ -1562,7 +1479,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 151,
                     ParcelsLabel = "151-250",
                     Boost = 2,
                     NoAdsMonth = 1.0443M,
@@ -1572,7 +1488,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 251,
                     ParcelsLabel = "251-300",
                     Boost = 2,
                     NoAdsMonth = 1.25M,
@@ -1582,7 +1497,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 301,
                     ParcelsLabel = "301-400",
                     Boost = 2,
                     NoAdsMonth = 1.67M,
@@ -1592,7 +1506,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 401,
                     ParcelsLabel = "401-1000",
                     Boost = 2,
                     NoAdsMonth = 4.18M,
@@ -1602,7 +1515,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 3000,
                     ParcelsLabel = "3000",
                     Boost = 2,
                     NoAdsMonth = 12.53M,
@@ -1612,7 +1524,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 6000,
                     ParcelsLabel = "6000",
                     Boost = 2,
                     NoAdsMonth = 25.06M,
@@ -1622,7 +1533,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 10000,
                     ParcelsLabel = "10000",
                     Boost = 2,
                     NoAdsMonth = 41.77M,
@@ -1637,7 +1547,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    MinParcels = 1,
                     ParcelsLabel = "1-30",
                     Boost = 8,
                     NoAdsMonth = 0.2506M,
@@ -1647,7 +1556,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 31,
                     ParcelsLabel = "31-50",
                     Boost = 6,
                     NoAdsMonth = 0.3133M,
@@ -1657,7 +1565,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 51,
                     ParcelsLabel = "51-70",
                     Boost = 4,
                     NoAdsMonth = 0.4177M,
@@ -1667,7 +1574,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 71,
                     ParcelsLabel = "71-105",
                     Boost = 3,
                     NoAdsMonth = 0.5013M,
@@ -1677,7 +1583,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 106,
                     ParcelsLabel = "106-130",
                     Boost = 2,
                     NoAdsMonth = 0.6266M,
@@ -1687,7 +1592,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 131,
                     ParcelsLabel = "131-150",
                     Boost = 2,
                     NoAdsMonth = 0.8355M,
@@ -1697,7 +1601,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 151,
                     ParcelsLabel = "151-250",
                     Boost = 2,
                     NoAdsMonth = 1.0443M,
@@ -1707,7 +1610,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 251,
                     ParcelsLabel = "251-300",
                     Boost = 2,
                     NoAdsMonth = 1.25M,
@@ -1717,7 +1619,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 301,
                     ParcelsLabel = "301-400",
                     Boost = 2,
                     NoAdsMonth = 1.67M,
@@ -1727,7 +1628,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 401,
                     ParcelsLabel = "401-1000",
                     Boost = 2,
                     NoAdsMonth = 4.18M,
@@ -1737,7 +1637,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 3000,
                     ParcelsLabel = "3000",
                     Boost = 2,
                     NoAdsMonth = 12.53M,
@@ -1747,7 +1646,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 6000,
                     ParcelsLabel = "6000",
                     Boost = 2,
                     NoAdsMonth = 25.06M,
@@ -1757,7 +1655,6 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 },
                 new()
                 {
-                    MinParcels = 10000,
                     ParcelsLabel = "10000",
                     Boost = 2,
                     NoAdsMonth = 41.77M,
@@ -1805,7 +1702,7 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             new()
             {
                 Key = "AME",
-                Label = "Asia &amp; Middle East",
+                Label = "Asia & Middle East",
                 Currency = "USD",
                 Countries = oRegionCountries["AME"],
                 Tiers = oBoostTiers["AME"],

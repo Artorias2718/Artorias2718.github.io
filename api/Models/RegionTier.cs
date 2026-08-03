@@ -6,7 +6,6 @@ public class RegionTier
     public string Key { get; set; } = "";
     public string Label { get; set; } = "";
     public string Currency { get; set; } = "";
-    public bool? Derived { get; set; }
 
     public ICollection<RegionCountry> Countries { get; set; } = new List<RegionCountry>();
     public ICollection<BoostTier> Tiers { get; set; } = new List<BoostTier>();
@@ -16,7 +15,6 @@ public class BoostTier
 {
     public int Id { get; set; }
     public int RegionTierId { get; set; }
-    public int MinParcels { get; set; }
     public string ParcelsLabel { get; set; } = "";
     public int Boost { get; set; }
     public decimal? NoAdsMonth { get; set; }

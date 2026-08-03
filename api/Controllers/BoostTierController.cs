@@ -13,4 +13,10 @@ public class BoostTierController(IBoostTierDomainGet domainGet) : ControllerBase
     {
         return await domainGet.GetParcels();
     }
+
+     [HttpGet("[action]")]
+        public async Task<ICollection<RegionTierReadDto>> GetRegionTiers()
+        {
+            return await domainGet.GetRegionTiers();
+        }
 }
