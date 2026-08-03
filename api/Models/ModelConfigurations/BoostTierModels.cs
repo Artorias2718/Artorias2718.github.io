@@ -16,6 +16,7 @@ public class ParcelConfiguration : IEntityTypeConfiguration<Parcel>
                .IsRequired();
 
         builder.Property(e => e.Odds)
+               .HasColumnType("decimal")
                .IsRequired();
 
         builder.Property(e => e.Rate)
@@ -43,10 +44,6 @@ public class RegionTierConfiguration : IEntityTypeConfiguration<RegionTier>
         builder.Property(e => e.Currency)
                .HasColumnType("nvarchar(4)")
                .IsRequired();
-
-        builder.Property(e => e.Derived)
-               .HasColumnType("bit")
-               .IsRequired(false);
     }
 }
 
@@ -60,9 +57,6 @@ public class BoostTierConfiguration : IEntityTypeConfiguration<BoostTier>
        builder.HasOne(e => e.RegionTier)
               .WithMany(e => e.Tiers)
               .HasForeignKey(e => e.RegionTierId);
-
-        builder.Property(e => e.MinParcels)
-               .IsRequired();
 
         builder.Property(e => e.ParcelsLabel)
                .HasColumnType("nvarchar(120)")

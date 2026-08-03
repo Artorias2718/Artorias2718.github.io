@@ -2,20 +2,17 @@ namespace api.Dtos.Public;
 
 public class RegionTierReadDto
 {
-    public int Id { get; set; }
     public string Key { get; set; } = "";
     public string Label { get; set; } = "";
     public string Currency { get; set; } = "";
-    public bool? Derived { get; set; }
-    
+
     public ICollection<RegionCountryReadDto> Countries { get; set; }
-    public ICollection<BoostTierReadDto> Tables { get; set; }
+    public ICollection<BoostTierReadDto> Tiers { get; set; }
 }
 
 public class BoostTierReadDto
 {
     public int Id { get; set; }
-    public int MinParcels { get; set; }
     public string ParcelsLabel { get; set; } = "";
     public int Boost { get; set; }
     public decimal? NoAdsMonth { get; set; }
@@ -26,7 +23,6 @@ public class BoostTierReadDto
 
 public class RegionCountryReadDto
 {
-    public int Id { get; set; }
     public string Code { get; set; } = "";
     public string Name { get; set; } = "";
 }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api.Contexts;
 
@@ -10,9 +11,11 @@ using api.Contexts;
 namespace api.Migrations
 {
     [DbContext(typeof(SqlServerContext))]
-    partial class SqlServerContextModelSnapshot : ModelSnapshot
+    [Migration("20260802042035_FixFAQS")]
+    partial class FixFAQS
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,6 +33,9 @@ namespace api.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Boost")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinParcels")
                         .HasColumnType("int");
 
                     b.Property<decimal>("NoAdsMonth")
@@ -135,7 +141,7 @@ namespace api.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Odds")
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Rarity")
                         .IsRequired()
@@ -187,6 +193,9 @@ namespace api.Migrations
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasColumnType("nvarchar(4)");
+
+                    b.Property<bool?>("Derived")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Key")
                         .IsRequired()

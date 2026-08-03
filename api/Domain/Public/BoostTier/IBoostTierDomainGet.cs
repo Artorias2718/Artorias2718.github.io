@@ -6,4 +6,5 @@ namespace api.Domain.Public.FAQ;
 public interface IBoostTierDomainGet
 {
     public Task<ICollection<ParcelReadDto>> GetParcels();
+    public Task<ICollection<RegionTierReadDto>> GetRegionTiers();
 }
