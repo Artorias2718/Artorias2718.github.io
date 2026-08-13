@@ -15,7 +15,7 @@ import * as Flags from 'country-flag-icons/react/3x2';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 import {
   type IBoostTierRowRead,
-  type IRegionCountryRead
+  type IRegionCountryRead, type IRegionTierTableRead
 } from '@/Types';
 
 import { type IParcelRead } from '@/Types';
@@ -186,19 +186,19 @@ export default function BoostTiers() {
   const [regionKey, setRegionKey] = useState('USA');
   const [mobileMetric, setMobileMetric] = useState<MoneyField>('withAdsMonth');
 
-  const region = useMemo(
+  const region: IRegionTierTableRead = useMemo(
     () => regionTierTablesStatus === 'success'
-      ? regionTierTables.find((r) => r.key === regionKey)
-      : [],
+      ? regionTierTables.find((r: IRegionTierTableRead) => r.key === regionKey)
+      : null,
     [regionKey, regionTierTables, regionTierTablesStatus],
   );
 
   // Hide the money columns entirely for any region lacking dollar data.
   const hasRentOutcomes = useMemo(
     () =>
-        region && region.rows && region.rows.some && region.rows.some
-        ? region.rows.some((row) => row.noAdsMonth != null)
-      : [],
+        region && region.tiers
+        ? region.tiers.some((row) => row.noAdsMonth != null)
+        : false,
     [region],
   );
 
@@ -315,7 +315,7 @@ export default function BoostTiers() {
             density="compact"
             disableRowSelectionOnClick
             disableColumnMenu
-            hideFooter={region && region.rows && region.rows.length <= 25}
+            hideFooter={region && region.tiers && region.tiers.length <= 25}
             initialState={{
               sorting: { sortModel: [{ field: 'parcelsLabel', sort: 'asc' }] },
             }}

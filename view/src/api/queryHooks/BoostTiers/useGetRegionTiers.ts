@@ -1,6 +1,6 @@
 import useAxiosJwt from '../../axiosInstanceHooks/useAxiosJwt';
 import { useQuery } from '@tanstack/react-query';
-import type { IParcelRead } from '@/Types';
+import type { IRegionTierTableRead } from '@/Types';
 const useGetRegionTiersKey = () => {
     const key = ['RegionTiers'];
     return key;
@@ -11,7 +11,7 @@ const useGetRegionTiers = () => {
     const key = useGetRegionTiersKey();
 
     const fetchFn = async() => {
-        const result = await api.get<IParcelRead[]>('boosttier/GetRegionTiers');
+        const result = await api.get<IRegionTierTableRead[]>('boosttier/GetRegionTiers');
         return result.data;
     };
 
