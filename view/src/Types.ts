@@ -34,7 +34,7 @@ export interface IRegionTierTableRead {
      * published by Atlas Reality. (All tables are currently official.)
      */
     derived?: boolean;
-    rows: IBoostTierRowRead[];
+    tiers: IBoostTierRowRead[];
 }
 
 export interface IBoostTierRowRead {

@@ -53,7 +53,7 @@ export default function FAQ() {
     const hash = window.location.hash.replace("#", "");
     if (hash) {
       for (const category of faqs) {
-        if (category.questions.some((q) => generateId(q.q) === hash)) {
+        if (category.questions.some((q) => generateId(q.question) === hash)) {
           setExpanded([category.category]);
           setTimeout(() => {
             const el = document.getElementById(hash);
