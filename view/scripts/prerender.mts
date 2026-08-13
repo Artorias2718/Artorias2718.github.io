@@ -1,5 +1,5 @@
 import { createServer } from 'node:http';
-import { writeFile, mkdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import puppeteer, { type Browser } from 'puppeteer';
@@ -14,10 +14,19 @@ const routes: string[] = [
   '/boosttimer', '/progressvault', '/about', '/contact', '/privacypolicy',
 ];
 
-const serve = sirv(dist, { single: true }); // SPA fallback so any route boots
-const server = createServer((req, res) =>
-  serve(req, res, () => { res.statusCode = 404; res.end('not found'); })
-);
+// Pristine shell, read ONCE — never re-read the file we overwrite in the loop.
+const shell = await readFile(join(dist, 'index.html'), 'utf8');
+const assets = sirv(dist, { dev: true });
+
+const server = createServer((req, res) => {
+  const path = (req.url || '/').split('?')[0];
+  if (/\.[a-zA-Z0-9]+$/.test(path)) {
+    assets(req, res, () => { res.statusCode = 404; res.end('not found'); });
+  } else {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.end(shell);
+  }
+});
 await new Promise<void>((r) => server.listen(PORT, () => r()));
 console.log(`serving dist on http://localhost:${PORT}`);
 
@@ -28,16 +37,29 @@ const browser: Browser = await puppeteer.launch({
 
 for (const route of routes) {
   const page = await browser.newPage();
+  page.on('console', (m) => console.log(`  [${route}] console.${m.type()}: ${m.text()}`));
+  page.on('pageerror', (e) => console.log(`  [${route}] pageerror: ${e.message}`));
+  page.on('requestfailed', (r) =>
+    console.log(`  [${route}] requestfailed: ${r.url()} — ${r.failure()?.errorText}`)
+  );
+
   await page.goto(`http://localhost:${PORT}${route}`, { waitUntil: 'networkidle0' });
 
-  // Don't snapshot until React has actually mounted content into #root.
-  await page.waitForFunction(
-    () => {
-      const root = document.getElementById('root');
-      return !!root && root.children.length > 0;
-    },
-    { timeout: 15000 }
-  );
+  try {
+    await page.waitForFunction(
+      () => {
+        const root = document.getElementById('root');
+        return !!root && root.children.length > 0;
+      },
+      { timeout: 15000 }
+    );
+  } catch (err) {
+    const tag = route === '/' ? 'root' : route.replace(/\//g, '_');
+    await page.screenshot({ path: join(__dirname, `fail-${tag}.png`), fullPage: true });
+    await writeFile(join(__dirname, `fail-${tag}.html`), await page.content(), 'utf8');
+    console.error(`  [${route}] TIMED OUT — wrote fail-${tag}.png / .html`);
+    throw err;
+  }
 
   const html = await page.content();
   const outDir = route === '/' ? dist : join(dist, route);
