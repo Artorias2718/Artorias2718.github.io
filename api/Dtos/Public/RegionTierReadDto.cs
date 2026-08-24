@@ -13,6 +13,7 @@ public class RegionTierReadDto
 public class BoostTierReadDto
 {
     public int Id { get; set; }
+    public int MinParcels { get; set; }
     public string ParcelsLabel { get; set; } = "";
     public int Boost { get; set; }
     public decimal? NoAdsMonth { get; set; }

@@ -11,8 +11,8 @@ using api.Contexts;
 namespace api.Migrations
 {
     [DbContext(typeof(SqlServerContext))]
-    [Migration("20260802044656_RemoveMinParcelsFromBoostTier")]
-    partial class RemoveMinParcelsFromBoostTier
+    [Migration("20260824041309_AddResources")]
+    partial class AddResources
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -204,6 +204,73 @@ namespace api.Migrations
                     b.ToTable("RegionTier", (string)null);
                 });
 
+            modelBuilder.Entity("api.Models.Resource", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Badge")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(120)");
+
+                    b.Property<string>("IconBackground")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(8)");
+
+                    b.Property<string>("IconColor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(8)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ResourceGroupId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResourceGroupId");
+
+                    b.ToTable("Resource", (string)null);
+                });
+
+            modelBuilder.Entity("api.Models.ResourceGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ResourceGroup", (string)null);
+                });
+
             modelBuilder.Entity("api.Models.BoostTier", b =>
                 {
                     b.HasOne("api.Models.RegionTier", "RegionTier")
@@ -237,6 +304,17 @@ namespace api.Migrations
                     b.Navigation("RegionTier");
                 });
 
+            modelBuilder.Entity("api.Models.Resource", b =>
+                {
+                    b.HasOne("api.Models.ResourceGroup", "ResourceGroup")
+                        .WithMany("Items")
+                        .HasForeignKey("ResourceGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ResourceGroup");
+                });
+
             modelBuilder.Entity("api.Models.FAQGroup", b =>
                 {
                     b.Navigation("Questions");
@@ -247,6 +325,11 @@ namespace api.Migrations
                     b.Navigation("Countries");
 
                     b.Navigation("Tiers");
+                });
+
+            modelBuilder.Entity("api.Models.ResourceGroup", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

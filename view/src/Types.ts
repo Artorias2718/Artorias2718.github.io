@@ -59,3 +59,19 @@ export interface IRegionCountryRead {
     /** Display name shown in the flag tooltip. */
     name: string;
 }
+
+export interface IResourceGroupRead {
+    category: string;
+    description: string;
+    items: IResource[];
+}
+
+export interface IResource {
+    name: string;
+    url: string;
+    icon: string;
+    iconColor: string;
+    iconBackground: string;
+    description: string;
+    badge: string;
+}

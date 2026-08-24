@@ -12,6 +12,8 @@ public class SqlServerContext(DbContextOptions<SqlServerContext> options) : DbCo
     public DbSet<Parcel> Parcels { get; set; }
     public DbSet<RegionCountry> RegionCountries { get; set; }
     public DbSet<RegionTier> RegionTiers { get; set; }
+    public DbSet<Resource> Resources { get; set; }
+    public DbSet<ResourceGroup> ResourceGroups { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,6 +1,7 @@
 using System.Reflection;
 using api.Contexts;
 using api.Domain.Public.FAQ;
+using api.Domain.Public.Resource;
 using api.Models;
 using api.Profiles.Public;
 using api.Seeders;
@@ -47,6 +48,7 @@ builder.Services.AddCors((options) =>
 builder.Services.AddScoped<IFAQDomainGet, FAQDomainGet>();
 builder.Services.AddScoped<IGlossaryDomainGet, GlossaryDomainGet>();
 builder.Services.AddScoped<IBoostTierDomainGet, BoostTierDomainGet>();
+builder.Services.AddScoped<IResourceDomainGet, ResourceDomainGet>();
 
 builder.Services.AddDbContext<SqlServerContext>(options =>
 {
