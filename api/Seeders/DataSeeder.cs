@@ -14,6 +14,7 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             SeedGlossary(context);
             SeedParcels(context);
             SeedRegionTiers(context);
+            SeedResources(context);
         }
     }
 
@@ -1758,6 +1759,232 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
 
             context.RegionCountries.AddRange(oRegionCountryValues);
             context.BoostTiers.AddRange(oBoostTierValues);
+            context.SaveChanges();
+        }
+    }
+
+    private void SeedResources(SqlServerContext context)
+    {
+        var oResourceGroups = new List<ResourceGroup>
+        {
+            new()
+            {
+                Category = "Calculators &amp; Tools",
+                Description = "Make smarter decisions about which parcels to buy and how to grow your empire.",
+                Items = new List<Resource>
+                {
+                    new()
+                    {
+                        Name = "Atlas Earth Calculator",
+                        Url = "https://www.atlasearthcalculator.com",
+                        Icon = "Calculator",
+                        IconColor = "#059669",
+                        IconBackground = "#ecfdf5",
+                        Description =
+                            "The go-to community calculator for Atlas Earth. Estimate how long it will take to earn back your investment on a parcel, compare parcel rarities, and figure out optimal Atlas Buck spending strategies. An essential tool for any serious player.",
+                        Badge = "Most Used"
+                    },
+                    new()
+                    {
+                        Name = "Parcely",
+                        Url = "https://parcely.app",
+                        Icon = "Layers",
+                        IconColor = "#2563eb",
+                        IconBackground = "#eff6ff",
+                        Description =
+                            "A companion app and web tool for Atlas Earth that helps you track your parcel portfolio, monitor your earnings over time, and visualize your land holdings on a map. Great for players with a large number of parcels who want better visibility into their empire.",
+                        Badge = "Portfolio Tracker",
+                    },
+                    new()
+                    {
+                        Name = "Atlas Gains Forecast",
+                        Url = "https://atlasgains.com/forecast",
+                        Icon = "ShowChart",
+                        IconColor = "#2563eb",
+                        IconBackground = "#eff6ff",
+                        Description =
+                            "This site appears to be similar to the Atlas Earth Calculator, but it also appears to have a nifty graph to help users visualize a few useful metrics.",
+                        Badge = null
+                    }
+                }
+            },
+            new()
+            {
+                Category = "Community &amp; Discussion",
+                Description = "Connect with thousands of active players, ask questions, and share strategies.",
+                Items = new List<Resource>
+                {
+                    new()
+                    {
+                        Name = "r/AtlasEarth",
+                        Url = "https://www.reddit.com/r/AtlasEarth/",
+                        Icon = "SiReddit",
+                        IconColor = "#f97316",
+                        IconBackground = "#fff7ed",
+                        Description =
+                            "The largest community-run subreddit for Atlas Earth. A welcoming place to ask questions, share your parcel milestones, discuss strategy, and browse tips from other players. Great for finding answers to questions not covered in official docs.",
+                        Badge = "Most Active",
+                    },
+                    new()
+                    {
+                        Name = "r/AtlasEarthOfficial",
+                        Url = "https://www.reddit.com/r/AtlasEarthOfficial/",
+                        Icon = "SiReddit",
+                        IconColor = "#f97316",
+                        IconBackground = "#fff7ed",
+                        Description =
+                            "The official subreddit maintained in partnership with Atlas Reality. This is where you'll find developer announcements, patch notes, official event posts, and responses from the Atlas Earth team.",
+                        Badge = "Official",
+                    },
+                    new()
+                    {
+                        Name = "r/AtlasEarth_UnOfficial",
+                        Url = "https://www.reddit.com/r/AtlasEarth_UnOfficial/",
+                        Icon = "SiReddit",
+                        IconColor = "#f97316",
+                        IconBackground = "#fff7ed",
+                        Description =
+                            "An unofficial community for Atlas Earth players to chat, share tips, strategize, and discuss the game freely. Not affiliated with Atlas Reality.",
+                        Badge = "Community",
+                    },
+                    new()
+                    {
+                        Name = "Official Atlas Earth Server",
+                        Url = "https://discord.gg/H2qHxrf8m",
+                        Icon = "SiDiscord",
+                        IconColor = "#6366f1",
+                        IconBackground = "#eef2ff",
+                        Description =
+                            "The official Atlas Earth Discord server. Join real-time chats, ask questions in dedicated help channels, participate in giveaways, and stay up to date on announcements. The Discord is one of the fastest places to get an answer from another player.",
+                        Badge = "Official",
+                    },
+                    new()
+                    {
+                        Name = "Atlas Earth Community",
+                        Url = "https://discord.gg/GMNtj8aDr",
+                        Icon = "SiDiscord",
+                        IconColor = "#6366f1",
+                        IconBackground = "#eef2ff",
+                        Description =
+                            "An alternative community-run Atlas Earth Discord server",
+                        Badge = "Community",
+                    },
+                    new()
+                    {
+                        Name = "Atlas Earth Guides",
+                        Url = "https://atlasearthguides.com/",
+                        Icon = "TravelExplore",
+                        IconColor = "#2563eb",
+                        IconBackground = "#eff6ff",
+                        Description =
+                            "This site has some pretty useful information about Atlas Earth, but one of my favorite things about it is the Minigame Guides. Sadly, thRacer and Fishing Guides are sort of dated now since he hasn't released a guide for the Modern versions of Racer and Fishing, only for Vintage, but they're still useful since, as the remaining Minigames are modernized, the Vintage minigames will be exclusive to Super Minigame Saturdays.",
+                        Badge = null
+                    },
+                    new()
+                    {
+                        Name = "Atlas Earth Facebook Groups",
+                        Url = "https://www.facebook.com/groups/search/results/?q=atlas+earth",
+                        Icon = "SiFacebook",
+                        IconColor = "#2563eb",
+                        IconBackground = "#eff6ff",
+                        Description =
+                            "There are dozens of active Facebook Groups for Atlas Earth players, including regional groups and general strategy groups. Search for 'Atlas Earth' in Facebook Groups to find communities near you or focused on topics you care about.",
+                        Badge = null,
+                    }
+                },
+            },
+            new()
+            {
+                Category = "Official Resources",
+                Description =
+                    "Straight from Atlas Reality — the source of truth for game rules, policies, and updates.",
+                Items = new List<Resource>
+                {
+                    new()
+                    {
+                        Name = "Atlas Earth Official Website",
+                        Url = "https://www.atlasearth.com",
+                        Icon = "Globe2",
+                        IconColor = "primary",
+                        IconBackground = "primary",
+                        Description =
+                            "The official home of Atlas Earth. Download the app, learn about the game, read about new features, and find links to official social channels. Always check here for the most accurate and up-to-date information about the game.",
+                        Badge = "Official",
+                    },
+                    new()
+                    {
+                        Name = "Atlas Earth Help Center",
+                        Url = "https://atlasreality.helpshift.com/hc/en/3-atlas-earth/",
+                        Icon = "MessageCircle",
+                        IconColor = "primary",
+                        IconBackground = "primary",
+                        Description =
+                            "The official support knowledge base from Atlas Reality. Covers account issues, payout problems, technical bugs, and in-depth explanations of game mechanics directly from the developers. If you have an account or payment issue, start here.",
+                        Badge = "Official",
+                    },
+                    new()
+                    {
+                        Name = "Atlas Earth on YouTube",
+                        Url = "https://www.youtube.com/results?search_query=atlas+earth+game",
+                        Icon = "SiYoutube",
+                        IconColor = "#ef4444",
+                        IconBackground = "#fef2f2",
+                        Description =
+                            "A wealth of community-made video content covering Atlas Earth strategy, earning guides, parcel tours, and payout walkthroughs. Searching YouTube for 'Atlas Earth' surfaces a broad range of tutorials from experienced players — great for visual learners.",
+                        Badge = null,
+                    }
+                }
+            },
+            new()
+            {
+                Category = "In-App Features Worth Knowing",
+                Description =
+                    "Not external links, but built-in Atlas Earth features that new players often miss.",
+                Items = new List<Resource>
+                {
+                    new()
+                    {
+                        Name = "The Daily Wheel & Diamonds",
+                        Url = "https = //www.atlasearth.com",
+                        Icon = "Map",
+                        IconColor = "#d97706",
+                        IconBackground = "#fffbeb",
+                        Description =
+                            "New players often overlook the free Atlas Bucks available every day. The daily spin wheel, diamond collection on the map, and ad-watching rewards add up quickly. Free-to-play players who stay consistent with these mechanics can accumulate enough Atlas Bucks to buy multiple parcels per week without spending a cent.",
+                        Badge = "In-App",
+                    }
+                }
+            }
+        };
+
+        if (!context.ResourceGroups.Any())
+        {
+            var oResources = oResourceGroups.SelectMany(x => x.Items);
+            context.ResourceGroups.AddRange(oResourceGroups);
+            context.SaveChanges();
+
+            foreach (var oResourceGroup in oResourceGroups)
+            {
+                var nResourceGroupId = oResourceGroup.Id;
+                var oParallelResources = oResourceGroup.Items.AsParallel();
+                oParallelResources.ForAll(x =>
+                {
+                    x.ResourceGroupId = nResourceGroupId;
+                    x.Name = x.Name.Trim();
+                    x.Description = x.Description.Trim();
+                    x.Icon = x.Icon.Trim();
+                    x.IconColor = x.IconColor.Trim();
+                    x.IconBackground = x.IconBackground.Trim();
+                    x.Url = x.Url.Trim();
+
+                    if (!string.IsNullOrWhiteSpace(x.Badge))
+                    {
+                        x.Badge = x.Badge.Trim();
+                    }
+                });
+            }
+
+            context.Resources.AddRange(oResources);
             context.SaveChanges();
         }
     }
