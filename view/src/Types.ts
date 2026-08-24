@@ -41,6 +41,8 @@ export interface IBoostTierRowRead {
     id: number;
     /** Display label, e.g. "1-150" or "6000". */
     parcelsLabel: string;
+    /** Minimum number of parcels for tier. Used for sorting". */
+    minParcels: number;
     /** Ad boost multiplier for this range, e.g. 30 for "30x". */
     boost: number;
     /** Virtual rent accrued (no ads) per month, USD. */

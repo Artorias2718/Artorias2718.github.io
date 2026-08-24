@@ -14,6 +14,7 @@ public class RegionTier
 public class BoostTier
 {
     public int Id { get; set; }
+    public int MinParcels { get; set; }
     public int RegionTierId { get; set; }
     public string ParcelsLabel { get; set; } = "";
     public int Boost { get; set; }
