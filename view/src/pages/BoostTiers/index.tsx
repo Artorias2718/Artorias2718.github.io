@@ -187,7 +187,7 @@ export default function BoostTiers() {
   const [mobileMetric, setMobileMetric] = useState<MoneyField>('withAdsMonth');
 
   const region: IRegionTierTableRead = useMemo(
-    () => regionTierTablesStatus === 'success'
+    () => regionTierTables && regionTierTablesStatus === 'success'
       ? regionTierTables.find((r: IRegionTierTableRead) => r.key === regionKey)
       : null,
     [regionKey, regionTierTables, regionTierTablesStatus],
@@ -202,8 +202,10 @@ export default function BoostTiers() {
     [region],
   );
 
+  //console.log(region);
+
   const columns = useMemo<GridColDef<IBoostTierRowRead>[]>(() => {
-    const money = currencyFmt(region.currency ?? 'USD');
+    const money = currencyFmt(region ? region.currency : 'USD');
     const moneyCol = ({
       field,
       header,
@@ -226,8 +228,11 @@ export default function BoostTiers() {
         headerName: isMobile ? 'Parcels' : 'Parcels Owned',
         flex: 1,
         minWidth: isMobile ? 95 : 130,
+
         // Sort by the numeric lower bound, not the label string.
-        sortComparator: (_a, _b, p1, p2) => (p1.value.id > p2.value.id ? p2.value.id : p1.value.id)
+        sortComparator: (_a, _b, p1, p2) =>
+          (p1.api.getRow(p1.id) as IBoostTierRowRead).minParcels -
+          (p2.api.getRow(p2.id) as IBoostTierRowRead).minParcels,
       },
       {
         field: 'boost',
@@ -255,10 +260,7 @@ export default function BoostTiers() {
       : MONEY_FIELDS;
 
     return [...base, ...moneyFields.map(moneyCol)];
-  }, [region.currency, hasRentOutcomes, isMobile, mobileMetric]);
-
-  console.log('Region: ', region);
-  console.log('Region Tier Tables: ', regionTierTables);
+}, [region && region.currency, hasRentOutcomes, isMobile, mobileMetric]);
 
   return (
     <Box sx={{ maxWidth: 1200, mx: 'auto', px: { xs: 2, sm: 3 }, py: 3 }}>

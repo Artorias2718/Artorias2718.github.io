@@ -58,6 +58,10 @@ public class BoostTierConfiguration : IEntityTypeConfiguration<BoostTier>
               .WithMany(e => e.Tiers)
               .HasForeignKey(e => e.RegionTierId);
 
+       builder.Property(e => e.MinParcels)
+              .HasColumnType("int")
+              .IsRequired();
+
         builder.Property(e => e.ParcelsLabel)
                .HasColumnType("nvarchar(120)")
                .IsRequired();
