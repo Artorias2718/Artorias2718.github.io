@@ -22,6 +22,8 @@ import { type IParcelRead } from '@/Types';
 import useGetParcels from "@/api/queryHooks/BoostTiers/useGetParcels.ts";
 import useGetRegionTiers from "@/api/queryHooks/BoostTiers/useGetRegionTiers.ts";
 
+import { decode } from 'html-entities';
+
 const currencyFmt = (currency: string) =>
   new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -275,7 +277,7 @@ export default function BoostTiers() {
           aria-label="Boost tier tables by region"
         >
           {regionTierTablesStatus === 'success' && regionTierTables.map((r) => (
-            <Tab key={r.key} value={r.key} label={r.label} />
+            <Tab key={r.key} value={r.key} label={decode(r.label)} />
           ))}
         </Tabs>
 
@@ -289,7 +291,7 @@ export default function BoostTiers() {
             <Typography variant="body2" color="text.secondary">
               Applies to:
             </Typography>
-            <CountryFlagList countries={region.countries || []} />
+            <CountryFlagList countries={region && region.countries || []} />
           </Stack>
 
           {isMobile && hasRentOutcomes && (
@@ -312,7 +314,7 @@ export default function BoostTiers() {
 
         <Paper variant="outlined">
           <DataGrid
-            rows={region.tiers || []}
+            rows={region && region.tiers || []}
             columns={columns}
             density="compact"
             disableRowSelectionOnClick
