@@ -503,7 +503,7 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    Code = "USA",
+                    Code = "US",
                     Name = "United States"
                 }
             });
@@ -513,32 +513,32 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    Code = "AUS",
+                    Code = "AU",
                     Name = "Australia"
                 },
                 new()
                 {
-                    Code = "CAN",
+                    Code = "CA",
                     Name = "Canada"
                 },
                 new()
                 {
-                    Code = "ZAF",
+                    Code = "ZA",
                     Name = "South Africa"
                 },
                 new()
                 {
-                    Code = "IRL",
+                    Code = "IE",
                     Name = "Ireland"
                 },
                 new()
                 {
-                    Code = "NZL",
+                    Code = "NZ",
                     Name = "New Zealand"
                 },
                 new()
                 {
-                    Code = "GRB",
+                    Code = "GB",
                     Name = "United Kingdom"
                 }
             });
@@ -558,32 +558,32 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    Code = "DEU",
+                    Code = "DE",
                     Name = "Germany"
                 },
                 new()
                 {
-                    Code = "FRA",
+                    Code = "FR",
                     Name = "France"
                 },
                 new()
                 {
-                    Code = "NLD",
+                    Code = "NL",
                     Name = "Netherlands"
                 },
                 new()
                 {
-                    Code = "ESP",
+                    Code = "ES",
                     Name = "Spain"
                 },
                 new()
                 {
-                    Code = "ITA",
+                    Code = "IT",
                     Name = "Italy"
                 },
                 new()
                 {
-                    Code = "PRT",
+                    Code = "PT",
                     Name = "Portugal"
                 }
             });
@@ -593,27 +593,27 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    Code = "KOR",
+                    Code = "KR",
                     Name = "South Korea"
                 },
                 new()
                 {
-                    Code = "JPN",
+                    Code = "JP",
                     Name = "Japan"
                 },
                 new()
                 {
-                    Code = "SGP",
+                    Code = "SG",
                     Name = "Singapore"
                 },
                 new()
                 {
-                    Code = "AEE",
+                    Code = "AE",
                     Name = "United Arab Emirates"
                 },
                 new()
                 {
-                    Code = "CHE",
+                    Code = "CH",
                     Name = "Switzerland"
                 },
             });
@@ -634,37 +634,37 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             {
                 new()
                 {
-                    Code = "SWE",
+                    Code = "SE",
                     Name = "Sweden"
                 },
                 new()
                 {
-                    Code = "FIN",
+                    Code = "FI",
                     Name = "Finland"
                 },
                 new()
                 {
-                    Code = "AUT",
+                    Code = "AT",
                     Name = "Austria"
                 },
                 new()
                 {
-                    Code = "TWN",
+                    Code = "TW",
                     Name = "Taiwan"
                 },
                 new()
                 {
-                    Code = "NOR",
+                    Code = "NO",
                     Name = "Norway"
                 },
                 new()
                 {
-                    Code = "DNK",
+                    Code = "DK",
                     Name = "Denmark"
                 },
                 new()
                 {
-                    Code = "BEL",
+                    Code = "BE",
                     Name = "Belgium"
                 },
             });
