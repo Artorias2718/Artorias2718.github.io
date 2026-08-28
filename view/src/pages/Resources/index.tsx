@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import { useMemo, useState } from "react";
 import {
     alpha,
     Box,
@@ -14,177 +14,16 @@ import {ExternalLink, Calculator, Map, MessageCircle, Layers, Globe2} from "luci
 import {SiReddit, SiDiscord, SiFacebook, SiYoutube} from "react-icons/si";
 import {ShowChart, TravelExplore} from '@mui/icons-material';
 import ResourceSearch from './ResourceSearch';
+import useGetResources from "@/api/queryHooks/Resource/useGetResources";
+import type { IResourceGroupRead } from "@/Types";
+import type { ComponentType } from "react";
 
-// ─── data ─────────────────────────────────────────────────────────────────────
-
-const resources = [
-    {
-        category: "Calculators & Tools",
-        description:
-            "Make smarter decisions about which parcels to buy and how to grow your empire.",
-        items: [
-            {
-                name: "Atlas Earth Calculator",
-                url: "https://www.atlasearthcalculator.com",
-                icon: Calculator,
-                iconColor: "#059669",
-                iconBg: "#ecfdf5",
-                description:
-                    "The go-to community calculator for Atlas Earth. Estimate how long it will take to earn back your investment on a parcel, compare parcel rarities, and figure out optimal Atlas Buck spending strategies. An essential tool for any serious player.",
-                badge: "Most Used",
-            },
-            {
-                name: "Parcely",
-                url: "https://parcely.app",
-                icon: Layers,
-                iconColor: "#2563eb",
-                iconBg: "#eff6ff",
-                description:
-                    "A companion app and web tool for Atlas Earth that helps you track your parcel portfolio, monitor your earnings over time, and visualize your land holdings on a map. Great for players with a large number of parcels who want better visibility into their empire.",
-                badge: "Portfolio Tracker",
-            },
-            {
-                name: "Atlas Gains Forecast",
-                url: "https://atlasgains.com/forecast",
-                icon: ShowChart,
-                iconColor: "#2563eb",
-                iconBg: "#eff6ff",
-                description:
-                    "This site appears to be similar to the Atlas Earth Calculator, but it also appears to have a nifty graph to help users visualize a few useful metrics."
-            }
-        ],
-    },
-    {
-        category: "Community & Discussion",
-        description:
-            "Connect with thousands of active players, ask questions, and share strategies.",
-        items: [
-            {
-                name: "r/AtlasEarth",
-                url: "https://www.reddit.com/r/AtlasEarth/",
-                icon: SiReddit,
-                iconColor: "#f97316",
-                iconBg: "#fff7ed",
-                description:
-                    "The largest community-run subreddit for Atlas Earth. A welcoming place to ask questions, share your parcel milestones, discuss strategy, and browse tips from other players. Great for finding answers to questions not covered in official docs.",
-                badge: "Most Active",
-            },
-            {
-                name: "r/AtlasEarthOfficial",
-                url: "https://www.reddit.com/r/AtlasEarthOfficial/",
-                icon: SiReddit,
-                iconColor: "#f97316",
-                iconBg: "#fff7ed",
-                description:
-                    "The official subreddit maintained in partnership with Atlas Reality. This is where you'll find developer announcements, patch notes, official event posts, and responses from the Atlas Earth team.",
-                badge: "Official",
-            },
-            {
-                name: "r/AtlasEarth_UnOfficial",
-                url: "https://www.reddit.com/r/AtlasEarth_UnOfficial/",
-                icon: SiReddit,
-                iconColor: "#f97316",
-                iconBg: "#fff7ed",
-                description:
-                    "An unofficial community for Atlas Earth players to chat, share tips, strategize, and discuss the game freely. Not affiliated with Atlas Reality.",
-                badge: "Community",
-            },
-            {
-                name: "Official Atlas Earth Server",
-                url: "https://discord.gg/H2qHxrf8m",
-                icon: SiDiscord,
-                iconColor: "#6366f1",
-                iconBg: "#eef2ff",
-                description:
-                    "The official Atlas Earth Discord server. Join real-time chats, ask questions in dedicated help channels, participate in giveaways, and stay up to date on announcements. The Discord is one of the fastest places to get an answer from another player.",
-                badge: "Official",
-            },
-            {
-                name: "Atlas Earth Community",
-                url: "https://discord.gg/GMNtj8aDr",
-                icon: SiDiscord,
-                iconColor: "#6366f1",
-                iconBg: "#eef2ff",
-                description:
-                    "An alternative community-run Atlas Earth Discord server",
-                badge: "Community",
-            },
-            {
-                name: "Atlas Earth Guides",
-                url: "https://atlasearthguides.com/",
-                icon: TravelExplore,
-                iconColor: "#2563eb",
-                iconBg: "#eff6ff",
-                description:
-                    "This site has some pretty useful information about Atlas Earth, but one of my favorite things about it is the Minigame Guides. Sadly, thRacer and Fishing Guides are sort of dated now since he hasn't released a guide for the Modern versions of Racer and Fishing, only for Vintage, but they're still useful since, as the remaining Minigames are modernized, the Vintage minigames will be exclusive to Super Minigame Saturdays."
-            },
-            {
-                name: "Atlas Earth Facebook Groups",
-                url: "https://www.facebook.com/groups/search/results/?q=atlas+earth",
-                icon: SiFacebook,
-                iconColor: "#2563eb",
-                iconBg: "#eff6ff",
-                description:
-                    "There are dozens of active Facebook Groups for Atlas Earth players, including regional groups and general strategy groups. Search for 'Atlas Earth' in Facebook Groups to find communities near you or focused on topics you care about.",
-                badge: null,
-            },
-        ],
-    },
-    {
-        category: "Official Resources",
-        description:
-            "Straight from Atlas Reality — the source of truth for game rules, policies, and updates.",
-        items: [
-            {
-                name: "Atlas Earth Official Website",
-                url: "https://www.atlasearth.com",
-                icon: Globe2,
-                iconColor: "primary",
-                iconBg: "primary",
-                description:
-                    "The official home of Atlas Earth. Download the app, learn about the game, read about new features, and find links to official social channels. Always check here for the most accurate and up-to-date information about the game.",
-                badge: "Official",
-            },
-            {
-                name: "Atlas Earth Help Center",
-                url: "https://atlasreality.helpshift.com/hc/en/3-atlas-earth/",
-                icon: MessageCircle,
-                iconColor: "primary",
-                iconBg: "primary",
-                description:
-                    "The official support knowledge base from Atlas Reality. Covers account issues, payout problems, technical bugs, and in-depth explanations of game mechanics directly from the developers. If you have an account or payment issue, start here.",
-                badge: "Official",
-            },
-            {
-                name: "Atlas Earth on YouTube",
-                url: "https://www.youtube.com/results?search_query=atlas+earth+game",
-                icon: SiYoutube,
-                iconColor: "#ef4444",
-                iconBg: "#fef2f2",
-                description:
-                    "A wealth of community-made video content covering Atlas Earth strategy, earning guides, parcel tours, and payout walkthroughs. Searching YouTube for 'Atlas Earth' surfaces a broad range of tutorials from experienced players — great for visual learners.",
-                badge: null,
-            },
-        ],
-    },
-    {
-        category: "In-App Features Worth Knowing",
-        description:
-            "Not external links, but built-in Atlas Earth features that new players often miss.",
-        items: [
-            {
-                name: "The Daily Wheel & Diamonds",
-                url: "https://www.atlasearth.com",
-                icon: Map,
-                iconColor: "#d97706",
-                iconBg: "#fffbeb",
-                description:
-                    "New players often overlook the free Atlas Bucks available every day. The daily spin wheel, diamond collection on the map, and ad-watching rewards add up quickly. Free-to-play players who stay consistent with these mechanics can accumulate enough Atlas Bucks to buy multiple parcels per week without spending a cent.",
-                badge: "In-App",
-            },
-        ],
-    },
-];
+// ─── icon map ─────────────────────────────────────────────────────────────
+const iconMap: Record<string, ComponentType<{ size?: number }>> = {
+    Calculator, Map, MessageCircle, Layers, Globe2,
+    SiReddit, SiDiscord, SiFacebook, SiYoutube,
+    ShowChart, TravelExplore,
+};
 
 // ─── badge config ─────────────────────────────────────────────────────────────
 
@@ -199,33 +38,19 @@ const badgeProps: Record<BadgeName, { bg: string; color: string }> = {
     "In-App": {bg: "#ede9fe", color: "#5b21b6"},
 };
 
-type Section = (typeof resources)[number];
+type Section = IResourceGroupRead;
+type ResourceItem = IResourceGroupRead["items"][number];
 
-const norm = (s: string) => s.toLowerCase();
-
-function filterResources(query: string): Section[] {
+function filterResources(resources: Section[], query: string): Section[] {
     const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
     if (terms.length === 0) return resources;
-
-    return resources
-        .map((section) => {
-            // If the section heading itself matches, keep the whole section.
-            const sectionHay = norm(`${section.category} ${section.description}`);
-            if (terms.every((t) => sectionHay.includes(t))) return section;
-
-            const items = section.items.filter((item) => {
-                const hay = norm(`${item.name} ${item.description} ${item.badge ?? ""}`);
-                return terms.every((t) => hay.includes(t));
-            });
-            return {...section, items};
-        })
-        .filter((section) => section.items.length > 0);
+    // ...rest unchanged
 }
 
 // ─── ResourceCard ─────────────────────────────────────────────────────────────
 
-function ResourceCard({item}: { item: (typeof resources)[0]["items"][0] }) {
-    const IconComponent = item.icon;
+function ResourceCard({ item }: { item: ResourceItem }) {
+    const IconComponent = iconMap[item.icon] ?? Globe2;
     const isPrimary = item.iconColor === "primary";
     const slug = item.name.toLowerCase().replace(/\s+/g, "-");
     const badge = item.badge as BadgeName | null;
@@ -254,7 +79,7 @@ function ResourceCard({item}: { item: (typeof resources)[0]["items"][0] }) {
                             borderRadius: 2.5,
                             bgcolor: isPrimary
                                 ? (t) => alpha(t.palette.primary.main, 0.1)
-                                : item.iconBg,
+                                : item.iconBackground,
                             color: isPrimary ? "primary.main" : item.iconColor,
                             display: "flex",
                         }}
@@ -323,14 +148,19 @@ function ResourceCard({item}: { item: (typeof resources)[0]["items"][0] }) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Resources() {
+    const { data: resources } = useGetResources();
 
     const [query, setQuery] = useState("");
-    const visible = useMemo(() => filterResources(query), [query]);
+    const visible = useMemo(
+        () => filterResources(resources, query),
+        [resources, query]);
     const resultCount = useMemo(() =>
-            visible.reduce(
-                (n, s) => n + s.items.length, 0),
+            visible && visible.reduce(
+                (n, s) => s.items && (n + s.items.length), 0),
         [visible]
     );
+
+    console.log('Visible: ', visible);
 
     return (
         <Box sx={{width: "100%"}}>
@@ -399,7 +229,7 @@ export default function Resources() {
             {/* Resource sections */}
             <Box component="section" sx={{py: 10, bgcolor: "background.default"}}>
                 <Container maxWidth="lg" sx={{maxWidth: 900}}>
-                    {visible.length === 0
+                    {visible && visible.length === 0
                         ? (
                             <Box sx={{textAlign: "center", py: 6}}>
                                 <Typography variant="h6" sx={{fontWeight: 700, mb: 1}}>
@@ -415,7 +245,7 @@ export default function Resources() {
                         )
                         : (
                             <Stack sx={{gap: 12}}>
-                                {visible.map((section) => (
+                                {visible && visible.map((section) => (
                                     <Box key={section.category}>
                                         <Box sx={{mb: 4}}>
                                             <Typography

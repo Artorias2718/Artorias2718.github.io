@@ -13,12 +13,13 @@ import {
   Typography,
   alpha,
 } from "@mui/material";
-import { glossaryTerms } from "@/lib/constants.ts";
+import useGetGlossary from "@/api/queryHooks/Glossary/useGetGlossary.ts";
 
 export default function Glossary() {
   const [searchQuery, setSearchQuery] = useState("");
+  const { data: glossary } = useGetGlossary();
 
-  const filteredTerms = glossaryTerms.filter(
+  const filteredData = glossary && glossary.filter(
     (item) =>
       item.term.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.definition.toLowerCase().includes(searchQuery.toLowerCase())
@@ -89,7 +90,7 @@ export default function Glossary() {
       </Box>
 
       {/* Results */}
-      {filteredTerms.length === 0 ? (
+      {filteredData && filteredData.length === 0 ? (
         <Box sx={{ textAlign: "center", py: 12 }}>
           <Typography variant="body1" sx={{ color: "text.secondary", fontSize: "1.1rem" }}>
             No terms found matching "{searchQuery}".
@@ -97,7 +98,7 @@ export default function Glossary() {
         </Box>
       ) : (
         <Grid container spacing={3}>
-          {filteredTerms.map((item, idx) => (
+          {filteredData && filteredData.map((item, idx) => (
             <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={idx}>
               <Card
                 variant="outlined"

@@ -19,8 +19,8 @@ import {
   alpha,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { faqData } from "@/lib/constants.ts";
 import { useLocation } from "react-router-dom";
+import useGetFAQs from "@/api/queryHooks/FAQ/useGetFAQs";
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -39,21 +39,6 @@ export default function FAQ() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const location = useLocation();
 
-  // ── Filter data by search query ──────────────────────────────────────────
-  const filteredData = useMemo(() => {
-    if (!searchQuery.trim()) return faqData;
-    const query = searchQuery.toLowerCase();
-    return faqData
-      .map((category) => ({
-        ...category,
-        questions: category.questions.filter(
-          (q) =>
-            q.q.toLowerCase().includes(query) || q.a.toLowerCase().includes(query)
-        ),
-      }))
-      .filter((category) => category.questions.length > 0);
-  }, [searchQuery]);
-
   // ── Accordion toggle (multi-expand) ─────────────────────────────────────
   const handleToggle = useCallback((category: string) => {
     setExpanded((prev) =>
@@ -67,8 +52,8 @@ export default function FAQ() {
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");
     if (hash) {
-      for (const category of faqData) {
-        if (category.questions.some((q) => generateId(q.q) === hash)) {
+      for (const category of faqs) {
+        if (category.questions.some((q) => generateId(q.question) === hash)) {
           setExpanded([category.category]);
           setTimeout(() => {
             const el = document.getElementById(hash);
@@ -78,13 +63,30 @@ export default function FAQ() {
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-api/exhaustive-deps
   }, []);
+
+  const { data: faqs, status: faqStatus } = useGetFAQs();
+
+  // ── Filter data by search query ──────────────────────────────────────────
+  const filteredData = useMemo(() => {
+    if (!searchQuery.trim()) return faqs;
+    const query = searchQuery.toLowerCase();
+    return faqs
+      .map((faqGroup) => ({
+        ...faqGroup,
+        questions: faqGroup.questions.filter(
+          (faq) =>
+            faq.question.toLowerCase().includes(query) || faq.answer.toLowerCase().includes(query)
+        ),
+      }))
+      .filter((faqGroup) => faqGroup.questions.length > 0);
+  }, [faqs, searchQuery]);
 
   // ── When searching, expand all matching categories ────────────────────────
   useEffect(() => {
     if (searchQuery) {
-      setExpanded(filteredData.map((c) => c.category));
+      setExpanded(filteredData.map((faqGroup) => faqGroup.category));
     }
   }, [searchQuery, filteredData]);
 
@@ -103,6 +105,11 @@ export default function FAQ() {
     >
       {/* Header */}
       <Stack sx={{ alignItems: 'center', textAlign: "center", mb: 7 }} >
+        {faqStatus !== 'success' &&
+            <Box>
+              <Typography>...Loading FAQs...</Typography>
+            </Box>
+        }
         <Box
           sx={{
             p: 1.5,
@@ -156,7 +163,7 @@ export default function FAQ() {
       </Box>
 
       {/* Results */}
-      {filteredData.length === 0 ? (
+      {filteredData && filteredData.length === 0 ? (
         <Paper
           variant="outlined"
           sx={{ textAlign: "center", py: 12, px: 4, borderRadius: 4 }}
@@ -173,11 +180,11 @@ export default function FAQ() {
         </Paper>
       ) : (
         <Stack spacing={3}>
-          {filteredData.map((category) => {
-            const isExpanded = expanded.includes(category.category);
+          {filteredData && filteredData.length > 0 && filteredData.map((faqGroup) => {
+            const isExpanded = expanded.includes(faqGroup.category);
             return (
               <Paper
-                key={category.category}
+                key={faqGroup.category}
                 variant="outlined"
                 sx={{
                   borderRadius: 4,
@@ -191,7 +198,7 @@ export default function FAQ() {
               >
                 <Accordion
                   expanded={isExpanded}
-                  onChange={() => handleToggle(category.category)}
+                  onChange={() => handleToggle(faqGroup.category)}
                   disableGutters
                   elevation={0}
                   sx={{
@@ -208,17 +215,17 @@ export default function FAQ() {
                     }}
                   >
                     <Typography variant="h5" sx={{ fontWeight: 800 }}>
-                      {category.category}
+                      {faqGroup.category}
                     </Typography>
                   </AccordionSummary>
 
                   <AccordionDetails sx={{ px: 3, pt: 0, pb: 3 }}>
                     <Stack sx={{ spacing: 1, mt: 1 }}>
-                      {category.questions.map((q, qIdx) => {
-                        const id = generateId(q.q);
+                      {faqGroup.questions.map((faq, faqIdx) => {
+                        const id = generateId(faq.question);
                         return (
                           <Box
-                            key={qIdx}
+                            key={faqIdx}
                             id={id}
                             sx={{
                               scrollMarginTop: "6rem",
@@ -243,7 +250,7 @@ export default function FAQ() {
                               <Typography
                                 sx={{ fontWeight: 700, fontSize: '1.05rem', lineHeight: 1.5, flex: 1 }}
                               >
-                                {q.q}
+                                {faq.question}
                               </Typography>
                               <Tooltip title="Copy link to this question">
                                 <IconButton
@@ -267,7 +274,7 @@ export default function FAQ() {
                               color="text.secondary"
                               sx={{ lineHeight: 1.8 }}
                               component="div"
-                              dangerouslySetInnerHTML={{ __html: q.a }}
+                              dangerouslySetInnerHTML={{ __html: faq.answer }}
                             />
                           </Box>
                         );
