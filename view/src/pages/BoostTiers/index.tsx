@@ -14,12 +14,15 @@ import { useTheme } from '@mui/material/styles';
 import * as Flags from 'country-flag-icons/react/3x2';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 import {
-  PARCEL_RARITY_RATES,
-  REGION_TIER_TABLES,
-  type BoostTierRow,
-  type ParcelRarityRate,
-  type RegionCountry,
-} from './RentBoostTiers';
+  type IBoostTierRowRead,
+  type IRegionCountryRead, type IRegionTierTableRead
+} from '@/Types';
+
+import { type IParcelRead } from '@/Types';
+import useGetParcels from "@/api/queryHooks/BoostTiers/useGetParcels.ts";
+import useGetRegionTiers from "@/api/queryHooks/BoostTiers/useGetRegionTiers.ts";
+
+import { decode } from 'html-entities';
 
 const currencyFmt = (currency: string) =>
   new Intl.NumberFormat('en-US', {
@@ -37,7 +40,9 @@ const SUPERSCRIPTS: Record<string, string> = {
 
 /** Formats sub-dollar values as e.g. "$2.506 × 10⁻¹" (up to 4 sig figs). */
 function sciDollars(value: number): string {
-  const [mantissaRaw, exponent] = value.toExponential(3).split('e');
+  const [mantissaRaw, exponent] = value > 0
+      ? value.toExponential(3).split('e')
+      : ['-1', '-1'];
   const mantissa = parseFloat(mantissaRaw); // strips trailing zeros
   const sup = exponent
     .replace('+', '')
@@ -58,7 +63,7 @@ const MONEY_FIELDS: { field: MoneyField; header: string; shortHeader: string }[]
 
 type FlagComponent = (typeof Flags)['US'];
 
-function CountryFlagList({ countries }: { countries: RegionCountry[] }) {
+function CountryFlagList({ countries }: { countries: IRegionCountryRead[] }) {
   return (
     <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: 'wrap', alignItems: 'center' }}>
       {countries.map(({ code, name }) => {
@@ -96,7 +101,7 @@ function CountryFlagList({ countries }: { countries: RegionCountry[] }) {
 }
 
 const RARITY_CHIP_COLOR: Record<
-  ParcelRarityRate['rarity'],
+  IParcelRead['rarity'],
   'default' | 'info' | 'secondary' | 'warning'
 > = {
   Common: 'default',
@@ -106,7 +111,9 @@ const RARITY_CHIP_COLOR: Record<
 };
 
 function ParcelRarityRatesGrid({ isMobile }: { isMobile: boolean }) {
-  const columns = useMemo<GridColDef<ParcelRarityRate>[]>(
+  const { data: parcels } = useGetParcels();
+
+  const columns = useMemo<GridColDef<IParcelRead>[]>(
     () => [
       {
         field: 'rarity',
@@ -117,7 +124,7 @@ function ParcelRarityRatesGrid({ isMobile }: { isMobile: boolean }) {
           <Chip
             label={value}
             size="small"
-            color={RARITY_CHIP_COLOR[value as ParcelRarityRate['rarity']]}
+            color={RARITY_CHIP_COLOR[value as IParcelRead['rarity']]}
             variant="outlined"
           />
         ),
@@ -131,7 +138,7 @@ function ParcelRarityRatesGrid({ isMobile }: { isMobile: boolean }) {
         valueFormatter: (value: number) => `${Math.round(value * 100)}%`,
       },
       {
-        field: 'perSecond',
+        field: 'rate',
         headerName: 'Rent/sec.',
         type: 'number',
         flex: 1,
@@ -144,7 +151,7 @@ function ParcelRarityRatesGrid({ isMobile }: { isMobile: boolean }) {
         type: 'number',
         flex: 1,
         minWidth: 140,
-        valueGetter: (_value, row) => row.perSecond * 86400,
+        valueGetter: (_value, row) => row.rate * 86400,
         valueFormatter: (value: number) => sciDollars(value),
       },
     ],
@@ -158,7 +165,7 @@ function ParcelRarityRatesGrid({ isMobile }: { isMobile: boolean }) {
       </Typography>
       <Paper variant="outlined">
         <DataGrid
-          rows={PARCEL_RARITY_RATES}
+          rows={parcels || []}
           columns={columns}
           columnVisibilityModel={{ perDay: !isMobile }}
           density="compact"
@@ -176,27 +183,36 @@ export default function BoostTiers() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const [regionKey, setRegionKey] = useState(REGION_TIER_TABLES[0].key);
+  const { data: regionTierTables, status: regionTierTablesStatus } = useGetRegionTiers();
+
+  const [regionKey, setRegionKey] = useState('USA');
   const [mobileMetric, setMobileMetric] = useState<MoneyField>('withAdsMonth');
 
-  const region = useMemo(
-    () => REGION_TIER_TABLES.find((r) => r.key === regionKey) ?? REGION_TIER_TABLES[0],
-    [regionKey],
+  const region: IRegionTierTableRead = useMemo(
+    () => regionTierTables && regionTierTablesStatus === 'success'
+      ? regionTierTables.find((r: IRegionTierTableRead) => r.key === regionKey)
+      : null,
+    [regionKey, regionTierTables, regionTierTablesStatus],
   );
 
   // Hide the money columns entirely for any region lacking dollar data.
   const hasRentOutcomes = useMemo(
-    () => region.rows.some((row) => row.noAdsMonth != null),
+    () =>
+        region && region.tiers
+        ? region.tiers.some((row) => row.noAdsMonth != null)
+        : false,
     [region],
   );
 
-  const columns = useMemo<GridColDef<BoostTierRow>[]>(() => {
-    const money = currencyFmt(region.currency);
+  //console.log(region);
+
+  const columns = useMemo<GridColDef<IBoostTierRowRead>[]>(() => {
+    const money = currencyFmt(region ? region.currency : 'USD');
     const moneyCol = ({
       field,
       header,
       shortHeader,
-    }: (typeof MONEY_FIELDS)[number]): GridColDef<BoostTierRow> => ({
+    }: (typeof MONEY_FIELDS)[number]): GridColDef<IBoostTierRowRead> => ({
       field,
       headerName: isMobile ? shortHeader : header,
       type: 'number',
@@ -208,16 +224,17 @@ export default function BoostTiers() {
       },
     });
 
-    const base: GridColDef<BoostTierRow>[] = [
+    const base: GridColDef<IBoostTierRowRead>[] = [
       {
         field: 'parcelsLabel',
         headerName: isMobile ? 'Parcels' : 'Parcels Owned',
         flex: 1,
         minWidth: isMobile ? 95 : 130,
+
         // Sort by the numeric lower bound, not the label string.
         sortComparator: (_a, _b, p1, p2) =>
-          (p1.api.getRow(p1.id) as BoostTierRow).minParcels -
-          (p2.api.getRow(p2.id) as BoostTierRow).minParcels,
+          (p1.api.getRow(p1.id) as IBoostTierRowRead).minParcels -
+          (p2.api.getRow(p2.id) as IBoostTierRowRead).minParcels,
       },
       {
         field: 'boost',
@@ -245,7 +262,7 @@ export default function BoostTiers() {
       : MONEY_FIELDS;
 
     return [...base, ...moneyFields.map(moneyCol)];
-  }, [region.currency, hasRentOutcomes, isMobile, mobileMetric]);
+}, [region && region.currency, hasRentOutcomes, isMobile, mobileMetric]);
 
   return (
     <Box sx={{ maxWidth: 1200, mx: 'auto', px: { xs: 2, sm: 3 }, py: 3 }}>
@@ -259,8 +276,8 @@ export default function BoostTiers() {
           allowScrollButtonsMobile
           aria-label="Boost tier tables by region"
         >
-          {REGION_TIER_TABLES.map((r) => (
-            <Tab key={r.key} value={r.key} label={r.label} />
+          {regionTierTablesStatus === 'success' && regionTierTables.map((r) => (
+            <Tab key={r.key} value={r.key} label={decode(r.label)} />
           ))}
         </Tabs>
 
@@ -274,7 +291,7 @@ export default function BoostTiers() {
             <Typography variant="body2" color="text.secondary">
               Applies to:
             </Typography>
-            <CountryFlagList countries={region.countries} />
+            <CountryFlagList countries={region && region.countries || []} />
           </Stack>
 
           {isMobile && hasRentOutcomes && (
@@ -297,12 +314,12 @@ export default function BoostTiers() {
 
         <Paper variant="outlined">
           <DataGrid
-            rows={region.rows}
+            rows={region && region.tiers || []}
             columns={columns}
             density="compact"
             disableRowSelectionOnClick
             disableColumnMenu
-            hideFooter={region.rows.length <= 25}
+            hideFooter={region && region.tiers && region.tiers.length <= 25}
             initialState={{
               sorting: { sortModel: [{ field: 'parcelsLabel', sort: 'asc' }] },
             }}
