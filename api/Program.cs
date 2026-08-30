@@ -38,7 +38,8 @@ builder.Services.AddCors((options) =>
     options.AddPolicy(corsPolicyName, (policyBuilder) =>
     {
         policyBuilder.WithOrigins([
-            "https://localhost:5173"
+            "https://localhost:5173",
+            "https://artorias2718.github.io"
         ]);
         policyBuilder.AllowAnyHeader();
         policyBuilder.AllowAnyMethod();
