@@ -160,6 +160,9 @@ function ParcelRarityRatesGrid({ isMobile }: { isMobile: boolean }) {
 
   return (
     <Stack spacing={1}>
+      <Typography variant="subtitle1" component="h3">
+        The following table lists
+      </Typography>
       <Typography variant="subtitle2" component="h3">
         Base Rent by Parcel Rarity
       </Typography>
