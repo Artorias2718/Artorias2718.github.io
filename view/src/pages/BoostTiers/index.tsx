@@ -160,11 +160,14 @@ function ParcelRarityRatesGrid({ isMobile }: { isMobile: boolean }) {
 
   return (
     <Stack spacing={1}>
-      <Typography variant="subtitle1" component="h3">
-        The following table lists
-      </Typography>
-      <Typography variant="subtitle2" component="h3">
+      <Typography variant="h2" component="h2">
         Base Rent by Parcel Rarity
+      </Typography>
+      <Typography variant="body1">
+        Every parcel you buy is assigned a rarity at random — you don't get to pick — so this table isn't a shopping menu, it's the odds sheet for a lottery you're already playing. Half of everything you'll ever own comes up Common, and only one parcel in twenty lands as Legendary. That spread matters because the payouts are far from equal: a Legendary earns about 4× what a Common does, an Epic about 2×, while a Rare only edges out a Common by roughly 45%.
+      </Typography>
+      <Typography variant="body1">
+        Because rarity is fixed by those odds, the number that actually governs your income isn't any single row — it's the blended average, what a typical parcel earns once you account for the whole 50/30/15/5 mix. That works out to roughly $1.37 × 10⁻⁴ per parcel per day, or about five cents per parcel per year in raw base rent. That sounds like nothing, and it is — which is the single most important thing to understand about Atlas Earth's economy. Base rent alone will never move the needle; nearly everything you earn comes from the boosts and ads layered on top of it (see the tier table below). So plan around the average, not the jackpot: chasing that 1-in-20 Legendary feeling only ever adds a rounding error to a number that's decided elsewhere.
       </Typography>
       <Paper variant="outlined">
         <DataGrid
@@ -271,6 +274,23 @@ export default function BoostTiers() {
     <Box sx={{ maxWidth: 1200, mx: 'auto', px: { xs: 2, sm: 3 }, py: 3 }}>
       <Stack spacing={2}>
         <ParcelRarityRatesGrid isMobile={isMobile} />
+
+        <Typography variant="h2" component="h2">
+          Tier Jump Tables
+        </Typography>
+
+        <Typography variant="subtitle1">
+          These are the tables that actually predict your earnings, and they hide three things the raw numbers won't tell you at a glance.
+        </Typography>
+        <Typography variant="subtitle1">
+          <strong>First, many players watch the Boost column run the wrong way.</strong> New players see the <strong>30×</strong> multiplier on their first parcels and assume bigger holdings bring bigger boosts — but it's actually the opposite. The multiplier drops as you grow: for instance, in the US, your boost multiplier goes from <strong>30×</strong> under 150 parcels down to <strong>7×</strong> by the 546–625 tier. Your total rent still climbs, because more parcels more than make up for the smaller multiplier — but if you were counting on that 30× sticking around, consider this your warning. It's a starter bonus, not a permanent rate.
+        </Typography>
+        <Typography variant="subtitle1">
+          <strong>Second — and this is the big one for anyone just starting — look at how flat the "With Ads/mo." column is.</strong> From your very first parcel to more than 500 of them, it barely moves, hovering right around $15.50 the entire way. Meanwhile "No Ads/mo." — your income if you never watch a single ad — climbs from about 63¢ to $2.61. Put those together and the takeaway is blunt: roughly 96% of your income comes from watching ads when you're starting out, and it's still more than 80% even once you're past 500 parcels. Grinding to buy your 200th parcel will change your monthly total far less than simply showing up for your daily ads. Acquisition matters eventually — ad discipline matters first.
+        </Typography>
+        <Typography variant="subtitle1">
+          <strong>Third, notice where parcel count actually pays off: the "Super Rent Boosts/yr." column.</strong> Super rent boosts multiply your parcel rent, so their value scales directly with how much you own. For a small holder they add only about 17% on top of the ads-included yearly total; by the 546–625 tier they add over 70%. That's the real argument for continuing to acquire — not the base rent, but the fact that a larger portfolio makes every super rent boost dramatically more powerful. If you're weighing whether more parcels are worth it, this column is your answer.
+        </Typography>
 
         <Tabs
           value={regionKey}
