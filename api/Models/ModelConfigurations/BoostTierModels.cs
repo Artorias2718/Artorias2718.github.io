@@ -17,6 +17,7 @@ public class ParcelConfiguration : IEntityTypeConfiguration<Parcel>
 
         builder.Property(e => e.Odds)
                .HasColumnType("decimal")
+               .HasPrecision(18, 12)
                .IsRequired();
 
         builder.Property(e => e.Rate)
