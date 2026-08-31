@@ -1,5 +1,7 @@
+using System.Text;
 using api.Contexts;
 using api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Seeders;
 
@@ -10,12 +12,23 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
         using (var scope = serviceScopeFactory.CreateScope())
         {
             var context = scope.ServiceProvider.GetService<SqlServerContext>();
-            SeedFAQs(context);
-            SeedGlossary(context);
-            SeedParcels(context);
-            SeedRegionTiers(context);
-            SeedResources(context);
+            SeedFAQs(context!);
+            SeedGlossary(context!);
+            SeedParcels(context!);
+            SeedRegionTiers(context!);
+            SeedResources(context!);
         }
+    }
+
+    private void ToggleIdentityInsert(SqlServerContext context, string tableName, bool enable)
+    {
+        string sEnable = enable ? "ON" : "OFF";
+
+        StringBuilder oRawSQL = new StringBuilder();
+
+        oRawSQL.Append($"SET IDENTITY_INSERT dbo.{tableName} {sEnable};");
+        context.Database.ExecuteSqlRaw(oRawSQL.ToString());
+        context.SaveChanges();
     }
 
     private void SeedFAQs(SqlServerContext context)
@@ -333,10 +346,13 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
 
         if (!context.FAQGroups.Any())
         {
+            ToggleIdentityInsert(context!, "FAQGroup", true);
             var oFaqs = oFaqGroups.SelectMany(x => x.Questions);
             context.FAQGroups.AddRange(oFaqGroups);
             context.SaveChanges();
+            ToggleIdentityInsert(context!, "FAQGroup", false);
 
+            ToggleIdentityInsert(context!, "FAQ", true);
             foreach (var oFaqGroup in oFaqGroups)
             {
                 var nFaqGroupId = oFaqGroup.Id;
@@ -350,6 +366,7 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
 
             context.FAQs.AddRange(oFaqs);
             context.SaveChanges();
+            ToggleIdentityInsert(context!, "FAQ", false);
         }
     }
 
@@ -450,8 +467,10 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
 
         if (!context.Glossaries.Any())
         {
+            ToggleIdentityInsert(context!, "Glossary", true);
             context.Glossaries.AddRange(oGlossary);
             context.SaveChanges();
+            ToggleIdentityInsert(context!, "Glossary", false);
         }
     }
 
@@ -487,8 +506,10 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
 
         if (!context.Parcels.Any())
         {
+            ToggleIdentityInsert(context!, "Parcel", true);
             context.Parcels.AddRange(oParcels);
             context.SaveChanges();
+            ToggleIdentityInsert(context!, "Parcel", false);
         }
     }
 
@@ -1839,8 +1860,10 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
 
         if (!context.RegionTiers.Any())
         {
+            ToggleIdentityInsert(context!, "RegionTier", true);
             context.RegionTiers.AddRange(oRegionTiers);
             context.SaveChanges();
+            ToggleIdentityInsert(context!, "RegionTier", false);
         }
 
         if (!context.RegionCountries.Any() && !context.BoostTiers.Any())
@@ -1860,11 +1883,15 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
                 oParallelBoostTiers.ForAll(x => x.RegionTierId = nRegionTierId);
             }
 
+            ToggleIdentityInsert(context!, "RegionCountry", true);
             context.RegionCountries.AddRange(oRegionCountryValues);
             context.SaveChanges();
+            ToggleIdentityInsert(context!, "RegionCountry", false);
 
+            ToggleIdentityInsert(context!, "BoostTier", true);
             context.BoostTiers.AddRange(oBoostTierValues);
             context.SaveChanges();
+            ToggleIdentityInsert(context!, "BoostTier", false);
         }
     }
     private void SeedResources(SqlServerContext context)
@@ -2063,10 +2090,13 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
 
         if (!context.ResourceGroups.Any())
         {
+            ToggleIdentityInsert(context!, "ResourceGroup", true);
             var oResources = oResourceGroups.SelectMany(x => x.Items);
             context.ResourceGroups.AddRange(oResourceGroups);
             context.SaveChanges();
+            ToggleIdentityInsert(context!, "ResourceGroup", false);
 
+            ToggleIdentityInsert(context!, "Resource", true);
             foreach (var oResourceGroup in oResourceGroups)
             {
                 var nResourceGroupId = oResourceGroup.Id;
@@ -2090,6 +2120,7 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
 
             context.Resources.AddRange(oResources);
             context.SaveChanges();
+            ToggleIdentityInsert(context!, "Resource", false);
         }
     }
 }

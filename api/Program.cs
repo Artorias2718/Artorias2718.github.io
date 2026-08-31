@@ -1,10 +1,12 @@
 using System.Reflection;
+using System.Threading.RateLimiting;
 using api.Contexts;
 using api.Domain.Public.FAQ;
 using api.Domain.Public.Resource;
 using api.Models;
 using api.Profiles.Public;
 using api.Seeders;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -14,6 +16,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 var corsPolicyName = "_corsPolicy";
+var readPolicyName = "_readPolicy";
+var writePolicyName = "_writePolicy";
+
 builder.Services.AddControllers()
    .AddNewtonsoftJson(options =>
    {
@@ -46,6 +51,33 @@ builder.Services.AddCors((options) =>
     });
 });
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddPolicy<string>(readPolicyName, httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 100,
+                Window = TimeSpan.FromMinutes(1)
+            }
+        )
+    );
+
+     options.AddPolicy<string>(writePolicyName, httpContext =>
+         RateLimitPartition.GetFixedWindowLimiter(
+             partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+             factory: _ => new FixedWindowRateLimiterOptions
+             {
+                 PermitLimit = 15,
+                 Window = TimeSpan.FromMinutes(1)
+             }
+         )
+     );
+});
+
 builder.Services.AddScoped<IFAQDomainGet, FAQDomainGet>();
 builder.Services.AddScoped<IGlossaryDomainGet, GlossaryDomainGet>();
 builder.Services.AddScoped<IBoostTierDomainGet, BoostTierDomainGet>();
@@ -55,7 +87,11 @@ builder.Services.AddDbContext<SqlServerContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnectionString"),
         sqlOptions => {
-            sqlOptions.EnableRetryOnFailure();
+            sqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(30),
+                errorNumbersToAdd: null
+            );
             sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
             sqlOptions.UseCompatibilityLevel(160); // SQL Server 2022
         });
