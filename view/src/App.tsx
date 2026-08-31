@@ -5,6 +5,7 @@ import { Outlet, useMatches } from 'react-router-dom';
 import type { RouteHandle } from './main';
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import {usePrerenderSignal} from "@/hooks/prerender/usePrerenderSignal.ts";
 
 interface UIMatchWithHandle {
     id: string;
@@ -26,12 +27,12 @@ const queryClient = new QueryClient({
     }
 });
 
-function App() {
+function AppPreRenderer() {
     const matches = useMatches();
     const currentMatch = matches[matches.length - 1] as UIMatchWithHandle | undefined;
     const pageName = currentMatch?.handle?.pageName || '';
 
-    // 2. Force the browser to refresh the title whenever the pageName changes
+    usePrerenderSignal();
     useEffect(() => {
         document.title = pageName ? `Atlas Earth HQ | ${pageName}` : 'Atlas Earth HQ';
     }, [pageName]);
@@ -44,12 +45,17 @@ function App() {
                 <Navbar />
             </header>
 
-            <QueryClientProvider client={queryClient}>
-                <Outlet />
-            </QueryClientProvider>
-
             <Footer />
         </ThemeProvider>
+    );
+}
+
+function App() {
+    return (
+        <QueryClientProvider client={queryClient}>
+            <AppPreRenderer />
+            <Outlet />
+        </QueryClientProvider>
     );
 }
 

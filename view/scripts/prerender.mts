@@ -27,8 +27,11 @@ const server = createServer((req, res) => {
     res.end(shell);
   }
 });
+
+const host = `http://localhost:${PORT}`;
+
 await new Promise<void>((r) => server.listen(PORT, () => r()));
-console.log(`serving dist on http://localhost:${PORT}`);
+console.log(`serving dist on ${host}`);
 
 const browser: Browser = await puppeteer.launch({
   headless: true,
@@ -42,17 +45,15 @@ for (const route of routes) {
   page.on('requestfailed', (r) =>
     console.log(`  [${route}] requestfailed: ${r.url()} — ${r.failure()?.errorText}`)
   );
+  page.on('response', (r) => {
+    if (r.status() >= 400) console.log(`  [${route}] HTTP ${r.status()}: ${r.url()}`);
+  });
 
-  await page.goto(`http://localhost:${PORT}${route}`, { waitUntil: 'networkidle0' });
+  await page.goto(`${host}${route}`, { waitUntil: 'networkidle0' });
 
   try {
-    await page.waitForFunction(
-      () => {
-        const root = document.getElementById('root');
-        return !!root && root.children.length > 0;
-      },
-      { timeout: 15000 }
-    );
+    await page.waitForFunction(() =>
+        document.documentElement.dataset.prerenderReady === 'true', { timeout: 15000 });
   } catch (err) {
     const tag = route === '/' ? 'root' : route.replace(/\//g, '_');
     await page.screenshot({ path: join(__dirname, `fail-${tag}.png`), fullPage: true });

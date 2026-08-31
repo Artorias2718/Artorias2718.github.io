@@ -43,6 +43,7 @@ builder.Services.AddCors((options) =>
     options.AddPolicy(corsPolicyName, (policyBuilder) =>
     {
         policyBuilder.WithOrigins([
+            "http://localhost:5055",
             "https://localhost:5173",
             "https://artorias2718.github.io"
         ]);
