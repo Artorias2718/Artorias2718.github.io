@@ -45,6 +45,7 @@ function AppPreRenderer() {
                 <Navbar />
             </header>
 
+            <Outlet />
             <Footer />
         </ThemeProvider>
     );
@@ -54,7 +55,6 @@ function App() {
     return (
         <QueryClientProvider client={queryClient}>
             <AppPreRenderer />
-            <Outlet />
         </QueryClientProvider>
     );
 }
