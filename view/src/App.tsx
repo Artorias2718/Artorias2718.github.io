@@ -14,7 +14,17 @@ interface UIMatchWithHandle {
     handle: RouteHandle;
 }
 
-const queryClient = new QueryClient();
+const hourAsMilliseconds= 1000 * 60 * 60;
+
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: hourAsMilliseconds,
+            gcTime: hourAsMilliseconds * 2,
+            refetchOnWindowFocus: false,
+        }
+    }
+});
 
 function App() {
     const matches = useMatches();
