@@ -23,6 +23,7 @@ import useGetParcels from "@/api/queryHooks/BoostTiers/useGetParcels.ts";
 import useGetRegionTiers from "@/api/queryHooks/BoostTiers/useGetRegionTiers.ts";
 
 import { decode } from 'html-entities';
+import { ApiState } from "@/components/ApiState.tsx";
 
 const currencyFmt = (currency: string) =>
   new Intl.NumberFormat('en-US', {
@@ -111,7 +112,7 @@ const RARITY_CHIP_COLOR: Record<
 };
 
 function ParcelRarityRatesGrid({ isMobile }: { isMobile: boolean }) {
-  const { data: parcels } = useGetParcels();
+  const parcelsQuery = useGetParcels();
 
   const columns = useMemo<GridColDef<IParcelRead>[]>(
     () => [
@@ -170,16 +171,20 @@ function ParcelRarityRatesGrid({ isMobile }: { isMobile: boolean }) {
         Because rarity is fixed by those odds, the number that actually governs your income isn't any single row — it's the blended average, what a typical parcel earns once you account for the whole 50/30/15/5 mix. That works out to roughly $1.37 × 10⁻⁴ per parcel per day, or about five cents per parcel per year in raw base rent. That sounds like nothing, and it is — which is the single most important thing to understand about Atlas Earth's economy. Base rent alone will never move the needle; nearly everything you earn comes from the boosts and ads layered on top of it (see the tier table below). So plan around the average, not the jackpot: chasing that 1-in-20 Legendary feeling only ever adds a rounding error to a number that's decided elsewhere.
       </Typography>
       <Paper variant="outlined">
-        <DataGrid
-          rows={parcels || []}
-          columns={columns}
-          columnVisibilityModel={{ perDay: !isMobile }}
-          density="compact"
-          disableRowSelectionOnClick
-          disableColumnMenu
-          hideFooter
-          sx={{ border: 0 }}
-        />
+        <ApiState query={parcelsQuery} loadingLabel="Loading Parcel Breakdown...">
+          {(rows) => (
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              columnVisibilityModel={{ perDay: !isMobile }}
+              density="compact"
+              disableRowSelectionOnClick
+              disableColumnMenu
+              hideFooter
+              sx={{ border: 0 }}
+            />
+          )}
+        </ApiState>
       </Paper>
     </Stack>
   );
@@ -189,15 +194,16 @@ export default function BoostTiers() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const { data: regionTierTables, status: regionTierTablesStatus } = useGetRegionTiers();
+  const regionTiersQuery = useGetRegionTiers();
+  const { data: regionTierTables, status: regionTierTablesStatus } = regionTiersQuery;
 
   const [regionKey, setRegionKey] = useState('USA');
   const [mobileMetric, setMobileMetric] = useState<MoneyField>('withAdsMonth');
 
-  const region: IRegionTierTableRead = useMemo(
+  const region: IRegionTierTableRead | undefined = useMemo(
     () => regionTierTables && regionTierTablesStatus === 'success'
       ? regionTierTables.find((r: IRegionTierTableRead) => r.key === regionKey)
-      : null,
+      : undefined,
     [regionKey, regionTierTables, regionTierTablesStatus],
   );
 
@@ -209,8 +215,6 @@ export default function BoostTiers() {
         : false,
     [region],
   );
-
-  //console.log(region);
 
   const columns = useMemo<GridColDef<IBoostTierRowRead>[]>(() => {
     const money = currencyFmt(region ? region.currency : 'USD');
@@ -336,18 +340,22 @@ export default function BoostTiers() {
         </Stack>
 
         <Paper variant="outlined">
-          <DataGrid
-            rows={region && region.tiers || []}
-            columns={columns}
-            density="compact"
-            disableRowSelectionOnClick
-            disableColumnMenu
-            hideFooter={region && region.tiers && region.tiers.length <= 25}
-            initialState={{
-              sorting: { sortModel: [{ field: 'parcelsLabel', sort: 'asc' }] },
-            }}
-            sx={{ border: 0 }}
-          />
+          <ApiState query={regionTiersQuery} loadingLabel="Loading Boost Tier Data...">
+            {() => (
+              <DataGrid
+                rows={region ? region.tiers : []}
+                columns={columns}
+                density="compact"
+                disableRowSelectionOnClick
+                disableColumnMenu
+                hideFooter={!!region && region.tiers.length <= 25}
+                initialState={{
+                  sorting: { sortModel: [{ field: 'parcelsLabel', sort: 'asc' }] },
+                }}
+                sx={{ border: 0 }}
+              />
+            )}
+          </ApiState>
         </Paper>
 
         <Box>

@@ -5,7 +5,7 @@ import { Outlet, useMatches } from 'react-router-dom';
 import type { RouteHandle } from './main';
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import {usePrerenderSignal} from "@/hooks/prerender/usePrerenderSignal.ts";
+import { usePrerenderSignal } from "@/hooks/prerender/usePrerenderSignal.ts";
 
 interface UIMatchWithHandle {
     id: string;
@@ -15,14 +15,32 @@ interface UIMatchWithHandle {
     handle: RouteHandle;
 }
 
-const hourAsMilliseconds= 1000 * 60 * 60;
+function getErrorStatus(error: unknown): number | undefined {
+    if (typeof error === 'object' && error !== null) {
+        const resp = (error as { response?: { status?: unknown } }).response;
+        if (resp && typeof resp.status === 'number') return resp.status;
+
+        const status = (error as { status?: unknown }).status;
+        if (typeof status === 'number') return status;
+    }
+    return undefined;
+}
 
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
-            staleTime: hourAsMilliseconds,
-            gcTime: hourAsMilliseconds * 2,
-            refetchOnWindowFocus: false,
+            // Retry transient/cold-start failures, but not genuine 4xx (e.g. a real 404)
+            retry: (failureCount, error) => {
+                const status = getErrorStatus(error);
+                if(status && status >= 400 && status < 500 && status !== 408) {
+                    return false;
+                }
+
+                return failureCount < 8;
+            },
+            // Capped exponential backoff: ~1+2+4+8+15*3 \aeq 60
+            retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 15000),
+            staleTime: 60_000,
         }
     }
 });
