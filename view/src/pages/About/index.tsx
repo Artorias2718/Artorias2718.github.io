@@ -20,11 +20,11 @@ import { iconMap } from "@/../public/iconMap";
 import { ExternalLink, Heart, HelpCircle } from "lucide-react";
 
 export default function About() {
-  const { data: aboutDetails1 } = useGetAboutDetails(true);
-    const { data: aboutDetails2 } = useGetAboutDetails(false);
+  const { data: aboutDetailsIcons } = useGetAboutDetails(true);
+    const { data: aboutDetailsNoIcons } = useGetAboutDetails(false);
     const { data: communityLinks } = useGetCommunityLinks();
 
-    //console.log(aboutDetails2);
+    //console.log(aboutDetailsNoIcons);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -119,7 +119,7 @@ export default function About() {
             {/* Right — feature cards */}
             <Grid size={{ xs: 12, md: 6 }}>
               <Stack spacing={2}>
-                  {aboutDetails1 && aboutDetails1.map(({ icon, title, description }) => {
+                  {aboutDetailsIcons && aboutDetailsIcons.map(({ icon, title, description }) => {
                       const IconComponent = iconMap[icon];
                       return (
                           <Card
@@ -175,7 +175,7 @@ export default function About() {
             What we cover
           </Typography>
           <Grid container spacing={3}>
-              {aboutDetails2 && aboutDetails2.map(({ title, description }) => (
+              {aboutDetailsNoIcons && aboutDetailsNoIcons.map(({ title, description }) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={title}>
                 <Paper
                   variant="outlined"
