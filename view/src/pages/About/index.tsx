@@ -14,35 +14,23 @@ import {
 } from "@mui/material";
 import { Globe2, Users, BookOpen, HelpCircle, ExternalLink, Heart } from "lucide-react";
 import Kaiba from "../../assets/Kaiba.jpg";
+import { decode } from 'html-entities';
+import useGetAboutDetails from "@/api/queryHooks/About/useGetAboutDetails";
+import useGetCommunityLinks from "@/api/queryHooks/About/useGetCommunityLinks";
 
 export default function About() {
-    const communityLinks = [
-        {
-            href: 'https://www.youtube.com/@Artorias2718/',
-            icon: 'https://www.citypng.com/public/uploads/preview/hd-youtube-yt-triangle-symbol-logo-icon-sign-png-701751695118564ln4ifqdive.png?v=2026040801',
-            alt: 'Find me on YouTube'
-        },
-        {
-            href: 'https://discordapp.com/users/artorias2718',
-            icon: 'https://thumbnail.imgbin.com/2/21/7/discord-icon-blue-discord-logo-for-chatting-and-communication-RA6Qd2f8_t.jpg',
-            alt: 'Find me on Discord'
-        },
-        {
-            href: 'https://www.reddit.com/user/Artorias2718/',
-            icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrsKg4yMUfbTzBvZJtpNKF1nCeICuTq4oCX4_ctNLwzMqAbJZi1QlhE2c&s=10',
-            alt: 'Find me on Reddit'
-        },
-        {
-            href: 'https://www.facebook.com/Artorias2718',
-            icon: 'https://thumbs.dreamstime.com/b/social-media-icon-illustration-facebook-vector-232042829.jpg',
-            alt: 'Find me on Facebook'
-        },
-        {
-            href: 'https://x.com/artorias2718',
-            icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRniL3TITD85gTrlsOBoApCavs5nT3KaBgQJeGJpbtkKg&s=10',
-            alt: 'Find me on X'
-        }
-    ];
+  const { data: aboutDetails1 } = useGetAboutDetails(true);
+    const { data: aboutDetails2 } = useGetAboutDetails(false);
+    const { data: communityLinks } = useGetCommunityLinks();
+
+    const iconDict = {
+        BookOpen: <BookOpen />,
+        Globe2: <Globe2 />,
+        Users: <Users />
+    }
+
+    console.log(aboutDetails2);
+
   return (
     <Box sx={{ width: "100%" }}>
       {/* Hero */}
@@ -136,23 +124,7 @@ export default function About() {
             {/* Right — feature cards */}
             <Grid size={{ xs: 12, md: 6 }}>
               <Stack spacing={2}>
-                {[
-                  {
-                    icon: <BookOpen size={20} />,
-                    title: "Comprehensive FAQ",
-                    body: "Over 30 answered questions covering every aspect of Atlas Earth, from the basics to advanced strategy.",
-                  },
-                  {
-                    icon: <Globe2 size={20} />,
-                    title: "Plain Language Glossary",
-                    body: "Every term a new player might encounter, explained simply — no prior gaming knowledge required.",
-                  },
-                  {
-                    icon: <Users size={20} />,
-                    title: "Community Maintained",
-                    body: "Written and reviewed by active Atlas Earth players. We update the content as the game evolves.",
-                  },
-                ].map(({ icon, title, body }) => (
+                  {aboutDetails1 && aboutDetails1.map(({ icon, title, description }) => (
                   <Card
                     key={title}
                     variant="outlined"
@@ -169,14 +141,14 @@ export default function About() {
                           display: "flex",
                         }}
                       >
-                        {icon}
+                        {iconDict[icon]}
                       </Box>
                       <Box>
                         <Typography sx={{ fontWeight: 700, mb: 0.5 }}>
-                          {title}
+                          {decode(title)}
                         </Typography>
                         <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.7 }}>
-                          {body}
+                          {decode(description)}
                         </Typography>
                       </Box>
                     </CardContent>
@@ -204,38 +176,7 @@ export default function About() {
             What we cover
           </Typography>
           <Grid container spacing={3}>
-            {[
-              {
-                title: "Getting Started",
-                description:
-                  "What Atlas Earth is, how to download it, what parcels are, and what to expect as a brand new player.",
-              },
-              {
-                title: "Game Mechanics",
-                description:
-                  "How rent works, what Atlas Bucks and Atlas Coins are, the difference between rarity tiers, and how boosts function.",
-              },
-              {
-                title: "Buying Land",
-                description:
-                  "How to find and buy parcels, what the different map colors mean, and how proximity-based purchasing works.",
-              },
-              {
-                title: "Earnings & Payouts",
-                description:
-                  "Realistic earning expectations, how the payout system works, minimum thresholds, and payout methods.",
-              },
-              {
-                title: "Strategy & Tips",
-                description:
-                  "Free-to-play strategies, whether premium land is worth buying, common mistakes, and how to maximize your rent income.",
-              },
-              {
-                title: "Community Resources",
-                description:
-                  "Where to find other players, the official Discord, subreddits, Facebook groups, and how to contact Atlas Reality support.",
-              },
-            ].map(({ title, description }) => (
+              {aboutDetails2 && aboutDetails2.map(({ title, description }) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={title}>
                 <Paper
                   variant="outlined"
@@ -247,10 +188,10 @@ export default function About() {
                   }}
                 >
                   <Typography sx={{ fontWeight: 700, mb: 1 }}>
-                    {title}
+                    {decode(title)}
                   </Typography>
                   <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.7 }}>
-                    {description}
+                    {decode(description)}
                   </Typography>
                 </Paper>
               </Grid>
@@ -350,7 +291,7 @@ export default function About() {
                   {[
                     { label: "Status", value: "Active Player", color: "primary.main" },
                     { label: "Player type", value: "AE Whale", color: "text.primary" },
-                      { label: "Community", value: communityLinks, color: "text.primary" },
+                    { label: "Community", value: communityLinks || [], color: "text.primary" },
                   ].map(({ label, value, color }) => (
                     <Stack
                       key={label}
@@ -365,7 +306,7 @@ export default function About() {
                         {label}
                       </Typography>
                       <Typography variant="body2" sx={{ fontWeight: 600, color }}>
-                          {typeof(value) !== 'string' && value.map(({href, icon, alt}, index) => <Link key={index} to={href}><img src={icon} style={{ width: '4rem', height: '3.75rem' }} alt={alt} /></Link>)}
+                          {typeof(value) !== 'string' && value.map(({href, icon, alt}, index) => <Link key={index} to={href}><img src={icon} style={{ width: '4rem', }} alt={alt} /></Link>)}
                       </Typography>
                     </Stack>
                   ))}

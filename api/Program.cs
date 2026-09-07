@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Threading.RateLimiting;
 using api.Contexts;
+using api.Domain.Public.About;
 using api.Domain.Public.FAQ;
 using api.Domain.Public.Resource;
 using api.Models;
@@ -83,6 +84,7 @@ builder.Services.AddScoped<IFAQDomainGet, FAQDomainGet>();
 builder.Services.AddScoped<IGlossaryDomainGet, GlossaryDomainGet>();
 builder.Services.AddScoped<IBoostTierDomainGet, BoostTierDomainGet>();
 builder.Services.AddScoped<IResourceDomainGet, ResourceDomainGet>();
+builder.Services.AddScoped<IAboutDomainGet, AboutDomainGet>();
 
 builder.Services.AddDbContext<SqlServerContext>(options =>
 {
