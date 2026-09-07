@@ -12,24 +12,19 @@ import {
   Typography,
   alpha,
 } from "@mui/material";
-import { Globe2, Users, BookOpen, HelpCircle, ExternalLink, Heart } from "lucide-react";
 import Kaiba from "../../assets/Kaiba.jpg";
 import { decode } from 'html-entities';
 import useGetAboutDetails from "@/api/queryHooks/About/useGetAboutDetails";
 import useGetCommunityLinks from "@/api/queryHooks/About/useGetCommunityLinks";
+import { iconMap } from "@/../public/iconMap";
+import { ExternalLink, Heart, HelpCircle } from "lucide-react";
 
 export default function About() {
   const { data: aboutDetails1 } = useGetAboutDetails(true);
     const { data: aboutDetails2 } = useGetAboutDetails(false);
     const { data: communityLinks } = useGetCommunityLinks();
 
-    const iconDict = {
-        BookOpen: <BookOpen />,
-        Globe2: <Globe2 />,
-        Users: <Users />
-    }
-
-    console.log(aboutDetails2);
+    //console.log(aboutDetails2);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -124,36 +119,40 @@ export default function About() {
             {/* Right — feature cards */}
             <Grid size={{ xs: 12, md: 6 }}>
               <Stack spacing={2}>
-                  {aboutDetails1 && aboutDetails1.map(({ icon, title, description }) => (
-                  <Card
-                    key={title}
-                    variant="outlined"
-                    sx={{ bgcolor: "background.paper" }}
-                  >
-                    <CardContent sx={{ p: 3, display: "flex", gap: 2, alignItems: "flex-start" }}>
-                      <Box
-                        sx={{
-                          flexShrink: 0,
-                          p: 1.25,
-                          borderRadius: 2.5,
-                          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
-                          color: "primary.main",
-                          display: "flex",
-                        }}
-                      >
-                        {iconDict[icon]}
-                      </Box>
-                      <Box>
-                        <Typography sx={{ fontWeight: 700, mb: 0.5 }}>
-                          {decode(title)}
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.7 }}>
-                          {decode(description)}
-                        </Typography>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                ))}
+                  {aboutDetails1 && aboutDetails1.map(({ icon, title, description }) => {
+                      const IconComponent = iconMap[icon];
+                      return (
+                          <Card
+                              key={title}
+                              variant="outlined"
+                              sx={{ bgcolor: "background.paper" }}
+                          >
+                              <CardContent sx={{ p: 3, display: "flex", gap: 2, alignItems: "flex-start" }}>
+                                  <Box
+                                      sx={{
+                                          flexShrink: 0,
+                                          p: 1.25,
+                                          borderRadius: 2.5,
+                                          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
+                                          color: "primary.main",
+                                          display: "flex",
+                                      }}
+                                  >
+                                      {icon && <IconComponent />}
+                                  </Box>
+                                  <Box>
+                                      <Typography sx={{ fontWeight: 700, mb: 0.5 }}>
+                                          {decode(title)}
+                                      </Typography>
+                                      <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.7 }}>
+                                          {decode(description)}
+                                      </Typography>
+                                  </Box>
+                              </CardContent>
+                          </Card>
+                      )
+                  }
+                )}
               </Stack>
             </Grid>
           </Grid>
