@@ -18,13 +18,17 @@ import useGetAboutDetails from "@/api/queryHooks/About/useGetAboutDetails";
 import useGetCommunityLinks from "@/api/queryHooks/About/useGetCommunityLinks";
 import { iconMap } from "@/../public/iconMap";
 import { ExternalLink, Heart, HelpCircle } from "lucide-react";
+import { ApiState } from "@/components/ApiState.tsx";
 
 export default function About() {
-  const { data: aboutDetailsIcons } = useGetAboutDetails(true);
-    const { data: aboutDetailsNoIcons } = useGetAboutDetails(false);
-    const { data: communityLinks } = useGetCommunityLinks();
+  const aboutDetailsIcons = useGetAboutDetails(true);
+  const aboutDetailsNoIcons = useGetAboutDetails(false);
+  const communityLinks = useGetCommunityLinks();
 
-    //console.log(aboutDetailsNoIcons);
+  const artorias2718Stats = [
+    { label: "Status", color: "primary.main", value: "Active Player" },
+    { label: "Player type", color: "text.primary", value: "AE Whale" },
+  ];
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -119,40 +123,41 @@ export default function About() {
             {/* Right — feature cards */}
             <Grid size={{ xs: 12, md: 6 }}>
               <Stack spacing={2}>
-                  {aboutDetailsIcons && aboutDetailsIcons.map(({ icon, title, description }) => {
-                      const IconComponent = iconMap[icon];
-                      return (
-                          <Card
-                              key={title}
-                              variant="outlined"
-                              sx={{ bgcolor: "background.paper" }}
+                <ApiState query={aboutDetailsIcons} loadingLabel="Loading Details...">
+                  {(aboutDetails) => aboutDetails.map(({ icon, title, description }) => {
+                    const IconComponent = iconMap[icon];
+                    return (
+                      <Card
+                        key={title}
+                        variant="outlined"
+                        sx={{ bgcolor: "background.paper" }}
+                      >
+                        <CardContent sx={{ p: 3, display: "flex", gap: 2, alignItems: "flex-start" }}>
+                          <Box
+                            sx={{
+                              flexShrink: 0,
+                              p: 1.25,
+                              borderRadius: 2.5,
+                              bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
+                              color: "primary.main",
+                              display: "flex",
+                            }}
                           >
-                              <CardContent sx={{ p: 3, display: "flex", gap: 2, alignItems: "flex-start" }}>
-                                  <Box
-                                      sx={{
-                                          flexShrink: 0,
-                                          p: 1.25,
-                                          borderRadius: 2.5,
-                                          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
-                                          color: "primary.main",
-                                          display: "flex",
-                                      }}
-                                  >
-                                      {icon && <IconComponent />}
-                                  </Box>
-                                  <Box>
-                                      <Typography sx={{ fontWeight: 700, mb: 0.5 }}>
-                                          {decode(title)}
-                                      </Typography>
-                                      <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.7 }}>
-                                          {decode(description)}
-                                      </Typography>
-                                  </Box>
-                              </CardContent>
-                          </Card>
-                      )
-                  }
-                )}
+                            {icon && <IconComponent />}
+                          </Box>
+                          <Box>
+                            <Typography sx={{ fontWeight: 700, mb: 0.5 }}>
+                              {decode(title)}
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.7 }}>
+                              {decode(description)}
+                            </Typography>
+                          </Box>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </ApiState>
               </Stack>
             </Grid>
           </Grid>
@@ -175,26 +180,28 @@ export default function About() {
             What we cover
           </Typography>
           <Grid container spacing={3}>
-              {aboutDetailsNoIcons && aboutDetailsNoIcons.map(({ title, description }) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={title}>
-                <Paper
-                  variant="outlined"
-                  sx={{
-                    p: 3,
-                    borderRadius: 3,
-                    bgcolor: "background.default",
-                    height: "100%",
-                  }}
-                >
-                  <Typography sx={{ fontWeight: 700, mb: 1 }}>
-                    {decode(title)}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.7 }}>
-                    {decode(description)}
-                  </Typography>
-                </Paper>
-              </Grid>
-            ))}
+            <ApiState query={aboutDetailsNoIcons} loadingLabel="Loading Details...">
+              {(aboutDetails) => aboutDetails.map(({ title, description }) => (
+                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={title}>
+                  <Paper
+                    variant="outlined"
+                    sx={{
+                      p: 3,
+                      borderRadius: 3,
+                      bgcolor: "background.default",
+                      height: "100%",
+                    }}
+                  >
+                    <Typography sx={{ fontWeight: 700, mb: 1 }}>
+                      {decode(title)}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.7 }}>
+                      {decode(description)}
+                    </Typography>
+                  </Paper>
+                </Grid>
+              ))}
+            </ApiState>
           </Grid>
         </Container>
       </Box>
@@ -287,11 +294,7 @@ export default function About() {
 
                 {/* Stats */}
                 <Stack divider={<Divider />}>
-                  {[
-                    { label: "Status", value: "Active Player", color: "primary.main" },
-                    { label: "Player type", value: "AE Whale", color: "text.primary" },
-                    { label: "Community", value: communityLinks || [], color: "text.primary" },
-                  ].map(({ label, value, color }) => (
+                  {artorias2718Stats.map(({ label, value, color }) => (
                     <Stack
                       key={label}
                       sx={{
@@ -305,10 +308,35 @@ export default function About() {
                         {label}
                       </Typography>
                       <Typography variant="body2" sx={{ fontWeight: 600, color }}>
-                          {typeof(value) !== 'string' && value.map(({href, icon, alt}, index) => <Link key={index} to={href}><img src={icon} style={{ width: '4rem', }} alt={alt} /></Link>)}
+                        {value}
                       </Typography>
                     </Stack>
                   ))}
+
+                  {/* Community — its own query, rendered inline */}
+                  <Stack
+                    sx={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      py: 1.5,
+                    }}
+                  >
+                    <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                      Community
+                    </Typography>
+                    <ApiState query={communityLinks} loadingLabel="Loading Community Linnks…">
+                      {(links) => (
+                          <Stack direction='row' sx={{ spacing: 1, alignItems: 'center' }}>
+                            {links.map(({ href, icon, alt }, index) => (
+                              <Link key={index} to={href}>
+                                <img src={icon} style={{ width: "4rem" }} alt={alt} />
+                              </Link>
+                            ))}
+                        </Stack>
+                      )}
+                    </ApiState>
+                  </Stack>
                 </Stack>
               </Paper>
             </Grid>
