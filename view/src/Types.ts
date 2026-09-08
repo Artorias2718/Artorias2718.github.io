@@ -77,3 +77,15 @@ export interface IResource {
     description: string;
     badge: string;
 }
+
+export interface IAboutDetailRead {
+    icon?: string;
+    title: string;
+    description: string;
+}
+
+export interface ICommunityLinkRead {
+    href: string;
+    icon: string;
+    alt: string;
+}

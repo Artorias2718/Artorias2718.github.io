@@ -10,20 +10,12 @@ import {
     Stack,
     Typography
 } from "@mui/material";
-import {ExternalLink, Calculator, Map, MessageCircle, Layers, Globe2} from "lucide-react";
-import {SiReddit, SiDiscord, SiFacebook, SiYoutube} from "react-icons/si";
-import {ShowChart, TravelExplore} from '@mui/icons-material';
+import { ExternalLink, Globe2 } from "lucide-react";
+import { SiReddit } from "react-icons/si";
 import ResourceSearch from './ResourceSearch';
 import useGetResources from "@/api/queryHooks/Resource/useGetResources";
+import { iconMap } from "@/../public/iconMap";
 import type { IResourceGroupRead } from "@/Types";
-import type { ComponentType } from "react";
-
-// ─── icon map ─────────────────────────────────────────────────────────────
-const iconMap: Record<string, ComponentType<{ size?: number }>> = {
-    Calculator, Map, MessageCircle, Layers, Globe2,
-    SiReddit, SiDiscord, SiFacebook, SiYoutube,
-    ShowChart, TravelExplore,
-};
 
 // ─── badge config ─────────────────────────────────────────────────────────────
 

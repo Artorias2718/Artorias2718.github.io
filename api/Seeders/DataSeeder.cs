@@ -17,6 +17,8 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             SeedParcels(context!);
             SeedRegionTiers(context!);
             SeedResources(context!);
+            SeedAboutDetails(context!);
+            SeedCommunityLinks(context!);
         }
     }
 
@@ -2121,6 +2123,123 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             context.Resources.AddRange(oResources);
             context.SaveChanges();
             ToggleIdentityInsert(context!, "Resource", false);
+        }
+    }
+
+        private void SeedAboutDetails(SqlServerContext context)
+        {
+            var oAboutDetails = new List<AboutDetail>
+            {
+                new()
+                {
+                    Icon = "BookOpen",
+                    Title = "Comprehensive FAQ",
+                    Description =
+                        "Over 30 answered questions covering every aspect of Atlas Earth, from the basics to advanced strategy."
+                },
+                new()
+                {
+                    Icon = "Globe2",
+                    Title = "Plain Language Glossary",
+                    Description =
+                        "Every term a new player might encounter, explained simply, no prior gaming knowledge required.",
+                },
+                new()
+                {
+                    Icon = "Users",
+                    Title = "Community Maintained",
+                    Description =
+                        "Written and reviewed by active Atlas Earth players. We update the content as the game evolves.",
+                },
+                new()
+                {
+                    Title = "Getting Started",
+                    Description =
+                        "What Atlas Earth is, how to download it, what parcels are, and what to expect as a brand new player."
+                },
+                new()
+                {
+                    Title = "Game Mechanics",
+                    Description =
+                        "How rent works, what Atlas Bucks and Atlas Coins are, the difference between rarity tiers, and how boosts function.",
+                },
+                new()
+                {
+                    Title = "Buying Land",
+                    Description =
+                        "How to find and buy parcels, what the different map colors mean, and how proximity-based purchasing works.",
+                },
+                new()
+                {
+                    Title = "Earnings &amp; Payouts",
+                    Description =
+                        "Realistic earning expectations, how the payout system works, minimum thresholds, and payout methods.",
+                },
+                new()
+                {
+                    Title = "Strategy &amp; Tips",
+                    Description =
+                        "Free-to-play strategies, whether premium land is worth buying, common mistakes, and how to maximize your rent income.",
+                },
+                new()
+                {
+                    Title = "Community Resources",
+                    Description =
+                        "Where to find other players, the official Discord, subreddits, Facebook groups, and how to contact Atlas Reality support.",
+                },
+            };
+
+            if (!context.AboutDetails.Any())
+            {
+                ToggleIdentityInsert(context!, "AboutDetail", true);
+                context.AboutDetails.AddRange(oAboutDetails);
+                context.SaveChanges();
+                ToggleIdentityInsert(context!, "AboutDetail", false);
+            }
+        }
+
+    private void SeedCommunityLinks(SqlServerContext context)
+    {
+        var oCommunityLinks = new List<CommunityLink>
+        {
+            new()
+            {
+                Href = "https://www.youtube.com/@Artorias2718/",
+                Icon = "Youtube.svg",
+                Alt = "Find me on YouTube"
+            },
+            new()
+            {
+                Href = "https://discordapp.com/users/artorias2718",
+                Icon = "Discord.svg",
+                Alt = "Find me on Discord"
+            },
+            new()
+            {
+                Href = "https://www.reddit.com/user/Artorias2718/",
+                Icon = "Reddit.svg",
+                Alt = "Find me on Reddit"
+            },
+            new()
+            {
+                Href = "https://www.facebook.com/Artorias2718",
+                Icon = "Facebook.svg",
+                Alt = "Find me on Facebook"
+            },
+            new()
+            {
+                Href = "https://x.com/artorias2718",
+                Icon = "X.svg",
+                Alt = "Find me on X"
+            }
+        };
+
+        if (!context.CommunityLinks.Any())
+        {
+            ToggleIdentityInsert(context!, "CommunityLink", true);
+            context.CommunityLinks.AddRange(oCommunityLinks);
+            context.SaveChanges();
+            ToggleIdentityInsert(context!, "CommunityLink", false);
         }
     }
 }
