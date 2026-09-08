@@ -2205,35 +2205,31 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             new()
             {
                 Href = "https://www.youtube.com/@Artorias2718/",
-                Icon =
-                    "https://www.citypng.com/public/uploads/preview/hd-youtube-yt-triangle-symbol-logo-icon-sign-png-701751695118564ln4ifqdive.png?v=2026040801",
+                Icon = "Youtube.svg",
                 Alt = "Find me on YouTube"
             },
             new()
             {
                 Href = "https://discordapp.com/users/artorias2718",
-                Icon =
-                    "https://thumbnail.imgbin.com/2/21/7/discord-icon-blue-discord-logo-for-chatting-and-communication-RA6Qd2f8_t.jpg",
+                Icon = "Discord.svg",
                 Alt = "Find me on Discord"
             },
             new()
             {
                 Href = "https://www.reddit.com/user/Artorias2718/",
-                Icon =
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrsKg4yMUfbTzBvZJtpNKF1nCeICuTq4oCX4_ctNLwzMqAbJZi1QlhE2c&s=10",
+                Icon = "Reddit.svg",
                 Alt = "Find me on Reddit"
             },
             new()
             {
                 Href = "https://www.facebook.com/Artorias2718",
-                Icon = "https://thumbs.dreamstime.com/b/social-media-icon-illustration-facebook-vector-232042829.jpg",
+                Icon = "Facebook.svg",
                 Alt = "Find me on Facebook"
             },
             new()
             {
                 Href = "https://x.com/artorias2718",
-                Icon =
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRniL3TITD85gTrlsOBoApCavs5nT3KaBgQJeGJpbtkKg&s=10",
+                Icon = "X.svg",
                 Alt = "Find me on X"
             }
         };

@@ -3,14 +3,17 @@ using System.Threading.RateLimiting;
 using api.Contexts;
 using api.Domain.Public.About;
 using api.Domain.Public.FAQ;
+using api.Domain.Public.Image;
 using api.Domain.Public.Resource;
 using api.Models;
 using api.Profiles.Public;
 using api.Seeders;
+using Azure.Identity;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.Azure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -80,11 +83,12 @@ builder.Services.AddRateLimiter(options =>
      );
 });
 
+builder.Services.AddScoped<IAboutDomainGet, AboutDomainGet>();
+builder.Services.AddScoped<IBoostTierDomainGet, BoostTierDomainGet>();
 builder.Services.AddScoped<IFAQDomainGet, FAQDomainGet>();
 builder.Services.AddScoped<IGlossaryDomainGet, GlossaryDomainGet>();
-builder.Services.AddScoped<IBoostTierDomainGet, BoostTierDomainGet>();
+builder.Services.AddScoped<IImageDomainGet, ImageDomainGet>();
 builder.Services.AddScoped<IResourceDomainGet, ResourceDomainGet>();
-builder.Services.AddScoped<IAboutDomainGet, AboutDomainGet>();
 
 builder.Services.AddDbContext<SqlServerContext>(options =>
 {
@@ -99,6 +103,17 @@ builder.Services.AddDbContext<SqlServerContext>(options =>
             sqlOptions.UseCompatibilityLevel(160); // SQL Server 2022
         });
 });
+
+var blobUri = builder.Configuration["Storage:BlobUri"];
+if (!string.IsNullOrWhiteSpace(blobUri))
+{
+    builder.Services.AddAzureClients(clients =>
+    {
+        clients.AddBlobServiceClient(new Uri(blobUri));
+        clients.UseCredential(new DefaultAzureCredential());
+    });
+}
+
 
 var app = builder.Build();
 
