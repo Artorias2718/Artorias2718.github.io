@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 chrome/
+
+# We don't want to commit build files
+scripts/*.html
+scripts/*.png
