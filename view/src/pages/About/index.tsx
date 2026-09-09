@@ -321,6 +321,7 @@ export default function About() {
                                             flexDirection: "row",
                                             justifyContent: "space-between",
                                             alignItems: "center",
+                                            gap: 1.5,
                                             py: 1.5,
                                         }}
                                     >
@@ -331,7 +332,14 @@ export default function About() {
                                             {(links) => {
                                                 const apiUrl = import.meta.env.VITE_API_URL;
                                                 return (
-                                                    <Stack direction='row' sx={{spacing: 1, alignItems: 'center'}}>
+                                                    <Stack
+                                                        direction='row'
+                                                        spacing={1}
+                                                        sx={{
+                                                            alignItems: 'center',
+                                                            justifyContent: 'flex-end',
+                                                            flexWrap: 'wrap'
+                                                        }}>
                                                         {links.map(({href, icon, alt}, index) => {
                                                                 const imgSrc = `${apiUrl}image/getimage/${icon}`;
                                                                 return (
