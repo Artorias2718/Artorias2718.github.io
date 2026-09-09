@@ -17,11 +17,31 @@ using Microsoft.Extensions.Azure;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+
 // Add services to the container.
 
 var corsPolicyName = "_corsPolicy";
 var readPolicyName = "_readPolicy";
 var writePolicyName = "_writePolicy";
+
+// Program.cs
+string[] hosts;
+try
+{
+    var json = File.ReadAllText(
+        Path.Combine(builder.Environment.ContentRootPath, "allowed-remote-hosts.json"));
+    hosts = System.Text.Json.JsonSerializer.Deserialize<string[]>(json) ?? [];
+}
+catch
+{
+    hosts = [];
+}
+var allowedRemoteHosts = new HashSet<string>(hosts, StringComparer.OrdinalIgnoreCase);
+
+builder.Services.AddSingleton(allowedRemoteHosts);
 
 builder.Services.AddControllers()
    .AddNewtonsoftJson(options =>
@@ -104,6 +124,11 @@ builder.Services.AddDbContext<SqlServerContext>(options =>
         });
 });
 
+builder.Services.AddHttpClient("remote-images", c =>
+{
+    c.Timeout = TimeSpan.FromSeconds(10); // don't let a slow host hang your B1 thread
+});
+
 var blobUri = builder.Configuration["Storage:BlobUri"];
 if (!string.IsNullOrWhiteSpace(blobUri))
 {
@@ -114,15 +139,15 @@ if (!string.IsNullOrWhiteSpace(blobUri))
     });
 }
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.Services.GetService<DataSeeder>()?.SeedData();
     app.MapOpenApi();
 }
+
+app.Services.GetService<DataSeeder>()?.SeedData();
 
 app.UseCors(corsPolicyName);
 

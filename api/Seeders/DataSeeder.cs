@@ -11,14 +11,19 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
     {
         using (var scope = serviceScopeFactory.CreateScope())
         {
-            var context = scope.ServiceProvider.GetService<SqlServerContext>();
-            SeedFAQs(context!);
-            SeedGlossary(context!);
-            SeedParcels(context!);
-            SeedRegionTiers(context!);
-            SeedResources(context!);
-            SeedAboutDetails(context!);
-            SeedCommunityLinks(context!);
+            var context = scope.ServiceProvider.GetRequiredService<SqlServerContext>();
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<DataSeeder>>();
+            logger.LogInformation("DataSeeder: entering");
+
+            SeedAboutDetails(context);
+            SeedCommunityLinks(context);
+            SeedFAQs(context);
+            SeedGlossary(context);
+            SeedParcels(context);
+            SeedRegionTiers(context);
+            SeedResources(context);
+
+            logger.LogInformation("DataSeeder: exiting");
         }
     }
 
@@ -1896,6 +1901,7 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             ToggleIdentityInsert(context!, "BoostTier", false);
         }
     }
+
     private void SeedResources(SqlServerContext context)
     {
         var oResourceGroups = new List<ResourceGroup>
@@ -2126,77 +2132,77 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
         }
     }
 
-        private void SeedAboutDetails(SqlServerContext context)
+    private void SeedAboutDetails(SqlServerContext context)
+    {
+        var oAboutDetails = new List<AboutDetail>
         {
-            var oAboutDetails = new List<AboutDetail>
+            new()
             {
-                new()
-                {
-                    Icon = "BookOpen",
-                    Title = "Comprehensive FAQ",
-                    Description =
-                        "Over 30 answered questions covering every aspect of Atlas Earth, from the basics to advanced strategy."
-                },
-                new()
-                {
-                    Icon = "Globe2",
-                    Title = "Plain Language Glossary",
-                    Description =
-                        "Every term a new player might encounter, explained simply, no prior gaming knowledge required.",
-                },
-                new()
-                {
-                    Icon = "Users",
-                    Title = "Community Maintained",
-                    Description =
-                        "Written and reviewed by active Atlas Earth players. We update the content as the game evolves.",
-                },
-                new()
-                {
-                    Title = "Getting Started",
-                    Description =
-                        "What Atlas Earth is, how to download it, what parcels are, and what to expect as a brand new player."
-                },
-                new()
-                {
-                    Title = "Game Mechanics",
-                    Description =
-                        "How rent works, what Atlas Bucks and Atlas Coins are, the difference between rarity tiers, and how boosts function.",
-                },
-                new()
-                {
-                    Title = "Buying Land",
-                    Description =
-                        "How to find and buy parcels, what the different map colors mean, and how proximity-based purchasing works.",
-                },
-                new()
-                {
-                    Title = "Earnings &amp; Payouts",
-                    Description =
-                        "Realistic earning expectations, how the payout system works, minimum thresholds, and payout methods.",
-                },
-                new()
-                {
-                    Title = "Strategy &amp; Tips",
-                    Description =
-                        "Free-to-play strategies, whether premium land is worth buying, common mistakes, and how to maximize your rent income.",
-                },
-                new()
-                {
-                    Title = "Community Resources",
-                    Description =
-                        "Where to find other players, the official Discord, subreddits, Facebook groups, and how to contact Atlas Reality support.",
-                },
-            };
+                Icon = "BookOpen",
+                Title = "Comprehensive FAQ",
+                Description =
+                    "Over 30 answered questions covering every aspect of Atlas Earth, from the basics to advanced strategy."
+            },
+            new()
+            {
+                Icon = "Globe2",
+                Title = "Plain Language Glossary",
+                Description =
+                    "Every term a new player might encounter, explained simply, no prior gaming knowledge required.",
+            },
+            new()
+            {
+                Icon = "Users",
+                Title = "Community Maintained",
+                Description =
+                    "Written and reviewed by active Atlas Earth players. We update the content as the game evolves.",
+            },
+            new()
+            {
+                Title = "Getting Started",
+                Description =
+                    "What Atlas Earth is, how to download it, what parcels are, and what to expect as a brand new player."
+            },
+            new()
+            {
+                Title = "Game Mechanics",
+                Description =
+                    "How rent works, what Atlas Bucks and Atlas Coins are, the difference between rarity tiers, and how boosts function.",
+            },
+            new()
+            {
+                Title = "Buying Land",
+                Description =
+                    "How to find and buy parcels, what the different map colors mean, and how proximity-based purchasing works.",
+            },
+            new()
+            {
+                Title = "Earnings &amp; Payouts",
+                Description =
+                    "Realistic earning expectations, how the payout system works, minimum thresholds, and payout methods.",
+            },
+            new()
+            {
+                Title = "Strategy &amp; Tips",
+                Description =
+                    "Free-to-play strategies, whether premium land is worth buying, common mistakes, and how to maximize your rent income.",
+            },
+            new()
+            {
+                Title = "Community Resources",
+                Description =
+                    "Where to find other players, the official Discord, subreddits, Facebook groups, and how to contact Atlas Reality support.",
+            },
+        };
 
-            if (!context.AboutDetails.Any())
-            {
-                ToggleIdentityInsert(context!, "AboutDetail", true);
-                context.AboutDetails.AddRange(oAboutDetails);
-                context.SaveChanges();
-                ToggleIdentityInsert(context!, "AboutDetail", false);
-            }
+        if (!context.AboutDetails.Any())
+        {
+            ToggleIdentityInsert(context!, "AboutDetail", true);
+            context.AboutDetails.AddRange(oAboutDetails);
+            context.SaveChanges();
+            ToggleIdentityInsert(context!, "AboutDetail", false);
         }
+    }
 
     private void SeedCommunityLinks(SqlServerContext context)
     {
@@ -2205,7 +2211,7 @@ public class DataSeeder(IServiceScopeFactory serviceScopeFactory)
             new()
             {
                 Href = "https://www.youtube.com/@Artorias2718/",
-                Icon = "Youtube.svg",
+                Icon = "YouTube.svg",
                 Alt = "Find me on YouTube"
             },
             new()

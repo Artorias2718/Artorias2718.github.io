@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>1a901320-4ee6-4d21-ba9e-034c7ce5a354</UserSecretsId>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="allowed-remote-hosts.json" CopyToOutputDirectory="PreserveNewest" />
     <Folder Include="Domain\Admin\" />
     <Folder Include="Dtos\Admin\" />
     <Folder Include="Profiles\Admin\" />

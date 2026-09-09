@@ -1,21 +1,35 @@
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.Json;
 
 namespace api.Domain.Public.Image;
 
-public class ImageDomainGet(IWebHostEnvironment env, IServiceProvider services) : IImageDomainGet
+public class ImageDomainGet(
+    IWebHostEnvironment env,
+    IServiceProvider services,
+    IHttpClientFactory httpClientFactory,
+    HashSet<string> allowedRemoteHosts) : IImageDomainGet
 {
-    // Local if it lives in Assets/Images; otherwise fall back to Blob Storage.
-    public async Task<byte[]?> GetImage(string path) =>
-        await GetLocalImage(path) ?? await GetRemoteImage(path);
+    // Local → your Blob → external allowlisted URL, first hit wins.
+    public async Task<byte[]?> GetImage(string path)
+    {
+        // An absolute http(s) URL means "go fetch this external image".
+        if (Uri.TryCreate(path, UriKind.Absolute, out var uri) &&
+            (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
+        {
+            return await GetExternalImage(uri);
+        }
+
+        // Otherwise it's a filename → local first, then your own Blob.
+        return await GetLocalImage(path) ?? await GetRemoteImage(path);
+    }
 
     private async Task<byte[]?> GetLocalImage(string path)
     {
         var root = Path.Combine(env.ContentRootPath, "Resources", "Images");
         var fullPath = Path.GetFullPath(Path.Combine(root, path));
 
-        // path comes from the caller, so guard against traversal (../../secrets).
         var rootWithSep = root.EndsWith(Path.DirectorySeparatorChar)
             ? root
             : root + Path.DirectorySeparatorChar;
@@ -30,17 +44,47 @@ public class ImageDomainGet(IWebHostEnvironment env, IServiceProvider services) 
 
     private async Task<byte[]?> GetRemoteImage(string path)
     {
-        // Blob isn't registered when Storage:BlobUri is unset (e.g. local dev),
-        // so GetService returns null and we treat the image as not found remotely.
         var blobService = services.GetService<BlobServiceClient>();
         if (blobService is null)
             return null;
 
-        var blob = blobService.GetBlobContainerClient("images").GetBlobClient(path);
+        var blobName = $"Resources/Images/{path}";
+        var blob = blobService
+            .GetBlobContainerClient("atlasearthhqapi")
+            .GetBlobClient(blobName);
+
         if (!await blob.ExistsAsync())
             return null;
 
         var result = await blob.DownloadContentAsync();
         return result.Value.Content.ToArray();
+    }
+
+    private async Task<byte[]?> GetExternalImage(Uri uri)
+    {
+        // Allowlist check — the whole point. Reject anything we didn't sanction,
+        // which is what stops SSRF at the metadata endpoint / internal network.
+        if (!allowedRemoteHosts.Contains(uri.Host))
+            return null;
+
+        var http = httpClientFactory.CreateClient("remote-images");
+
+        try
+        {
+            using var resp = await http.GetAsync(uri);
+            if (!resp.IsSuccessStatusCode)
+                return null;
+
+            // Optional: confirm it's actually an image, not an HTML error page.
+            var contentType = resp.Content.Headers.ContentType?.MediaType;
+            if (contentType is not null && !contentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
+                return null;
+
+            return await resp.Content.ReadAsByteArrayAsync();
+        }
+        catch (HttpRequestException)
+        {
+            return null; // host unreachable, DNS fail, etc. → treat as not found
+        }
     }
 }

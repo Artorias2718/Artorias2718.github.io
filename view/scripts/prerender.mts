@@ -49,7 +49,7 @@ for (const route of routes) {
     if (r.status() >= 400) console.log(`  [${route}] HTTP ${r.status()}: ${r.url()}`);
   });
 
-  await page.goto(`${host}${route}`, { waitUntil: 'networkidle0' });
+  await page.goto(`${host}${route}`, { waitUntil: 'domcontentloaded' });
 
   try {
     await page.waitForFunction(() =>
